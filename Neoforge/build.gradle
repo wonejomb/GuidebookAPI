@@ -1,5 +1,5 @@
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.+'
+    id 'net.neoforged.gradle.userdev' version '7.+'
 }
 
 group = "${mod_group}"
@@ -9,6 +9,19 @@ base {
     archivesName = "${mod_id}-${mc_version}-neoforge"
 }
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+configurations {
+    libraries
+    implementation.extendsFrom libraries
+}
+
+dependencies {
+    libraries "net.neoforged:neoforge:${neo_version}"
+
+    libraries project(":CommonAPI")
+}
+
 runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'
@@ -16,11 +29,9 @@ runs {
 
         modSource project.sourceSets.main
     }
-    client {}
-}
-
-dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
-
-    implementation project(":CommonAPI")
+    client {
+        dependencies {
+            runtime project(":CommonAPI")
+        }
+    }
 }

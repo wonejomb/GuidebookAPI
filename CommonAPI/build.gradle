@@ -4,6 +4,8 @@ plugins {
 
 group = "${mod_group}.api"
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
 base {
     archivesName = "${mod_id}-${mc_version}-common-api"
 }
