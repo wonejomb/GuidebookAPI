@@ -15,21 +15,21 @@ import java.util.Map;
 public class ModConfigurations {
 
     public static ClientConfigurations CLIENT;
-    public static ServerConfigurations SERVER;
+    public static CommonConfigurations COMMON;
     private static ModConfigSpec clientSpec;
-    private static ModConfigSpec serverSpec;
+    private static ModConfigSpec commonSpec;
 
     public static void registerConfigurations ( ) {
         Pair<ClientConfigurations, ModConfigSpec> clientCfgSpec = new ModConfigSpec.Builder().configure(ClientConfigurations::new);
-        Pair<ServerConfigurations, ModConfigSpec> serverCfgSpec = new ModConfigSpec.Builder().configure(ServerConfigurations::new);
+        Pair<CommonConfigurations, ModConfigSpec> serverCfgSpec = new ModConfigSpec.Builder().configure(CommonConfigurations::new);
 
         CLIENT = clientCfgSpec.getLeft();
-        SERVER = serverCfgSpec.getLeft();
+        COMMON = serverCfgSpec.getLeft();
         clientSpec = clientCfgSpec.getRight();
-        serverSpec = serverCfgSpec.getRight();
+        commonSpec = serverCfgSpec.getRight();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, clientSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, commonSpec);
     }
 
     private static class ClientConfigurations {
@@ -62,13 +62,13 @@ public class ModConfigurations {
 
     }
 
-    private static class ServerConfigurations {
+    private static class CommonConfigurations {
 
         public final ModConfigSpec.BooleanValue shouldSpawnWithBook;
         public final Map<IBook, ModConfigSpec.BooleanValue> booksShouldSpawnWithBook = new HashMap<>();
 
-        public ServerConfigurations ( ModConfigSpec.@NotNull Builder pBuilder ) {
-            pBuilder.comment("Server configuration settings").push("server");
+        public CommonConfigurations(ModConfigSpec.@NotNull Builder pBuilder ) {
+            pBuilder.comment("Common configuration settings").push("common");
 
             this.shouldSpawnWithBook = pBuilder.comment("This define if player should spawn with books").define("shouldSpawnWithBook", true);
 

@@ -15,7 +15,6 @@ import org.objectweb.asm.Type;
 import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AnnotationHandler {
 

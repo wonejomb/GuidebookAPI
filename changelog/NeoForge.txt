@@ -1,2 +1,5 @@
+1.0.1:
+    - Moved classes like @Guidebook, IGuidebook and GuidebookAPI from CommonAPI to Neoforge version.
+
 1.0.0-beta:
     - First beta created
