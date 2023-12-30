@@ -44,7 +44,8 @@ subprojects {
                 "neo_version": neo_version, "neo_version_range": neo_version_range, "neo_loader_version_range": neo_loader_version_range,
                 "yarn_mappings": yarn_mappings, "fabric_version": fabric_version, "fabric_loader_version": fabric_loader_version,
                 "mod_id": mod_id, "mod_name": mod_name, "mod_license": mod_license, "mod_version": mod_version,
-                "mod_authors": mod_authors, "mod_description": mod_description, "mod_version_type": version_type
+                "mod_authors": mod_authors, "mod_description": mod_description, "mod_version_type": version_type,
+                "pack_format_version": pack_format_version
         ]
         inputs.properties replacedProperties
 

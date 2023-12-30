@@ -1,28 +1,27 @@
 package de.mrbunny.guidebook.api.book;
 
-import de.mrbunny.guidebook.api.book.component.ICategory;
-import de.mrbunny.guidebook.api.book.component.IEntry;
+import de.mrbunny.guidebook.api.book.component.IBookCategory;
+import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.book.component.IPage;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
 public interface IBookContentProvider {
 
-    IBookContentProvider createCategory ( ICategory pCategory );
-    IBookContentProvider createCategories ( List<ICategory> pCategories );
-    IBookContentProvider createCategories ( ICategory... pCategories );
+    IBookContentProvider createCategory ( IBookCategory pCategory );
+    IBookContentProvider createCategories ( List<IBookCategory> pCategories );
+    IBookContentProvider createCategories ( IBookCategory... pCategories );
 
 
-    IBookContentProvider createEntryToCategory (ICategory pCategory, String name, IEntry pEntry);
-    IBookContentProvider createEntriesForCategory ( ICategory pCategory, List<IEntry> pEntries );
-    IBookContentProvider createEntriesForCategory ( ICategory pCategory, IEntry... pEntries);
+    IBookContentProvider createEntryToCategory (IBookCategory pCategory, String pName, IBookEntry pEntry);
+    IBookContentProvider createEntryToCategory (IBookCategory pCategory, ResourceLocation pId, IBookEntry pEntry);
 
 
-    IBookContentProvider createPageToEntry (IEntry pEntry, IPage pPage);
-    IBookContentProvider createPagesForEntry ( IEntry pEntry, List<IPage> pPages );
-    IBookContentProvider createPagesForEntry ( IEntry pEntry, IPage... pPages );
+    IBookContentProvider createPageToEntry (IBookEntry pEntry, IPage pPage);
+    IBookContentProvider createPagesForEntry (IBookEntry pEntry, List<IPage> pPages );
+    IBookContentProvider createPagesForEntry (IBookEntry pEntry, IPage... pPages );
 
-    List<ICategory> buildContent ();
-    List<ICategory> getCategories ();
+    List<IBookCategory> getContent ();
 
 }

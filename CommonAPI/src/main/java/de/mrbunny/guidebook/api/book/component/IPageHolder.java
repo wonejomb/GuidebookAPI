@@ -7,7 +7,7 @@ import java.awt.*;
 public interface IPageHolder {
 
     IBook getBook ();
-    IEntry getHolderEntry ();
+    IBookEntry getHolderEntry ();
     Color getDiscriminatorColor ();
     int getPageNumber ();
 

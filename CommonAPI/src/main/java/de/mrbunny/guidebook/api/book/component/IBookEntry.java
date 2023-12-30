@@ -1,10 +1,10 @@
 package de.mrbunny.guidebook.api.book.component;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public interface IEntry {
+public interface IBookEntry {
 
     void addPage ( IPage pPage );
     void addPages ( List<IPage> pPages );
@@ -15,7 +15,8 @@ public interface IEntry {
     void removePages ( List<IPage> pPages );
     void removePages ( IPage... pPages );
 
-    ResourceLocation getId ();
+    IPage getPage ( int pIndex );
 
+    Component getName ();
     List<IPage> getPages ();
 }
