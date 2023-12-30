@@ -1,0 +1,26 @@
+plugins {
+    id 'net.neoforged.gradle.vanilla' version '7.+'
+}
+
+group = "${mod_group}"
+version = "${mod_version}-${version_type}"
+
+base {
+    archivesName = "${mod_id}-${mc_version}-neoforge"
+}
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+
+        modSource project.sourceSets.main
+    }
+    client {}
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+
+    implementation project(":CommonAPI")
+}
