@@ -32,11 +32,10 @@ public class ModConfigurations {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, commonSpec);
     }
 
-    private static class ClientConfigurations {
+    public static class ClientConfigurations {
 
         public final ModConfigSpec.BooleanValue renderCategoryToltips;
         public final ModConfigSpec.IntValue entryHolderColor;
-
 
         public final Map<IBook, ModConfigSpec.IntValue> bookColors = new HashMap<>();
 
@@ -62,7 +61,7 @@ public class ModConfigurations {
 
     }
 
-    private static class CommonConfigurations {
+    public static class CommonConfigurations {
 
         public final ModConfigSpec.BooleanValue shouldSpawnWithBook;
         public final Map<IBook, ModConfigSpec.BooleanValue> booksShouldSpawnWithBook = new HashMap<>();

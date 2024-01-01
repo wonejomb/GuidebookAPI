@@ -1,11 +1,12 @@
 package de.mrbunny.guidebook.api.client.render;
 
-import de.mrbunny.guidebook.api.client.util.ViewRequirement;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 
-public interface IRenderable extends ViewRequirement {
+public interface IRenderable {
 
-    void render (GuiGraphics pGraphics, int pXOffset, int pYOffset, Font pFont);
+    void render (GuiGraphics pGraphics, int pMouseX, int pMouseY, Font pFont);
+
+    default boolean canView () { return true; };
 
 }

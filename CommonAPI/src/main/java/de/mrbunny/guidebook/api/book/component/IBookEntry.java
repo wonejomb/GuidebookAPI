@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface IBookEntry {
 
+    void init ();
+
     void addPage ( IPage pPage );
     void addPages ( List<IPage> pPages );
     void addPages ( IPage... pPages );
@@ -17,6 +19,17 @@ public interface IBookEntry {
 
     IPage getPage ( int pIndex );
 
+    int getX ();
+    int getY ();
+    int getWidth ();
+    int getHeight ();
+
+    void setX(int pX);
+    void setY ( int pY );
+    void setWidth ( int pWidth );
+    void setHeight ( int pHeight );
+
     Component getName ();
     List<IPage> getPages ();
+
 }

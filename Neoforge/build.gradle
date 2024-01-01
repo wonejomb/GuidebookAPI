@@ -1,5 +1,5 @@
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.+'
+    id 'net.neoforged.gradle.userdev' version '7.0.74'
 }
 
 group = "${mod_group}"
@@ -20,6 +20,14 @@ dependencies {
     libraries "net.neoforged:neoforge:${neo_version}"
 
     libraries project(":CommonAPI")
+}
+
+subsystems {
+    parchment {
+        minecraftVersion = "${mc_version}"
+
+        mappingsVersion = "${parchmentVersion}"
+    }
 }
 
 runs {

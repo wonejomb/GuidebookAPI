@@ -19,6 +19,10 @@ public class BookContentProvider implements IBookContentProvider {
         this.modId = pModId;
     }
 
+    public void buildContent(List<IBookCategory> pCategories) {
+        pCategories.addAll(categories);
+    }
+
     public BookContentProvider createCategory(IBookCategory pCategory) {
         this.categories.add(pCategory);
         return this;

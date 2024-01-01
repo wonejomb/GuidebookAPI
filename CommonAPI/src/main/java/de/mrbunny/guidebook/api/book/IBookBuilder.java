@@ -14,6 +14,7 @@ public interface IBookBuilder {
 
     IBookBuilder setTitle ( Component pTitle );
     IBookBuilder setHeader ( Component pHeader );
+    IBookBuilder setSubHeaderText ( Component pSubHeaderText );
     IBookBuilder setItemName ( Component pItemName );
     IBookBuilder setAuthor ( Component pAuthor );
     IBookBuilder setColor ( Color pColor );
@@ -27,6 +28,7 @@ public interface IBookBuilder {
 
     Component getTitle ();
     Component getHeader ();
+    Component getSubHeaderText ();
     Component getItemName ();
     Component getAuthor ();
 

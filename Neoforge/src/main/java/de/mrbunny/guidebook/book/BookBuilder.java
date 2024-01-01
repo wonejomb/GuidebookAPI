@@ -15,12 +15,14 @@ import java.util.function.Consumer;
 public class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
-    private ResourceLocation outlineTexture = new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/outline_texture.png");
-    private ResourceLocation pagesTextures = new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/pages_texture.png");;
+    private ResourceLocation outlineTexture = new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/book_borders.png");
+    private ResourceLocation pagesTextures = new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/book_pages.png");;
 
     private Component title;
     @Nullable
     private Component header;
+    @Nullable
+    private Component subHeaderText;
     @Nullable
     private Component itemName;
     @Nullable
@@ -41,7 +43,7 @@ public class BookBuilder implements IBookBuilder {
         if ( this.author == null ) this.author = Component.translatable("guidebook.book.author.unknown");
         if ( this.contentProvider == null ) throw new NullPointerException("Content provider can not be null! \n  -Book: " + this.id);
 
-        return new Book(this.id, this.outlineTexture, this.pagesTextures, this.header, this.itemName, this.author, this.color, this.shouldSpawnWithBook, this.contentProvider);
+        return new Book(this.id, this.outlineTexture, this.pagesTextures, this.title, this.header, this.subHeaderText, this.itemName, this.author, this.color, this.shouldSpawnWithBook, this.contentProvider);
     }
 
     public BookBuilder setPagesTexture(ResourceLocation pLoc) {
@@ -74,6 +76,11 @@ public class BookBuilder implements IBookBuilder {
         return this;
     }
 
+    public BookBuilder setSubHeaderText(Component subHeaderText) {
+        this.subHeaderText = subHeaderText;
+        return this;
+    }
+
     public BookBuilder setItemName(@Nullable Component itemName) {
         this.itemName = itemName;
         return this;
@@ -95,6 +102,11 @@ public class BookBuilder implements IBookBuilder {
 
     public @Nullable Component getHeader() {
         return header;
+    }
+
+    @Nullable
+    public Component getSubHeaderText() {
+        return this.subHeaderText;
     }
 
     public @Nullable Component getItemName() {

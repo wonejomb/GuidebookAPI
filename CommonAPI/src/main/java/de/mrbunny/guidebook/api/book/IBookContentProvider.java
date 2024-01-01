@@ -22,6 +22,8 @@ public interface IBookContentProvider {
     IBookContentProvider createPagesForEntry (IBookEntry pEntry, List<IPage> pPages );
     IBookContentProvider createPagesForEntry (IBookEntry pEntry, IPage... pPages );
 
+    void buildContent ( List<IBookCategory> pCategories );
+
     List<IBookCategory> getContent ();
 
 }

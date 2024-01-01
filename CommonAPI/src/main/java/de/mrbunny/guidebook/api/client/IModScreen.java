@@ -5,8 +5,12 @@ import net.minecraft.world.item.ItemStack;
 
 public interface IModScreen {
 
+    int getWidthSize ();
+    int getHeightSize ();
+
     int getXOffset ();
     int getYOffset ();
+
     ItemStack getBookStack ();
     Player getPlayer ();
 

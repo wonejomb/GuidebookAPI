@@ -9,7 +9,12 @@ import java.util.List;
 
 public interface IBook {
 
+    void initializeContent();
+
+    Component getTitle ();
+
     Component getHeader ();
+    Component getSubHeaderText ();
 
     Component getItemName ();
 

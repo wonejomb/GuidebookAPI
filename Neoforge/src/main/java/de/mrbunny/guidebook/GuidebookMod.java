@@ -20,7 +20,7 @@ public class GuidebookMod {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @OnlyIn(Dist.CLIENT)
-    public static final IProxy CLIENT_PROXY= new ClientProxy();
+    public static final IProxy CLIENT_PROXY = new ClientProxy();
     public static final IProxy COMMON_PROXY = new CommonProxy();
 
     public GuidebookMod ( IEventBus pBus ) {

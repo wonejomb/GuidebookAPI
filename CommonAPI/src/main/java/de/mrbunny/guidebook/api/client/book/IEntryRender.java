@@ -4,14 +4,13 @@ import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.client.render.IRenderable;
 import de.mrbunny.guidebook.api.client.util.Clickable;
-import de.mrbunny.guidebook.api.client.util.Lockable;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
-public interface IEntryRender<E extends IBookEntry> extends IRenderable, Clickable, Lockable {
+public interface IEntryRender extends IRenderable, Clickable {
 
-    void renderExtras (GuiGraphics pGraphics, RegistryAccess pAccess, int pXOffset, int pYOffset, E pEntry, IModScreen pScreen, Font pFont);
+    void renderExtras (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookEntry pEntry, IModScreen pScreen, Font pFont);
 
     void init ();
 
