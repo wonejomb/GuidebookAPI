@@ -12,9 +12,8 @@ public interface IProxy {
 
     void initColors ();
 
-    void openEntry (IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayuer, ItemStack pStack);
-
     void openGuidebook (Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack);
 
-    void playSound (SoundEvent pEvent);
+    void openEntry ( IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayer, ItemStack pStack );
+
 }

@@ -1,13 +1,18 @@
 package de.mrbunny.guidebook.book.component;
 
+import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.book.component.IPage;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.client.book.IEntryRender;
+import de.mrbunny.guidebook.client.screen.GuideEntryScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +53,14 @@ public class BookEntry implements IBookEntry {
         this.render.renderExtras(pGraphics, pAccess, pMouseX, pMouseY, this, pScreen, pFont);
     }
 
+    public void leftClick (IBook pBook, IBookCategory pCategory, double pMouseX, double pMouse, Player pPlayer, IModScreen pScreen) {
+        Minecraft.getInstance().setScreen(new GuideEntryScreen(pBook, pCategory, this, pPlayer, pScreen.getBookStack()));
+    }
+
+    public void rightClick (IBook pBook, IBookCategory pCategory, double pMouseX, double pMouse, Player pPlayer, IModScreen pScreen) {
+
+    }
+
     public void addPage(IPage pPage) {
         this.pages.add(pPage);
     }
@@ -76,6 +89,9 @@ public class BookEntry implements IBookEntry {
         return this.pages.get(pIndex);
     }
 
+    public IEntryRender getRender() {
+        return this.render;
+    }
     public Component getName() {
         return this.name;
     }

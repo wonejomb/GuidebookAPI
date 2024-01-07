@@ -22,7 +22,6 @@ public class ItemRegistryHandler {
         if ( !pEvent.getRegistryKey().equals(Registries.ITEM)) return;
 
         AnnotationHandler.gatherBooks();
-        ModConfigurations.registerConfigurations();
 
         for (IBook book : GuidebookAPI.getBooks().values()) {
             ResourceLocation id = new ResourceLocation(References.GUIDEBOOKAPI_ID, book.getId().toString().replace(":", "-"));

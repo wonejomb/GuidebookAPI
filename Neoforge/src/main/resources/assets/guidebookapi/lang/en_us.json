@@ -1,4 +1,13 @@
 {
-  "guidebook.home.category.select": "Selected category: {0}",
-  "guidebook.home.category.entry.select": "Selected Entry: {0}"
+  "_comment": "Buttons",
+  "guidebook.button.next": "Next",
+  "guidebook.button.previous": "Previous",
+  "guidebook.button.back": "Back",
+  "guidebook.button.search": "Search",
+  "_comment": "events",
+  "guidebook.open.failed": "Something don't let open guidebook",
+  "__comment": "Screen selections",
+  "guidebook.category.select": "Selected category: {0}",
+  "guidebook.category.entry.select": "Selected Entry: {0}",
+  "guidebook.entry.category": "Entry category: {0}"
 }

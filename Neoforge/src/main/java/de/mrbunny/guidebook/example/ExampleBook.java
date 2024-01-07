@@ -6,21 +6,22 @@ import de.mrbunny.guidebook.api.book.IBookBuilder;
 import de.mrbunny.guidebook.api.book.IBookContentProvider;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
+import de.mrbunny.guidebook.api.book.component.IPage;
 import de.mrbunny.guidebook.api.util.References;
 import de.mrbunny.guidebook.book.BookBuilder;
 import de.mrbunny.guidebook.book.BookContentProvider;
 import de.mrbunny.guidebook.book.component.BookCategory;
 import de.mrbunny.guidebook.book.component.BookEntry;
-import de.mrbunny.guidebook.client.render.category.ImageCategoryRender;
 import de.mrbunny.guidebook.client.render.category.ItemStackCategoryRender;
-import de.mrbunny.guidebook.client.render.entry.ImageEntryRender;
 import de.mrbunny.guidebook.client.render.entry.ItemStackEntryRender;
 import de.mrbunny.guidebook.client.render.entry.TextEntryRender;
+import de.mrbunny.guidebook.page.ItemStackPage;
+import de.mrbunny.guidebook.page.TextPage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,34 +46,31 @@ public class ExampleBook implements IGuidebook {
     private void buildBookContent(List<IBookCategory> pCategories) {
         IBookContentProvider contentProvider = new BookContentProvider(References.GUIDEBOOKAPI_ID);
 
-        Map<ResourceLocation, IBookEntry> itemStackEntries = new HashMap<>();
+        Map<ResourceLocation, IBookEntry> entries = new HashMap<>();
+        List<IPage> pages = new ArrayList<>();
 
-        itemStackEntries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "items_text_entry"),
-                new BookEntry(Component.literal("Text entry"), new TextEntryRender()));
+        pages.add(new TextPage(Component.literal("Some example test text.")));
+        pages.add(new ItemStackPage(Component.literal("Extra loooooooooooooooooooooooooooooong and bored text."), new ItemStack(Items.APPLE)));
 
-        itemStackEntries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "items_image_entry"),
-                new BookEntry(Component.literal("Image entry"),
-                        new ImageEntryRender(new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/test/test_image_entry.png"))));
+        entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
+                Component.literal("Test entry"),
+                new ItemStackEntryRender(new ItemStack(Items.APPLE)),
+                pages
+        ));
+        entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry2"),
+                new BookEntry(
+                        Component.literal("Extra looooooooooooooooooooooooooooong entry"),
+                        new TextEntryRender(),
+                        pages
+                ));
 
-        itemStackEntries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "item_itemstack_entry"),
-                new BookEntry(Component.literal("ItemStack entry"),
-                        new ItemStackEntryRender(new ItemStack(Items.DIAMOND))));
-
-        IBookCategory itemStackCategory = new BookCategory(
-                Component.literal("ItemStack category"),
-                new ItemStackCategoryRender(new ItemStack(Blocks.STONE)),
-                itemStackEntries
+        IBookCategory category = new BookCategory(
+                Component.literal("Test category"),
+                new ItemStackCategoryRender(new ItemStack(Items.CARROT)),
+                entries
         );
 
-        Map<ResourceLocation, IBookEntry> imageEntries = new HashMap<>();
-        IBookCategory imageCategory = new BookCategory(
-                Component.literal("Image category"),
-                new ImageCategoryRender(new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/test/hearth_test.png")),
-                imageEntries
-        );
-
-        contentProvider.createCategories(itemStackCategory, imageCategory);
-        contentProvider.buildContent(pCategories);
+        contentProvider.createCategory(category).buildContent(pCategories);
     }
 
 }

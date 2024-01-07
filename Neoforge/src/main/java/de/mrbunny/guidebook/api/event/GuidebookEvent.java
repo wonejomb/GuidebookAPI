@@ -34,7 +34,7 @@ public class GuidebookEvent extends Event {
     }
 
     public static class Open extends GuidebookEvent implements ICancellableEvent {
-        private Component canceledText = Component.translatable("text.open.failed").withStyle(ChatFormatting.DARK_RED);
+        private Component canceledText = Component.translatable("guidebook.open.failed").withStyle(ChatFormatting.DARK_RED);
 
         public Open(IBook pBook, ItemStack pStack, Player pPlayer) {
             super(pBook, pStack, pPlayer);

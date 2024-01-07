@@ -5,6 +5,10 @@ import com.mojang.logging.LogUtils;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.book.component.BookCategory;
+import de.mrbunny.guidebook.client.button.BackButton;
+import de.mrbunny.guidebook.client.button.NextButton;
+import de.mrbunny.guidebook.client.button.PreviousButton;
+import de.mrbunny.guidebook.client.button.SearchButton;
 import de.mrbunny.guidebook.util.ComponentUtils;
 import de.mrbunny.guidebook.wrapper.BookCategoryWrapper;
 import net.minecraft.ChatFormatting;
@@ -41,7 +45,18 @@ public class GuideHomeScreen extends GuideScreen {
         this.xOffset = ( this.width - this.widthSize ) / 2;
         this.yOffset = ( this.height - this.heightSize ) / 2;
 
-        this.categoryWrappers.clear();
+        this.addRenderableWidget(new NextButton((btn) -> {
+            if ( this.categoryPage + 1 < this.categoryWrappers.asMap().size() )
+                this.nextPage();
+        }, this, this.xOffset + this.widthSize / 2 + 15, this.yOffset + this.heightSize - 25));
+        this.addRenderableWidget(new PreviousButton((btn) -> {
+            if ( this.categoryPage > 0 )
+                this.previousPage();
+        }, this, this.xOffset + this.widthSize / 2 - 35, this.yOffset + this.heightSize - 25));
+        this.addRenderableWidget(new BackButton((btn) -> Minecraft.getInstance().setScreen(this), this, this.xOffset + this.widthSize / 2 - 55, this.yOffset + this.heightSize - 25));
+        this.addRenderableWidget(new SearchButton((btn) -> {
+             Minecraft.getInstance().setScreen(new GuideSearchScreen(this.book, this.getPlayer(), this.getBookStack(), this));
+        }, this, this.xOffset + this.widthSize / 2 + 40, this.yOffset + this.heightSize - 27));
 
         int categoryX = this.getXOffset() + 30;
         int categoryY = this.getYOffset() + 45;
@@ -99,14 +114,28 @@ public class GuideHomeScreen extends GuideScreen {
             this.drawCenteredStringWithoutShadow(pGuiGraphics, this.font, this.book.getSubHeaderText(), this.getXOffset() + (this.widthSize / 2), this.getYOffset() + 25, ChatFormatting.DARK_GRAY.getColor());
         }
 
-        this.categoryPage = Mth.clamp(this.categoryPage, 0, this.categoryWrappers.size() - 1);
+        this.categoryPage = Mth.clamp(categoryPage, 0, this.categoryWrappers.size() - 1);
 
         for ( BookCategoryWrapper wrapper : this.categoryWrappers.get(this.categoryPage) )
             if ( wrapper.canView() )
                 wrapper.render(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, this);
 
+        pGuiGraphics.drawString(this.font, "%d/%d".formatted(this.categoryPage + 1, this.categoryWrappers.asMap().size()),
+                this.xOffset + this.widthSize / 2 - 10,
+                this.yOffset + this.heightSize - 23, ChatFormatting.DARK_GRAY.getColor(),
+                false);
 
-        for (Renderable renderable : this.renderables)
+        for ( Renderable renderable : this.renderables )
             renderable.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
+    }
+
+    private void nextPage () {
+        if ( this.categoryPage != this.categoryWrappers.asMap().size() - 1 && !this.categoryWrappers.asMap().isEmpty() )
+            this.categoryPage++;
+    }
+
+    private void previousPage () {
+        if  ( this.categoryPage != 0 )
+            this.categoryPage--;
     }
 }

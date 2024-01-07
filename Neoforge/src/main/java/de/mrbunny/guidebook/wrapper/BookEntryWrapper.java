@@ -56,4 +56,7 @@ public class BookEntryWrapper implements IWrapper {
 
     }
 
+    public BookEntry getEntry() {
+        return entry;
+    }
 }

@@ -20,8 +20,7 @@ public class GuidebookMod {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @OnlyIn(Dist.CLIENT)
-    public static final IProxy CLIENT_PROXY = new ClientProxy();
-    public static final IProxy COMMON_PROXY = new CommonProxy();
+    public static final ClientProxy CLIENT_PROXY = new ClientProxy();
 
     public GuidebookMod ( IEventBus pBus ) {
         pBus.addListener(this::commonSetup);
@@ -29,6 +28,8 @@ public class GuidebookMod {
     }
 
     private void commonSetup (final FMLCommonSetupEvent pEvent) {
+        ModConfigurations.registerConfigurations();
+
         if (ModConfigurations.CLIENT == null || ModConfigurations.COMMON == null)
             throw new NullPointerException("Client configurations or Common configurations can't be null in commonSetup phase");
     }

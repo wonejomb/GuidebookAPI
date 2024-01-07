@@ -1,5 +1,6 @@
 package de.mrbunny.guidebook.api.book.component;
 
+import de.mrbunny.guidebook.api.client.book.IEntryRender;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public interface IBookEntry {
     void setHeight ( int pHeight );
 
     Component getName ();
+    IEntryRender getRender ();
     List<IPage> getPages ();
 
 }

@@ -1,6 +1,7 @@
 package de.mrbunny.guidebook.client.screen;
 
 import de.mrbunny.guidebook.api.client.IModScreen;
+import de.mrbunny.guidebook.api.client.render.IRenderable;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -8,6 +9,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.apache.commons.compress.utils.Lists;
+
+import java.util.List;
 
 public abstract class GuideScreen extends Screen implements IModScreen {
 

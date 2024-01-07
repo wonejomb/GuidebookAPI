@@ -6,6 +6,7 @@ import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.event.GuidebookEvent;
+import de.mrbunny.guidebook.client.screen.GuideEntryScreen;
 import de.mrbunny.guidebook.client.screen.GuideHomeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
@@ -36,17 +37,6 @@ public class ClientProxy extends CommonProxy {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void openEntry(IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayer, ItemStack pStack) {
-        GuidebookEvent.Open event = new GuidebookEvent.Open(pBook, pStack, pPlayer);
-        if (NeoForge.EVENT_BUS.post(event).isCanceled()) {
-            pPlayer.displayClientMessage(event.getCanceledText(), true);
-            return;
-        }
-
-//        Minecraft.getInstance().setScreen(new GuideEntryScreen);
-    }
-
-    @OnlyIn(Dist.CLIENT)
     public void openGuidebook(Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack) {
         if ( !pStack.isEmpty() && pStack.getItem() instanceof IBookItem ) {
             pBook.initializeContent();
@@ -56,8 +46,13 @@ public class ClientProxy extends CommonProxy {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void playSound(SoundEvent pEvent) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(pEvent, 1));
-    }
+    public void openEntry(IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayer, ItemStack pStack) {
+        GuidebookEvent.Open event = new GuidebookEvent.Open(pBook, pStack, pPlayer);
+        if (NeoForge.EVENT_BUS.post(event).isCanceled()) {
+            pPlayer.displayClientMessage(event.getCanceledText(), true);
+            return;
+        }
 
+        Minecraft.getInstance().setScreen(new GuideEntryScreen(pBook, pCategory, pEntry, pPlayer, pStack));
+    }
 }

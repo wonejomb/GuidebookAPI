@@ -15,15 +15,11 @@ public class CommonProxy implements IProxy {
 
     }
 
-    public void openEntry(IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayuer, ItemStack pStack) {
-
-    }
-
     public void openGuidebook(Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack) {
 
     }
 
-    public void playSound(SoundEvent pEvent) {
+    public void openEntry(IBook pBook, IBookCategory pCategory, IBookEntry pEntry, Player pPlayer, ItemStack pStack) {
 
     }
 }

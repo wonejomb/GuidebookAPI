@@ -14,7 +14,7 @@ public class CategoryRender implements ICategoryRender {
 
     public void renderExtras(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookCategory pCategory, IModScreen pScreen, Font pFont) {
         if (ScreenUtils.isMouseBetween(pMouseX, pMouseY, pCategory.getX(), pCategory.getY(), pCategory.getWidth(), pCategory.getHeight()) ) {
-            String msg = ComponentUtils.parseEffect("guidebook.home.category.select", pCategory.getName().getString());
+            String msg = ComponentUtils.parseEffect("guidebook.category.select", pCategory.getName().getString());
 
             pGraphics.drawString(pFont, msg,
                     pScreen.getXOffset() + pScreen.getWidthSize() / 2 - pFont.width(msg) / 2,

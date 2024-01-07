@@ -11,6 +11,5 @@ public interface IPageRender extends IRenderable, Clickable {
 
     void renderExtras (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont);
 
-    void init ();
 
 }

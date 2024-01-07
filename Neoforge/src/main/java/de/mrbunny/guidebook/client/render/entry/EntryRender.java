@@ -39,7 +39,7 @@ public class EntryRender implements IEntryRender {
         boolean cutString = strWidth > pScreen.getWidthSize() - 80 && strWidth > ellipsisWidth;
 
         if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight()) && cutString ) {
-            String msg = ComponentUtils.parseEffect("guidebook.home.category.entry.select", pEntry.getName().getString());
+            String msg = ComponentUtils.parseEffect("guidebook.category.entry.select", pEntry.getName().getString());
 
             pGraphics.drawString(pFont, msg,
                     (pScreen.getXOffset() + pScreen.getWidthSize() / 2) - pFont.width(msg) / 2,
