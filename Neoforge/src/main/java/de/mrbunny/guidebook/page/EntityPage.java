@@ -1,6 +1,7 @@
 package de.mrbunny.guidebook.page;
 
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -10,6 +11,7 @@ import de.mrbunny.guidebook.api.client.book.IPageRender;
 import de.mrbunny.guidebook.util.PageUtils;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -78,14 +80,15 @@ public class EntityPage implements IPage, IPageRender {
                 VertexConsumer vertexConsumer = pGraphics.bufferSource().getBuffer(NeoForgeRenderTypes.getUnlitTranslucent(renderer.getTextureLocation(this.entity)));
 
                 pPoseStack.pushPose();
+                pPoseStack.translate(pScreen.getXOffset() + (float) pScreen.getWidthSize() / 2 + 65,
+                        pScreen.getYOffset() + (float) pScreen.getHeightSize() / 2, 50.0F);
+                pPoseStack.mulPose(Axis.YP.rotationDegrees(((float) Util.getMillis() / 30) % 360));
+                pPoseStack.mulPose(Axis.ZP.rotationDegrees(180));
                 Lighting.setupForEntityInInventory();
-                pPoseStack.translate(pScreen.getXOffset() + (float) pScreen.getWidthSize() / 2 + 65, pScreen.getYOffset() + (float) pScreen.getHeightSize() / 2 - 5, 15.0F);
-                pPoseStack.scale(60, 60, -60);
-                pPoseStack.mulPose(Axis.YP.rotationDegrees((float) Mth.lerp(Minecraft.getInstance().getFrameTime(), 0,  360)));
                 renderDispatcher.setRenderShadow(false);
-                model.setupAnim(this.entity, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
-                model.renderToBuffer(pPoseStack, vertexConsumer, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.runAsFancy(() -> renderDispatcher.render(this.entity, 0.0, 0.0, 0.0, 0.0F, 0.0F, pPoseStack, pGraphics.bufferSource(), 15728880));
                 renderDispatcher.setRenderShadow(true);
+
                 pPoseStack.popPose();
             }
 

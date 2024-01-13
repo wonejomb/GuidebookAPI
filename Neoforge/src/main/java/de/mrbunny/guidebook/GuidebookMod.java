@@ -12,6 +12,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.fml.loading.FMLLoader;
 import org.slf4j.Logger;
 
 @Mod(References.GUIDEBOOKAPI_ID)
@@ -20,7 +21,7 @@ public class GuidebookMod {
     private static final Logger LOGGER = LogUtils.getLogger();
 
     @OnlyIn(Dist.CLIENT)
-    public static final ClientProxy CLIENT_PROXY = new ClientProxy();
+    public static ClientProxy CLIENT_PROXY;
 
     public GuidebookMod ( IEventBus pBus ) {
         pBus.addListener(this::commonSetup);
@@ -30,6 +31,9 @@ public class GuidebookMod {
     private void commonSetup (final FMLCommonSetupEvent pEvent) {
         ModConfigurations.registerConfigurations();
 
+        if (FMLLoader.getDist().isClient()) {
+            CLIENT_PROXY = new ClientProxy();
+        }
         if (ModConfigurations.CLIENT == null || ModConfigurations.COMMON == null)
             throw new NullPointerException("Client configurations or Common configurations can't be null in commonSetup phase");
     }
