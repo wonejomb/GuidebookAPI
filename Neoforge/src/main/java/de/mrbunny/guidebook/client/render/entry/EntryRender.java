@@ -42,7 +42,7 @@ public class EntryRender implements IEntryRender {
             String msg = ComponentUtils.parseEffect("guidebook.category.entry.select", pEntry.getName().getString());
 
             pGraphics.drawString(pFont, msg,
-                    (pScreen.getXOffset() + pScreen.getWidthSize() / 2) - pFont.width(msg) / 2,
+                    pScreen.getXOffset() + pScreen.getWidthSize() / 2 - pFont.width(msg) / 2,
                     pScreen.getYOffset() - 15,
                     ChatFormatting.WHITE.getColor(),
                     false);

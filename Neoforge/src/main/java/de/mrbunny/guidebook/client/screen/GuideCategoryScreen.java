@@ -63,7 +63,7 @@ public class GuideCategoryScreen extends GuideScreen {
             Minecraft.getInstance().setScreen(new GuideHomeScreen(this.book, this.getPlayer(), this.getBookStack()));
         }, this, this.xOffset + this.widthSize / 2 - 55, this.yOffset + this.heightSize - 25));
         this.addRenderableWidget(new SearchButton((btn) -> {
-            Minecraft.getInstance().setScreen(new GuideSearchScreen(this.book, this.getPlayer(), this.getBookStack(), this));
+            this.minecraft.setScreen(new GuideSearchScreen(this.book, this.getPlayer(), this.getBookStack(), this));
         }, this, this.xOffset + this.widthSize / 2 + 40, this.yOffset + this.heightSize - 27));
 
         int entryX = this.xOffset + 25;

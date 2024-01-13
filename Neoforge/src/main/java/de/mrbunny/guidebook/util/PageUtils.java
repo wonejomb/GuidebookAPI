@@ -49,6 +49,16 @@ public class PageUtils {
         }
     }
 
+    public static void drawFormattedText ( GuiGraphics pGraphics, FormattedText pText, int pX, int pY, int pLineMaxWidth ) {
+        Font font = Minecraft.getInstance().font;
+
+        List<FormattedCharSequence> cutLines = font.split(pText, pLineMaxWidth);
+        for ( FormattedCharSequence sequence : cutLines ) {
+            pGraphics.drawString(font, sequence, pX, pY, 0xA58573, false);
+            pY += 15;
+        }
+    }
+
     public static List<IPage> pagesForLongText (FormattedText pText, Item pItem) {
         return pagesForLongText(pText, new ItemStack(pItem));
     }

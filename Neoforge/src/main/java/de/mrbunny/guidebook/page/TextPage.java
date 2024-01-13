@@ -24,8 +24,4 @@ public class TextPage implements IPage, IPageRender {
     public void renderExtras(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont) {
         PageUtils.drawFormattedText(pGraphics, pScreen.getXOffset() + 26, pScreen.getYOffset() + 14, this.text);
     }
-
-    public TextPage getRender() {
-        return this;
-    }
 }

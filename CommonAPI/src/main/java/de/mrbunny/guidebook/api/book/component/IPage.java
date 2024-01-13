@@ -5,7 +5,7 @@ import de.mrbunny.guidebook.api.client.book.IPageRender;
 
 public interface IPage {
 
-    IPageRender getRender ();
+    default IPageRender getRender() { return (IPageRender) this; };
 
     default void init () {}
 }

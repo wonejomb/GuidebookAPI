@@ -13,7 +13,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.phys.HitResult;
 
 public class ItemStackPage implements IPage, IPageRender {
 
@@ -28,6 +27,7 @@ public class ItemStackPage implements IPage, IPageRender {
     public ItemStackPage ( FormattedText pText, ItemStack pStack ) {
         this ( pText, Ingredient.of(pStack));
     }
+
 
     public ItemStackPage ( FormattedText pText, Item pItem ) {
         this (pText, new ItemStack(pItem));
@@ -45,9 +45,5 @@ public class ItemStackPage implements IPage, IPageRender {
         ScreenUtils.drawScaledItemStack(pGraphics, this.ingredient.getItems()[0], pScreen.getXOffset() + 101, pScreen.getYOffset() + 10, 3);
 
         PageUtils.drawFormattedText(pGraphics, pScreen.getXOffset() + 22, pScreen.getYOffset() + 66, this.text);
-    }
-
-    public ItemStackPage getRender() {
-        return this;
     }
 }

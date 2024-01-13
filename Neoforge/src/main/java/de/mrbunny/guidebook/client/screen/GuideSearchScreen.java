@@ -5,18 +5,14 @@ import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
-import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
 import de.mrbunny.guidebook.client.button.SearchButton;
 import de.mrbunny.guidebook.util.ComponentUtils;
 import de.mrbunny.guidebook.util.ScreenUtils;
-import de.mrbunny.guidebook.util.StringUtils;
 import joptsimple.internal.Strings;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Renderable;
@@ -33,7 +29,6 @@ import org.lwjgl.glfw.GLFW;
 import java.awt.*;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 
 public class GuideSearchScreen extends GuideScreen {
 
@@ -73,7 +68,7 @@ public class GuideSearchScreen extends GuideScreen {
             Minecraft.getInstance().setScreen(this.parent);
         }, this, this.xOffset + this.widthSize / 2 - 85, this.yOffset + this.heightSize - 25));
         this.addRenderableWidget(new SearchButton((btn) -> {
-            Minecraft.getInstance().setScreen(new GuideSearchScreen(this.book, this.getPlayer(), this.getBookStack(), this));
+            this.minecraft.setScreen(new GuideSearchScreen(this.book, this.getPlayer(), this.getBookStack(), this));
     }, this, this.xOffset + this.widthSize / 2 + 70, this.yOffset + this.heightSize - 27));
 
         this.searchField = new EditBox(this.font, this.xOffset + this.widthSize / 2 - 40,
@@ -157,7 +152,7 @@ public class GuideSearchScreen extends GuideScreen {
                 entry.getLeft().setY(entryY);
 
                 entry.getLeft().getRender().render(pGraphics, pMouseX, pMouseY, this.font);
-                entry.getLeft().getRender().renderExtras(pGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, entry.getLeft(), (IModScreen) this.parent, this.font);
+                entry.getLeft().getRender().renderExtras(pGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, entry.getLeft(), this, this.font);
 
                 if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, entryX, entryY, entry.getLeft().getWidth(), entry.getLeft().getHeight())) {
                     if( GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
