@@ -17,6 +17,7 @@ import de.mrbunny.guidebook.client.render.entry.ItemStackEntryRender;
 import de.mrbunny.guidebook.client.render.entry.TextEntryRender;
 import de.mrbunny.guidebook.page.EntityPage;
 import de.mrbunny.guidebook.page.ItemStackPage;
+import de.mrbunny.guidebook.page.SoundPage;
 import de.mrbunny.guidebook.page.TextPage;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -58,8 +59,11 @@ public class ExampleBook implements IGuidebook {
 
         pages.add(new TextPage(Component.literal("Some example test text.")));
         pages.add(new ItemStackPage(Component.literal("Extra loooooooooooooooooooooooooooooong and bored text."), new ItemStack(Items.APPLE)));
-
         pages.add(new EntityPage(Component.literal("Just a zombie"), EntityType.ZOMBIE::create));
+        pages.add(new SoundPage(
+                new TextPage(Component.literal("Sound page example")),
+                SoundEvents.ZOMBIE_AMBIENT
+        ));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
                 Component.literal("Test entry"),
