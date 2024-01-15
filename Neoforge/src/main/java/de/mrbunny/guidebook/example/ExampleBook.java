@@ -15,10 +15,8 @@ import de.mrbunny.guidebook.book.component.BookEntry;
 import de.mrbunny.guidebook.client.render.category.ItemStackCategoryRender;
 import de.mrbunny.guidebook.client.render.entry.ItemStackEntryRender;
 import de.mrbunny.guidebook.client.render.entry.TextEntryRender;
-import de.mrbunny.guidebook.page.EntityPage;
-import de.mrbunny.guidebook.page.ItemStackPage;
-import de.mrbunny.guidebook.page.SoundPage;
-import de.mrbunny.guidebook.page.TextPage;
+import de.mrbunny.guidebook.page.*;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -30,6 +28,9 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -63,6 +64,9 @@ public class ExampleBook implements IGuidebook {
         pages.add(new SoundPage(
                 new TextPage(Component.literal("Sound page example")),
                 SoundEvents.ZOMBIE_AMBIENT
+        ));
+        pages.add(new RecipePage(
+                new ShapelessRecipe("minecraft", CraftingBookCategory.BUILDING, new ItemStack(Items.STONE_SWORD), NonNullList.of(Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
         ));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(

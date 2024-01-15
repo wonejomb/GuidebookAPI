@@ -9,5 +9,7 @@
   "__comment": "Screen selections",
   "guidebook.category.select": "Selected category: {0}",
   "guidebook.category.entry.select": "Selected Entry: {0}",
-  "guidebook.entry.category": "Entry category: {0}"
+  "guidebook.entry.category": "Entry category: {0}",
+  "__comment": "Recipes",
+  "guidebook.recipe.crafting.shapeless": "Shapeless Recipe"
 }

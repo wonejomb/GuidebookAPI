@@ -14,15 +14,22 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.neoforged.neoforge.client.NeoForgeRenderTypes;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.List;
 
 public class ScreenUtils {
 
@@ -37,28 +44,19 @@ public class ScreenUtils {
         PoseStack mStack = RenderSystem.getModelViewStack();
 
         mStack.pushPose();
-        RenderSystem.applyModelViewMatrix();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.enableDepthTest();
         pGraphics.renderItem(Stack, pX, pY);
         pGraphics.renderItemDecorations(Minecraft.getInstance().font, Stack, pX, pY, null);
         mStack.popPose();
-        RenderSystem.applyModelViewMatrix();
     }
 
     public static void drawScaledItemStack(@NotNull GuiGraphics pGraphics, ItemStack pStack, int pX, int pY, float pScale) {
-        PoseStack mStack = RenderSystem.getModelViewStack();
+        PoseStack poseStack = RenderSystem.getModelViewStack();
 
-        mStack.pushPose();
-        mStack.scale(pScale, pScale, 1f);
-        RenderSystem.enableBlend();
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.enableDepthTest();
-        RenderSystem.applyModelViewMatrix();
-        pGraphics.renderItem(pStack, (int) (pX / pScale), (int) (pY / pScale));
-        mStack.popPose();
-        RenderSystem.applyModelViewMatrix();
+        poseStack.pushPose();
+        poseStack.translate(pX, pY, 50.0F);
+        poseStack.scale(pScale, pScale, 1f);
+        pGraphics.renderItem(pStack, 0, 0);
+        poseStack.popPose();
     }
 
     public static void drawImage (@NotNull GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight) {
@@ -69,6 +67,7 @@ public class ScreenUtils {
         PoseStack stack = pGraphics.pose();
 
         stack.pushPose();
+        stack.scale(pScale, pScale, 50.0F);
         pGraphics.blit(pImage, pX, pY, 0, 0, pWidth, pHeight, pWidth, pHeight);
         stack.popPose();
     }
@@ -94,6 +93,23 @@ public class ScreenUtils {
         Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F,
                 Minecraft.getInstance().getFrameTime(), pPoseStack, pBufferSource, 15728880);
         pPoseStack.popPose();
+    }
+
+    public static List<Component> getTooltip ( ItemStack pStack ) {
+        Minecraft mc = Minecraft.getInstance();
+        List<Component> list = pStack.getTooltipLines(mc.player, mc.options.advancedItemTooltips ? TooltipFlag.ADVANCED : TooltipFlag.NORMAL);
+        for ( int i = 0; i < list.size(); i++ ) {
+            Component c = list.get(i);
+
+            if ( c instanceof MutableComponent mutable ) {
+                if ( i == 0 )
+                    mutable.withStyle(pStack.getRarity().getStyleModifier());
+                else
+                    mutable.withStyle(Style.EMPTY);
+            }
+        }
+
+        return list;
     }
 
 }
