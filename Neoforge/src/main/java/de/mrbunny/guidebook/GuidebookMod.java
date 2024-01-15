@@ -34,6 +34,7 @@ public class GuidebookMod {
         if (FMLLoader.getDist().isClient()) {
             CLIENT_PROXY = new ClientProxy();
         }
+
         if (ModConfigurations.CLIENT == null || ModConfigurations.COMMON == null)
             throw new NullPointerException("Client configurations or Common configurations can't be null in commonSetup phase");
     }

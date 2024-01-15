@@ -45,6 +45,7 @@ public class GuideEntryScreen extends GuideScreen {
     protected void init() {
         entry.init();
         this.pageWrappers.clear();
+
         this.xOffset = (this.width - this.widthSize) / 2;
         this.yOffset = (this.height - this.heightSize) / 2;
 

@@ -25,6 +25,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -58,12 +59,7 @@ public class ExampleBook implements IGuidebook {
         pages.add(new TextPage(Component.literal("Some example test text.")));
         pages.add(new ItemStackPage(Component.literal("Extra loooooooooooooooooooooooooooooong and bored text."), new ItemStack(Items.APPLE)));
 
-        pages.add(new EntityPage(Component.literal("Lmao a SLIMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE"), (lvl) -> {
-            Slime slime = EntityType.SLIME.create(lvl);
-            slime.setSize(127, false);
-            return slime;
-        }));
-        pages.add(new EntityPage(Component.literal("This is the fucking slime but horny."), EntityType.MAGMA_CUBE::create));
+        pages.add(new EntityPage(Component.literal("Just a zombie"), EntityType.ZOMBIE::create));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
                 Component.literal("Test entry"),

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.EntityModel;
@@ -15,10 +16,12 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.NeoForgeRenderTypes;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 
 public class ScreenUtils {
@@ -70,25 +73,27 @@ public class ScreenUtils {
         stack.popPose();
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends LivingEntity> void renderLivingEntity(@NotNull PoseStack pPoseStack, MultiBufferSource pBufferSource, T pEntity, int pX, int pY, float pScale ) {
-        EntityRenderDispatcher renderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
-        EntityRenderer<LivingEntity> render = (EntityRenderer<LivingEntity>) renderDispatcher.getRenderer(pEntity);
+    public static <T extends Entity> void renderLivingEntity(@NotNull PoseStack pPoseStack, MultiBufferSource pBufferSource, T pEntity, int pX, int pY ) {
+        double entityScale = 100.0F;
+        double bbSize = Math.max(pEntity.getBbWidth(), pEntity.getBbHeight());
 
-        if ( render instanceof LivingEntityRenderer<LivingEntity,?> renderer ) {
-            EntityModel<LivingEntity> model = renderer.getModel();
-            VertexConsumer vertexConsumer = pBufferSource.getBuffer(NeoForgeRenderTypes.getUnlitTranslucent(renderer.getTextureLocation(pEntity)));
+        if ( bbSize > 1.0 )
+            entityScale /= bbSize * 1.5F;
 
-            pPoseStack.pushPose();
-            Lighting.setupForEntityInInventory();
-            pPoseStack.translate(pX, pY, 15.0F);
-            pPoseStack.scale(pScale, pScale, -pScale);
-            renderDispatcher.setRenderShadow(false);
-            model.setupAnim(pEntity, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
-            model.renderToBuffer(pPoseStack, vertexConsumer, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            renderDispatcher.setRenderShadow(true);
-            pPoseStack.popPose();
-        }
+        pPoseStack.pushPose();
+
+        RenderSystem.setShaderLights(
+                new Vector3f(1.0F, 1.0F, 1.0F).normalize(),
+                new Vector3f(-1.0F, -1.0F, 0.0F).normalize()
+        );
+
+        pPoseStack.translate(pX, pY, 50.0F);
+        pPoseStack.scale((float) entityScale, (float) entityScale, (float) entityScale);
+        pPoseStack.mulPose(Axis.YP.rotationDegrees(((float) Util.getMillis() / 20) % 360));
+        pPoseStack.mulPose(Axis.XP.rotationDegrees(180));
+        Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F,
+                Minecraft.getInstance().getFrameTime(), pPoseStack, pBufferSource, 15728880);
+        pPoseStack.popPose();
     }
 
 }
