@@ -30,7 +30,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.level.block.Blocks;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -70,6 +72,16 @@ public class ExampleBook implements IGuidebook {
                 new ShapelessRecipe("minecraft", CraftingBookCategory.BUILDING, new ItemStack(Items.STONE_SWORD),
                         NonNullList.of(Ingredient.of(),
                                 Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
+        ));
+        pages.add(new RecipePage(
+                new ShapedRecipe(
+                        "test11",
+                        CraftingBookCategory.EQUIPMENT,
+                        1,
+                        1,
+                        NonNullList.of(Ingredient.EMPTY, Ingredient.of(new ItemStack(Items.PUMPKIN))),
+                        new ItemStack(Blocks.OAK_LOG)
+                )
         ));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
