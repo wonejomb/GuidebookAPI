@@ -40,21 +40,17 @@ public class ScreenUtils {
         return (pMouseX >= pX && pMouseX <= sizeWidth && pMouseY >= pY && pMouseY <= sizeHeight);
     }
 
-    public static void drawItemStack(@NotNull GuiGraphics pGraphics, ItemStack Stack, int pX, int pY) {
-        PoseStack mStack = RenderSystem.getModelViewStack();
-
-        mStack.pushPose();
-        pGraphics.renderItem(Stack, pX, pY);
-        pGraphics.renderItemDecorations(Minecraft.getInstance().font, Stack, pX, pY, null);
-        mStack.popPose();
+    public static void drawItemStack(@NotNull GuiGraphics pGraphics, ItemStack pStack, int pX, int pY) {
+        pGraphics.renderItem(pStack, pX, pY);
+        pGraphics.renderItemDecorations(Minecraft.getInstance().font, pStack, pX, pY);
     }
 
     public static void drawScaledItemStack(@NotNull GuiGraphics pGraphics, ItemStack pStack, int pX, int pY, float pScale) {
-        PoseStack poseStack = RenderSystem.getModelViewStack();
+        PoseStack poseStack = pGraphics.pose();
 
         poseStack.pushPose();
-        poseStack.translate(pX, pY, 50.0F);
-        poseStack.scale(pScale, pScale, 1f);
+        poseStack.translate(pX, pY, 1.0F);
+        poseStack.scale(pScale, pScale, 1.0F);
         pGraphics.renderItem(pStack, 0, 0);
         poseStack.popPose();
     }
@@ -64,12 +60,12 @@ public class ScreenUtils {
     }
 
     public static void drawScaledImage (@NotNull GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight, float pScale ) {
-        PoseStack stack = pGraphics.pose();
+        PoseStack poseStack = pGraphics.pose();
 
-        stack.pushPose();
-        stack.scale(pScale, pScale, 50.0F);
-        pGraphics.blit(pImage, pX, pY, 0, 0, pWidth, pHeight, pWidth, pHeight);
-        stack.popPose();
+        poseStack.pushPose();
+        poseStack.scale(pScale, pScale, pScale);
+        pGraphics.blit(pImage, (int) (pX / pScale), (int) (pY / pScale), 0, 0, pWidth, pHeight, pWidth, pHeight);
+        poseStack.popPose();
     }
 
     public static <T extends Entity> void renderLivingEntity(@NotNull PoseStack pPoseStack, MultiBufferSource pBufferSource, T pEntity, int pX, int pY ) {

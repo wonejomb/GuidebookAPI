@@ -1,6 +1,7 @@
 package de.mrbunny.guidebook.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,7 @@ import java.util.Random;
 
 public class IngredientCycler {
 
-    private final Random randomSource = new Random();
+    private final RandomSource randomSource = RandomSource.create();
     private long lastCycle = -1;
     private int cycleIndex = 0;
 

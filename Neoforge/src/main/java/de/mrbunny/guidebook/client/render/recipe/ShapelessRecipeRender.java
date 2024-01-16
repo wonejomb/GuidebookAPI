@@ -1,7 +1,6 @@
 package de.mrbunny.guidebook.client.render.recipe;
 
 import de.mrbunny.guidebook.api.client.IModScreen;
-import de.mrbunny.guidebook.util.IngredientCycler;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,14 +21,15 @@ public class ShapelessRecipeRender extends CraftingRecipeRender<ShapelessRecipe>
         for ( int y = 0 ; y < 3; y++ ) {
             for ( int x = 0; x < 3; x++ ) {
                 int i = 3 * y + x;
-                int stackX = (x + 1) * 17 + (pScreen.getXOffset() + 53) + x;
-                int stackY = (y + 1) * 17 + (pScreen.getYOffset() + 38) + y;
-                if ( i < recipe.getIngredients().size() ) {
-                    Ingredient ingredient = recipe.getIngredients().get(i);
+                int stackX = (x + 1) * 17 + (pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 90) + x;
+                int stackY = (y + 1) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 59) + y;
+
+                if ( i < this.recipe.getIngredients().size() ) {
+                    Ingredient ingredient = this.recipe.getIngredients().get(i);
 
                     this.ingredientCycler.getCycledIngredientStack(ingredient, i).ifPresent((stack) -> {
-                        ScreenUtils.drawItemStack(pGraphics, stack, stackX, stackY);
-                        if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, stackX, stackY, 15, 15) )
+                        ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.4F);
+                        if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, stackX, stackY, 16, 16) )
                             tooltips = ScreenUtils.getTooltip(stack);
                     });
                 }

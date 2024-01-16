@@ -20,9 +20,9 @@ public class TextEntryRender extends EntryRender {
     public void renderExtras(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookEntry pEntry, IModScreen pScreen, Font pFont) {
 
         if (ScreenUtils.isMouseBetween( pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight() )) {
-            ScreenUtils.drawScaledImage(pGraphics, this.textureHoverLoc, pEntry.getX(), pEntry.getY() + 1, 16, 16, 0.4F);
+            ScreenUtils.drawImage(pGraphics, this.textureHoverLoc, pEntry.getX(), pEntry.getY() + 1, 16, 16);
         } else {
-            ScreenUtils.drawScaledImage(pGraphics, this.textureLoc, pEntry.getX(), pEntry.getY(), 16, 16, 0.4F);
+            ScreenUtils.drawImage(pGraphics, this.textureLoc, pEntry.getX(), pEntry.getY(), 16, 16);
         }
 
         super.renderExtras(pGraphics, pAccess, pMouseX, pMouseY, pEntry, pScreen, pFont);

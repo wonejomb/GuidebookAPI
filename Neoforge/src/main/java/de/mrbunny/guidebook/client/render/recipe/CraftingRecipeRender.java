@@ -32,17 +32,22 @@ public abstract class CraftingRecipeRender<T extends Recipe<?>> extends RecipeRe
     }
 
     public void renderRecipe(GuiGraphics pGraphics, RegistryAccess pRegAccess, IModScreen pScreen, int pMouseX, int pMouseY, Font pFont) {
-        ScreenUtils.drawScaledImage(pGraphics, this.CRAFTING_RECIPE_GRID, pScreen.getXOffset() + pScreen.getWidthSize() / 2, pScreen.getYOffset() + pScreen.getHeightSize() / 2, 80, 48, 2);
+        ScreenUtils.drawScaledImage(pGraphics, this.CRAFTING_RECIPE_GRID,
+                pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 80,
+                pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 48,
+                80,
+                48,
+                2);
 
         Component recipeName = this.customDisplay == null ? this.title : this.customDisplay;
         pGraphics.drawString(pFont, recipeName, pScreen.getXOffset() + pScreen.getWidthSize() / 2 - pFont.width(recipeName) / 2, pScreen.getYOffset() + 15, ChatFormatting.DARK_GRAY.getColor(), false);
 
-        int outputX = pScreen.getXOffset() + 148;
-        int outputY = pScreen.getYOffset() + 73;
+        int outputX = pScreen.getXOffset() + pScreen.getWidthSize() / 2 + 54 ;
+        int outputY = pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 11;
 
         ItemStack stack = this.recipe.getResultItem(pRegAccess);
 
-        ScreenUtils.drawScaledItemStack(pGraphics, stack, outputX, outputY, 2);
+        ScreenUtils.drawScaledItemStack(pGraphics, stack, outputX, outputY, 1.3F);
 
         if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, outputX, outputY, 15, 15) )
             tooltips = ScreenUtils.getTooltip ( stack );

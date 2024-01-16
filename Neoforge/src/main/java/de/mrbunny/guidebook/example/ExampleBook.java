@@ -59,6 +59,7 @@ public class ExampleBook implements IGuidebook {
         List<IPage> pages = new ArrayList<>();
 
         pages.add(new TextPage(Component.literal("Some example test text.")));
+        pages.add(new ImagePage(Component.literal("Just a image"), new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/book/test/hearth_test.png"), 2.0F));
         pages.add(new ItemStackPage(Component.literal("Extra loooooooooooooooooooooooooooooong and bored text."), new ItemStack(Items.APPLE)));
         pages.add(new EntityPage(Component.literal("Just a zombie"), EntityType.ZOMBIE::create));
         pages.add(new SoundPage(
@@ -66,7 +67,9 @@ public class ExampleBook implements IGuidebook {
                 SoundEvents.ZOMBIE_AMBIENT
         ));
         pages.add(new RecipePage(
-                new ShapelessRecipe("minecraft", CraftingBookCategory.BUILDING, new ItemStack(Items.STONE_SWORD), NonNullList.of(Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
+                new ShapelessRecipe("minecraft", CraftingBookCategory.BUILDING, new ItemStack(Items.STONE_SWORD),
+                        NonNullList.of(Ingredient.of(),
+                                Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
         ));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
