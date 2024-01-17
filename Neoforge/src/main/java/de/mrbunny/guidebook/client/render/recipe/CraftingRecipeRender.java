@@ -1,8 +1,8 @@
 package de.mrbunny.guidebook.client.render.recipe;
 
 import de.mrbunny.guidebook.api.client.IModScreen;
-import de.mrbunny.guidebook.util.IngredientCycler;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.util.IngredientCycler;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -27,11 +27,9 @@ public abstract class CraftingRecipeRender<T extends Recipe<?>> extends RecipeRe
         this.title = pTitle;
     }
 
-    public void render(GuiGraphics pGraphics, int pMouseX, int pMouseY, Font pFont) {
-        this.ingredientCycler.tick(Minecraft.getInstance());
-    }
-
     public void renderRecipe(GuiGraphics pGraphics, RegistryAccess pRegAccess, IModScreen pScreen, int pMouseX, int pMouseY, Font pFont) {
+        this.ingredientCycler.tick(Minecraft.getInstance());
+
         ScreenUtils.drawScaledImage(pGraphics, this.CRAFTING_RECIPE_GRID,
                 pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 80,
                 pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 48,

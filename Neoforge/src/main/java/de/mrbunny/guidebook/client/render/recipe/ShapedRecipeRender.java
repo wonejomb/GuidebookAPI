@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 
+
 public class ShapedRecipeRender extends CraftingRecipeRender<ShapedRecipe> {
 
     public ShapedRecipeRender ( ShapedRecipe pRecipe ) {
@@ -26,10 +27,11 @@ public class ShapedRecipeRender extends CraftingRecipeRender<ShapedRecipe> {
                 int stackY = (y + 1) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 59) + y;
 
                 Ingredient ingredient = this.recipe.getIngredients().get(i);
-                ingredientCycler.getCycledIngredientStack(ingredient, i).ifPresent((stack) -> {
-                    ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.4F);
+
+                this.ingredientCycler.cycleItems(ingredient, i).ifPresent((stack) ->  {
+                    ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.3F);
                     if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, stackX, stackY, 16, 16) )
-                        this.tooltips = ScreenUtils.getTooltip(stack);
+                        tooltips = ScreenUtils.getTooltip(stack);
                 });
             }
         }

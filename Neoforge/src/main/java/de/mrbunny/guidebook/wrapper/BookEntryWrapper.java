@@ -48,6 +48,10 @@ public class BookEntryWrapper implements IWrapper {
         this.entry.renderExtras(pGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, pScreen, Minecraft.getInstance().font);
     }
 
+    public void tick () {
+        this.entry.getRender().tick();
+    }
+
     public boolean isMouseOnWrapper(double pMouseX, double pMouseY) {
         return ScreenUtils.isMouseBetween(pMouseX, pMouseY, this.entry.getX(), this.entry.getY(), this.entry.getWidth(), this.entry.getHeight());
     }

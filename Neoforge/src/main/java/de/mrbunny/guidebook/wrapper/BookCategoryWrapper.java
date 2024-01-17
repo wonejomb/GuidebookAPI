@@ -51,6 +51,10 @@ public class BookCategoryWrapper implements IWrapper {
 
     }
 
+    public void tick () {
+        this.category.getRenderer().tick();
+    }
+
     public boolean isMouseOnWrapper(double pMouseX, double pMouseY) {
         return ScreenUtils.isMouseBetween(pMouseX, pMouseY, this.x, this.y, this.width, this.height);
     }

@@ -27,8 +27,8 @@ public class ShapelessRecipeRender extends CraftingRecipeRender<ShapelessRecipe>
                 if ( i < this.recipe.getIngredients().size() ) {
                     Ingredient ingredient = this.recipe.getIngredients().get(i);
 
-                    this.ingredientCycler.getCycledIngredientStack(ingredient, i).ifPresent((stack) -> {
-                        ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.4F);
+                    this.ingredientCycler.cycleItems(ingredient, i).ifPresent((stack) -> {
+                        ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.5F);
                         if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, stackX, stackY, 16, 16) )
                             tooltips = ScreenUtils.getTooltip(stack);
                     });

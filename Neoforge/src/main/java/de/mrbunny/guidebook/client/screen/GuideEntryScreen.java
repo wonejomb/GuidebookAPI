@@ -94,6 +94,12 @@ public class GuideEntryScreen extends GuideScreen {
         return true;
     }
 
+    public void tick() {
+        if ( this.pageNumber < this.pageWrappers.size() )
+            if ( this.pageWrappers.get(this.pageNumber).canView() )
+                this.pageWrappers.get(this.pageNumber).getPage().getRender().tick();
+    }
+
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 

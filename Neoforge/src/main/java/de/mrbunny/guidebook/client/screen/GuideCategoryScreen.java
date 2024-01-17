@@ -113,6 +113,11 @@ public class GuideCategoryScreen extends GuideScreen {
         return true;
     }
 
+    public void tick() {
+        for ( BookEntryWrapper wrapper : this.entryWrappers.get(this.entryPage) )
+            if ( wrapper.canView() ) wrapper.tick();
+    }
+
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
