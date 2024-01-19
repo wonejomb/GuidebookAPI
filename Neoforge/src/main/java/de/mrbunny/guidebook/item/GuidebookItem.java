@@ -62,6 +62,7 @@ public class GuidebookItem extends Item implements IBookItem {
             pPlayer.displayClientMessage(event.getCanceledText(), true);
             return InteractionResultHolder.fail(heldStack);
         }
+
         GuidebookMod.CLIENT_PROXY.openGuidebook(pPlayer, pLevel, this.book, heldStack);
         return InteractionResultHolder.success(heldStack);
     }

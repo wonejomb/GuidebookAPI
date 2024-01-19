@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface IGuidebook {
 
+
     IBookBuilder buildBook ();
 
     @Nullable

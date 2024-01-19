@@ -37,6 +37,7 @@ public class ModConfigurations {
         public final ModConfigSpec.BooleanValue renderCategoryToltips;
         public final ModConfigSpec.IntValue entryHolderColor;
 
+        // This configuration isn't finalized at this moment
         public final Map<IBook, ModConfigSpec.IntValue> bookColors = new HashMap<>();
 
         public ClientConfigurations (ModConfigSpec.Builder pBuilder) {

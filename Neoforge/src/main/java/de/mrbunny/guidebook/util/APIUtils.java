@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+// Modders should NOT be able to use this class.
 @SuppressWarnings("unchecked")
 public class APIUtils {
 

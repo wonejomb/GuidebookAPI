@@ -25,10 +25,19 @@ public class IngredientCycler {
         }
     }
 
+    /**
+     * Retrieves a ItemStack that matches the ingredient
+     * Cycles thought all matching stacks.
+     * Must call {@link IngredientCycler#tick(Minecraft)} before (e.g. once per render method)
+     *
+     * @param  pIngredient The Ingredients
+     * @param  pIndex An "unique" id for this ingredient, so multiplied ingredients can be cycle independently
+     * @return Optional. Can be empty if ingredients is valid and has no matching stacks
+     */
     public Optional<ItemStack> cycleItems (@NotNull Ingredient pIngredient, int pIndex) {
         ItemStack[] itemStacks = pIngredient.getItems();
 
-        if ( itemStacks.length > 0 ) {
+        if ( itemStacks.length != 0 ) {
             this.randomSource.setSeed(pIndex);
             int id = (pIndex + randomSource.nextInt(itemStacks.length) + this.cycleIdx) % itemStacks.length;
             return Optional.of(itemStacks[id]);
