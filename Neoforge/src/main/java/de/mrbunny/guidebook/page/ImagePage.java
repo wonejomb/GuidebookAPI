@@ -21,7 +21,7 @@ public class ImagePage implements IPage, IPageRender {
     private final int imageWidth;
     private final int imageHeight;
 
-    private float scale;
+    private final float scale;
 
     public ImagePage (Component pText, ResourceLocation pImageLocation, int pImageWidth, int pImageHeight) {
         this (pText, pImageLocation, pImageWidth, pImageHeight, 1.0F);

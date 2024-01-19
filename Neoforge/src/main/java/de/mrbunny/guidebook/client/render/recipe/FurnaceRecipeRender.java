@@ -20,7 +20,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 public class FurnaceRecipeRender extends RecipeRenderBase<AbstractCookingRecipe> {
 
     private static final ResourceLocation FURNACE_GRID_LOC = new ResourceLocation(References.GUIDEBOOKAPI_ID, "textures/gui/recipes/furnace_grid.png");
-    private final Component title = Component.literal("guidebook.recipe.furnace.smelting");
+    private final Component title = Component.translatable("guidebook.recipe.furnace.smelting");
     private final IngredientCycler ingredientCycler = new IngredientCycler();
 
     public FurnaceRecipeRender(AbstractCookingRecipe pRecipe) {
@@ -37,7 +37,7 @@ public class FurnaceRecipeRender extends RecipeRenderBase<AbstractCookingRecipe>
                 2);
 
         pGraphics.drawString(pFont, this.title,
-                pScreen.getXOffset() + pScreen.getWidthSize() / 2 - pFont.width(this.title),
+                pScreen.getXOffset() + pScreen.getWidthSize() / 2 - pFont.width(this.title) / 2,
                 pScreen.getYOffset() + 15,
                 ChatFormatting.DARK_GRAY.getColor(),
                 false);

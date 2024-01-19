@@ -50,7 +50,7 @@ public class ModConfigurations {
                     new Color(36, 68, 187).getRGB(),
                     0, 16581375);
 
-            pBuilder.comment("Book color configuratins").push("bookColors");
+            pBuilder.comment("Book color configurations").push("bookColors");
 
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 this.bookColors.put(book,

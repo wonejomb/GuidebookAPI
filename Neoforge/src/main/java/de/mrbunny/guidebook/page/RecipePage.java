@@ -18,9 +18,9 @@ import net.minecraft.world.item.crafting.ShapelessRecipe;
 
 public class RecipePage implements IPage, IPageRender {
 
-    private Recipe<?> recipe;
-    private IRecipeRender recipeRender;
-    private boolean valid;
+    protected Recipe<?> recipe;
+    protected IRecipeRender recipeRender;
+    protected boolean valid;
 
     public RecipePage ( Recipe<?> pRecipe ) {
         this (pRecipe, getDefaultRender(pRecipe));
@@ -29,7 +29,7 @@ public class RecipePage implements IPage, IPageRender {
     public RecipePage ( Recipe<?> pRecipe, IRecipeRender pRecipeRender ) {
         this.recipe = pRecipe;
         this.recipeRender = pRecipeRender;
-        this.valid = recipe != null && pRecipeRender != null;
+        this.valid = pRecipe != null && pRecipeRender != null;
     }
 
     public void render(GuiGraphics pGraphics, int pMouseX, int pMouseY, Font pFont) {

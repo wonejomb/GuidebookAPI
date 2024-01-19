@@ -13,5 +13,7 @@
   "__comment": "Recipes",
   "guidebook.recipe.crafting.shapeless": "Shapeless Recipe",
   "guidebook.recipe.crafting.shaped": "Shaped Recipe",
-  "guidebook.recipe.furnace.smelting": "Smelting"
+  "guidebook.recipe.furnace.smelting": "Smelting",
+  "__comment": "Missing",
+  "guidebook.book.author.unknown": "Unknown"
 }

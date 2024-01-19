@@ -85,6 +85,9 @@ public class ExampleBook implements IGuidebook {
                         4
                 )
         ));
+        pages.add(new JsonRecipePage(
+                new ResourceLocation("acacia_button")
+        ));
 
         entries.put(new ResourceLocation(References.GUIDEBOOKAPI_ID, "entry"), new BookEntry(
                 Component.literal("Test entry"),
