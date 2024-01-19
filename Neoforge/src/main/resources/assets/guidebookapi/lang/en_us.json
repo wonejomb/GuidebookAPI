@@ -12,5 +12,6 @@
   "guidebook.entry.category": "Entry category: {0}",
   "__comment": "Recipes",
   "guidebook.recipe.crafting.shapeless": "Shapeless Recipe",
-  "guidebook.recipe.crafting.shaped": "Shaped Recipe"
+  "guidebook.recipe.crafting.shaped": "Shaped Recipe",
+  "guidebook.recipe.furnace.smelting": "Smelting"
 }

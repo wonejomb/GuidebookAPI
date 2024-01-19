@@ -17,4 +17,5 @@ public interface IGuidebook {
         return new ResourceLocation(References.GUIDEBOOKAPI_ID, "guidebook");
     }
 
+
 }

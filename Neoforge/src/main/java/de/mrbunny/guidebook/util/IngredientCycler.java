@@ -2,7 +2,6 @@ package de.mrbunny.guidebook.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;

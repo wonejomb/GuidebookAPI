@@ -20,18 +20,10 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.world.item.crafting.ShapelessRecipe;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.block.Blocks;
 
 import java.awt.*;
@@ -81,6 +73,16 @@ public class ExampleBook implements IGuidebook {
                         1,
                         NonNullList.of(Ingredient.EMPTY, Ingredient.of(new ItemStack(Items.PUMPKIN))),
                         new ItemStack(Blocks.OAK_LOG)
+                )
+        ));
+        pages.add(new RecipePage(
+                new SmeltingRecipe(
+                        "",
+                        CookingBookCategory.FOOD,
+                        Ingredient.of(Items.PORKCHOP),
+                        new ItemStack(Items.COOKED_PORKCHOP),
+                        0,
+                        4
                 )
         ));
 

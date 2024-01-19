@@ -5,11 +5,13 @@ import de.mrbunny.guidebook.api.book.component.IPage;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.client.book.IPageRender;
 import de.mrbunny.guidebook.api.client.recipe.IRecipeRender;
+import de.mrbunny.guidebook.client.render.recipe.FurnaceRecipeRender;
 import de.mrbunny.guidebook.client.render.recipe.ShapedRecipeRender;
 import de.mrbunny.guidebook.client.render.recipe.ShapelessRecipeRender;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.item.crafting.ShapelessRecipe;
@@ -56,6 +58,8 @@ public class RecipePage implements IPage, IPageRender {
             return new ShapelessRecipeRender(recipe);
         } else if ( pRecipe instanceof ShapedRecipe recipe ) {
             return new ShapedRecipeRender(recipe);
+        } else if ( pRecipe instanceof AbstractCookingRecipe recipe ) {
+            return new FurnaceRecipeRender(recipe);
         }
 
         return null;

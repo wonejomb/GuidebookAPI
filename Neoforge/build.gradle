@@ -30,12 +30,6 @@ subsystems {
     }
 }
 
-minecraft {
-    accessTransformers {
-        file("src/main/resources/META-INF/accesstransformer.cfg")
-    }
-}
-
 runs {
     configureEach {
         systemProperty 'forge.logging.markers', 'REGISTRIES'

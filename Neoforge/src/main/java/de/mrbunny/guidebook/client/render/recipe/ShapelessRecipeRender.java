@@ -21,14 +21,14 @@ public class ShapelessRecipeRender extends CraftingRecipeRender<ShapelessRecipe>
         for ( int y = 0 ; y < 3; y++ ) {
             for ( int x = 0; x < 3; x++ ) {
                 int i = 3 * y + x;
-                int stackX = (x + 1) * 17 + (pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 90) + x;
-                int stackY = (y + 1) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 59) + y;
+                int stackX = (x + 1) * 17 + (pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 89) + x;
+                int stackY = (y + 1) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 58) + y;
 
                 if ( i < this.recipe.getIngredients().size() ) {
                     Ingredient ingredient = this.recipe.getIngredients().get(i);
 
                     this.ingredientCycler.cycleItems(ingredient, i).ifPresent((stack) -> {
-                        ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.5F);
+                        ScreenUtils.drawScaledItemStack(pGraphics, stack, stackX, stackY, 1.3F);
                         if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, stackX, stackY, 16, 16) )
                             tooltips = ScreenUtils.getTooltip(stack);
                     });
