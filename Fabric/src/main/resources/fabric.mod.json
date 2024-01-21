@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "GuidebookAPI",
+  "description": "A simple mod that allows the ease creation of guides for other mods",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "logo.png",
+  "environment": "*",
+  "accessWidener": "guidebookapi.accesswidener",
+  "entrypoints": {
+    "main": [
+      "de.mrbunny.guidebook.GuidebookMod"
+    ],
+    "guidebookapi": [
+      "de.mrbunny.guidebook.example.ExampleBook"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric": "*",
+    "minecraft": "${mc_version}"
+  }
+}
