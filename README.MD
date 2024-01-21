@@ -17,24 +17,9 @@ The mod create the guides mostly in code instead of external files like other mo
 ## Developer Information
 The original information from Guide-API can be found [here](http://guide-api.readthedocs.org/en/latest/)
 
-The fork is very similar in how it works
+The fork is very similar in how it works.
 
-## Setup
-```gradle
-repositories {
-    maven {
-        url "https://cursemaven.com"
-        content {
-            includeGroup "curse.maven"
-        }
-    }
-}
-
-// Link to cursemaven: https://www.cursemaven.com/
-dependencies {    
-    implementation 'curse.maven:guidebookapi-949923:<fileid>'
-}
-```
+For setup you can see the wiki [here](https://github.com/JoulsMB/GuidebookAPI/wiki)
 
 ## Credits
 
