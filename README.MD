@@ -23,17 +23,16 @@ The fork is very similar in how it works
 ```gradle
 repositories {
     maven {
-        url = "https://maven.pkg.jetbrains.space/joulmb/p/main/joulmb/
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
     }
 }
 
-dependencies {
-    // CommonAPI is in the Neoforge jar and the Fabric jar
-    
-    // For NEOFORGE:
-    implementation "de.mrbunny.guidebook:guidebookapi-neoforge:[version]"
-    // For FABRIC:
-    implementation "de.mrbunny.guidebook:guidebookapi-fabric:[version]"
+// Link to cursemaven: https://www.cursemaven.com/
+dependencies {    
+    implementation 'curse.maven:guidebookapi-949923:<fileid>'
 }
 ```
 
