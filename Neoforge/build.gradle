@@ -1,9 +1,10 @@
 plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.74'
+    id 'me.shedaniel.unified-publishing' version '0.1.+'
 }
 
 group = "${mod_group}"
-version = "${mod_version}-${version_type}"
+version = "${mod_version}"
 
 base {
     archivesName = "${mod_id}-${mc_version}-neoforge"
@@ -17,9 +18,9 @@ configurations {
 }
 
 dependencies {
-    libraries "net.neoforged:neoforge:${neo_version}"
+    implementation "net.neoforged:neoforge:${neo_version}"
 
-    libraries project(":CommonAPI")
+    compileOnly project(":CommonAPI")
 }
 
 subsystems {
@@ -41,5 +42,43 @@ runs {
         dependencies {
             runtime project(":CommonAPI")
         }
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = 'guidebookapi-neoforge'
+        version = "${mod_version}"
+        releaseType = 'release'
+        gameVersions = ['1.20.2']
+        gameLoaders = ['neoforge']
+
+        curseforge {
+            token = project.curseforgeToken
+            id = project.curseforgeProjectId
+
+            displayName = "guidebookapi-neoforge-${mod_version}"
+            version = "${mod_version}"
+            releaseType = 'release'
+            gameVersions = ['1.20.2']
+            gameLoaders = ['neoforge']
+
+            mainPublication tasks.jar
+        }
+    }
+}
+
+tasks.named("jar", Jar).configure {
+    from project(":CommonAPI").sourceSets.main.output
+
+    manifest {
+        attributes([
+                'Specification-Title': "${mod_id}",
+                'Specification-Vendor': "${mod_authors}",
+                'Specification-Version': 1,
+                'Implementation-Title': "${mod_id}-neoforge",
+                'Implementation-Version': "${project.mod_version}",
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
