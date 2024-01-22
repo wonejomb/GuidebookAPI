@@ -59,6 +59,7 @@ unifiedPublishing {
 
             displayName = "guidebookapi-neoforge-${mod_version}"
             version = "${mod_version}"
+            changelog = "Finish client and common configurations"
             releaseType = 'release'
             gameVersions = ['1.20.2']
             gameLoaders = ['neoforge']

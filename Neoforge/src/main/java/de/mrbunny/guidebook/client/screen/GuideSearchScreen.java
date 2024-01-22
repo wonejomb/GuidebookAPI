@@ -3,8 +3,10 @@ package de.mrbunny.guidebook.client.screen;
 import com.google.common.collect.Lists;
 import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
+import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
@@ -131,16 +133,23 @@ public class GuideSearchScreen extends GuideScreen {
         return true;
     }
 
-    public void render(@NotNull GuiGraphics pGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        this.renderBackground(pGraphics, pMouseX, pMouseY, pPartialTick);
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        pGraphics.blit(this.pagesLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
-        pGraphics.setColor(this.book.getColor().getRed() / 255F, this.book.getColor().getGreen() / 255F, this.book.getColor().getBlue() / 255F, 1.0F);
-        pGraphics.blit(this.bordersLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
-        pGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        ItemStack stack = getPlayer().getItemInHand(getPlayer().getUsedItemHand());
+        IBookItem bookItem = (IBookItem) stack.getItem();
 
-        pGraphics.fill(searchField.getX() - 1, searchField.getY() - 1, searchField.getX() + searchField.getInnerWidth() + 1, searchField.getY() + searchField.getHeight() + 1, new Color(166, 126, 50, 128).getRGB());
-        this.searchField.render(pGraphics, pMouseX, pMouseY, pPartialTick);
+        float red = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getRed() / 255.0F;
+        float green = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getGreen() / 255.0F;
+        float blue = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getBlue() / 255.0F;
+
+        pGuiGraphics.blit(this.pagesLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
+        pGuiGraphics.setColor(red, green, blue, 1.0F);
+        pGuiGraphics.blit(this.bordersLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
+        pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+
+        pGuiGraphics.fill(searchField.getX() - 1, searchField.getY() - 1, searchField.getX() + searchField.getInnerWidth() + 1, searchField.getY() + searchField.getHeight() + 1, new Color(166, 126, 50, 128).getRGB());
+        this.searchField.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         int entryX = this.xOffset + this.renderXOffset;
         int entryY = this.yOffset + this.renderYOffset;
@@ -151,13 +160,13 @@ public class GuideSearchScreen extends GuideScreen {
                 entry.getLeft().setX(entryX);
                 entry.getLeft().setY(entryY);
 
-                entry.getLeft().getRender().render(pGraphics, pMouseX, pMouseY, this.font);
-                entry.getLeft().getRender().renderExtras(pGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, entry.getLeft(), this, this.font);
+                entry.getLeft().getRender().render(pGuiGraphics, pMouseX, pMouseY, this.font);
+                entry.getLeft().getRender().renderExtras(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, entry.getLeft(), this, this.font);
 
-                if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, entryX, entryY, entry.getLeft().getWidth(), entry.getLeft().getHeight())) {
-                    if( GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
+                if (ScreenUtils.isMouseBetween(pMouseX, pMouseY, entryX, entryY, entry.getLeft().getWidth(), entry.getLeft().getHeight())) {
+                    if (GLFW.glfwGetKey(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS) {
                         String msg = ComponentUtils.parseEffect("guidebook.entry.category", entry.getRight().getName().getString());
-                        pGraphics.renderComponentTooltip(this.font, List.of(Component.literal(msg)), pMouseX, pMouseY);
+                        pGuiGraphics.renderComponentTooltip(this.font, List.of(Component.literal(msg)), pMouseX, pMouseY);
                     }
                 }
 
@@ -165,8 +174,8 @@ public class GuideSearchScreen extends GuideScreen {
             }
         }
 
-        for ( Renderable renderable : this.renderables )
-            renderable.render(pGraphics, pMouseX, pMouseY, pPartialTick);
+        for (Renderable renderable : this.renderables)
+            renderable.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 
     private void updateSearch ( ) {

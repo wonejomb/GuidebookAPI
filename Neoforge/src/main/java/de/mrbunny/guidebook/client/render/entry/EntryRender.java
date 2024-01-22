@@ -3,6 +3,7 @@ package de.mrbunny.guidebook.client.render.entry;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.client.book.IEntryRender;
+import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.util.ComponentUtils;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.ChatFormatting;
@@ -31,7 +32,7 @@ public class EntryRender implements IEntryRender {
 
         FormattedCharSequence sequence = Language.getInstance().getVisualOrder(entryName);
         if (ScreenUtils.isMouseBetween(pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight())) {
-            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, ChatFormatting.BLUE.getColor(), false);
+            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, ModConfigurations.CLIENT.entryHoverColor.get(), false);
         } else {
             pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 4, ChatFormatting.DARK_GRAY.getColor(), false);
         }

@@ -29,13 +29,11 @@ public class GuidebookMod {
     }
 
     private void commonSetup (final FMLCommonSetupEvent pEvent) {
-        ModConfigurations.registerConfigurations();
-
         if (FMLLoader.getDist().isClient()) {
             CLIENT_PROXY = new ClientProxy();
         }
 
-        if (ModConfigurations.CLIENT == null || ModConfigurations.COMMON == null)
+        if (ModConfigurations.clientSpec == null || ModConfigurations.commonSpec == null)
             throw new NullPointerException("Client configurations or Common configurations can't be null in commonSetup phase");
     }
 

@@ -3,9 +3,11 @@ package de.mrbunny.guidebook.client.screen;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.book.component.BookEntry;
+import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
@@ -22,6 +24,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.List;
 
 public class GuideCategoryScreen extends GuideScreen {
@@ -121,10 +124,17 @@ public class GuideCategoryScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        pGuiGraphics.blit(this.pagesTexture, this.xOffset, this.yOffset, 0, 0, this.getWidthSize(), this.getHeightSize(), this.widthSize, this.heightSize);
-        pGuiGraphics.setColor(this.book.getColor().getRed() / 255.0F, this.book.getColor().getGreen() / 255.0F, this.book.getColor().getBlue() / 255.0F, 1.0F);
-        pGuiGraphics.blit(this.outlineTexture, this.xOffset, this.yOffset, 0, 0, this.widthSize, this.heightSize, this.widthSize, this.heightSize);
-        pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        ItemStack stack = getPlayer().getItemInHand(getPlayer().getUsedItemHand());
+        IBookItem bookItem = (IBookItem) stack.getItem();
+
+        float red = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getRed() / 255.0F;
+        float green = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getGreen() / 255.0F;
+        float blue = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getBlue() / 255.0F;
+
+        pGuiGraphics.blit(this.pagesTexture, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
+        pGuiGraphics.setColor(red, green, blue, 1.0F);
+        pGuiGraphics.blit(this.outlineTexture, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
+        pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         this.entryPage = Mth.clamp(entryPage, 0, this.entryWrappers.size() - 1);
 
