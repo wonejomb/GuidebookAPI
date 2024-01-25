@@ -4,7 +4,10 @@ import de.mrbunny.guidebook.api.IGuidebook;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.util.References;
 import de.mrbunny.guidebook.client.model.ClientModelHandler;
+import de.mrbunny.guidebook.config.ModConfigManager;
+import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.handler.GuidebooksRegister;
+import de.mrbunny.guidebook.handler.WorldEventHandler;
 import de.mrbunny.guidebook.item.GuidebookItem;
 import de.mrbunny.guidebook.proxy.ClientProxy;
 import de.mrbunny.guidebook.util.APIUtils;
@@ -33,11 +36,15 @@ public class GuidebookMod implements ModInitializer {
 
         GuidebooksRegister.gatherBooks();
 
+        ModConfigManager.setupConfigurations();
+
         this.registerItems();
 
         ModelLoadingPlugin.register(new ClientModelHandler());
 
         CLIENT_PROXY.initColors();
+
+        WorldEventHandler.loadWorldEvents();
     }
 
     private void registerItems () {

@@ -5,6 +5,8 @@ import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
+import de.mrbunny.guidebook.config.ModConfigManager;
+import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
@@ -134,8 +136,12 @@ public class GuideSearchScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGraphics, pMouseX, pMouseY, pPartialTick);
 
+        float red = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getRed() / 255.0F;
+        float green = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getGreen() / 255.0F;
+        float blue = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getBlue() / 255.0F;
+
         pGraphics.blit(this.pagesLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
-        pGraphics.setColor(this.book.getColor().getRed() / 255F, this.book.getColor().getGreen() / 255F, this.book.getColor().getBlue() / 255F, 1.0F);
+        pGraphics.setColor(red, green, blue, 1.0F);
         pGraphics.blit(this.bordersLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
         pGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 

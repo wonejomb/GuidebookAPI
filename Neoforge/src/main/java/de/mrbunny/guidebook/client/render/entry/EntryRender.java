@@ -32,7 +32,7 @@ public class EntryRender implements IEntryRender {
 
         FormattedCharSequence sequence = Language.getInstance().getVisualOrder(entryName);
         if (ScreenUtils.isMouseBetween(pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight())) {
-            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, ModConfigurations.CLIENT.entryHoverColor.get(), false);
+            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, ModConfigurations.CLIENT.entryBetweenColor.get(), false);
         } else {
             pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 4, ChatFormatting.DARK_GRAY.getColor(), false);
         }

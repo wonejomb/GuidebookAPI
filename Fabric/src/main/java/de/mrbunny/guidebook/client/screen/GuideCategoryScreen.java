@@ -10,7 +10,10 @@ import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
 import de.mrbunny.guidebook.client.button.SearchButton;
+import de.mrbunny.guidebook.config.ModConfigManager;
+import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.wrapper.BookEntryWrapper;
+import net.fabricmc.fabric.impl.client.indigo.renderer.IndigoRenderer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,6 +25,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.List;
 
 public class GuideCategoryScreen extends GuideScreen {
@@ -121,8 +125,12 @@ public class GuideCategoryScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
+        float red = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getRed() / 255.0F;
+        float green = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getGreen() / 255.0F;
+        float blue = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getBlue() / 255.0F;
+
         pGuiGraphics.blit(this.pagesTexture, this.xOffset, this.yOffset, 0, 0, this.getWidthSize(), this.getHeightSize(), this.widthSize, this.heightSize);
-        pGuiGraphics.setColor(this.book.getColor().getRed() / 255.0F, this.book.getColor().getGreen() / 255.0F, this.book.getColor().getBlue() / 255.0F, 1.0F);
+        pGuiGraphics.setColor(red, green, blue, 1.0F);
         pGuiGraphics.blit(this.outlineTexture, this.xOffset, this.yOffset, 0, 0, this.widthSize, this.heightSize, this.widthSize, this.heightSize);
         pGuiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 

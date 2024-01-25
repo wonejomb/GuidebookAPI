@@ -41,6 +41,7 @@ public class ExampleBook implements IGuidebook {
                 .setHeader(Component.literal("ExampleBook Header"))
                 .setSubHeaderText(Component.literal("ExampleBook sub header text"))
                 .setAuthor(Component.literal("ExampleGuy"))
+                .shouldSpawnWithBook()
                 .contentProvider(this::buildBookContent);
     }
 

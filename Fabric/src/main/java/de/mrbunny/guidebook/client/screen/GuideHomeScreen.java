@@ -4,6 +4,8 @@ import com.google.common.collect.HashMultimap;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.book.component.BookCategory;
+import de.mrbunny.guidebook.config.ModConfigManager;
+import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
@@ -18,6 +20,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.awt.*;
 
 public class GuideHomeScreen extends GuideScreen {
 
@@ -105,8 +109,12 @@ public class GuideHomeScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
+        float red = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getRed() / 255.0F;
+        float green = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getGreen() / 255.0F;
+        float blue = new Color(Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(this.book).get()))).getBlue() / 255.0F;
+
         pGuiGraphics.blit(this.pagesTexture, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
-        pGuiGraphics.setColor(this.book.getColor().getRed() / 255F, this.book.getColor().getGreen() / 255F, this.book.getColor().getBlue() / 255F, 1.0F);
+        pGuiGraphics.setColor(red, green, blue, 1.0F);
         pGuiGraphics.blit(this.borderTexture, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
         pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 

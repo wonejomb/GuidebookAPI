@@ -8,6 +8,8 @@ import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.client.screen.GuideEntryScreen;
 import de.mrbunny.guidebook.client.screen.GuideHomeScreen;
+import de.mrbunny.guidebook.config.ModConfigManager;
+import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.handler.GuidebooksRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,7 +32,8 @@ public class ClientProxy extends CommonProxy {
                 IBookItem bookItem = (IBookItem) bookStack.get().getItem();
 
                 if ( bookItem.getBook(stack) != null && tint == 0 )
-                    return bookItem.getBook(stack).getColor().getRGB();
+                    return Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(bookItem.getBook(stack)).get()));
+
 
                 return -1;
             }, bookStack.get().getItem());

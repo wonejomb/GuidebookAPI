@@ -136,12 +136,9 @@ public class GuideSearchScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        ItemStack stack = getPlayer().getItemInHand(getPlayer().getUsedItemHand());
-        IBookItem bookItem = (IBookItem) stack.getItem();
-
-        float red = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getRed() / 255.0F;
-        float green = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getGreen() / 255.0F;
-        float blue = new Color(ModConfigurations.CLIENT.bookColors.get(bookItem.getBook(stack)).get()).getBlue() / 255.0F;
+        float red = new Color(ModConfigurations.CLIENT.bookColors.get(this.book).get()).getRed() / 255.0F;
+        float green = new Color(ModConfigurations.CLIENT.bookColors.get(this.book).get()).getGreen() / 255.0F;
+        float blue = new Color(ModConfigurations.CLIENT.bookColors.get(this.book).get()).getBlue() / 255.0F;
 
         pGuiGraphics.blit(this.pagesLocation, this.getXOffset(), this.getYOffset(), 0, 0, this.getWidthSize(), this.getHeightSize(), this.getWidthSize(), this.getHeightSize());
         pGuiGraphics.setColor(red, green, blue, 1.0F);

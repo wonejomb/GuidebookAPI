@@ -22,7 +22,7 @@ public class TextEntryRender extends EntryRender {
     public void renderExtras(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookEntry pEntry, IModScreen pScreen, Font pFont) {
 
         if (ScreenUtils.isMouseBetween( pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight() )) {
-            Color color = new Color(ModConfigurations.CLIENT.entryHoverColor.get());
+            Color color = new Color(ModConfigurations.CLIENT.entryBetweenColor.get());
 
             float red = color.getRed() / 255.0F;
             float green = color.getGreen() / 255.0F;

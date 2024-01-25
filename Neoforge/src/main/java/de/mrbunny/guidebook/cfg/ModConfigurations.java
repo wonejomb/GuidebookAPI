@@ -1,7 +1,6 @@
 package de.mrbunny.guidebook.cfg;
 
 import com.google.common.collect.Maps;
-import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
 import net.minecraft.ChatFormatting;
@@ -11,7 +10,6 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,14 +27,13 @@ public class ModConfigurations {
 
     public static class ClientConfigurations {
 
-        public final ModConfigSpec.ConfigValue<Integer> entryHoverColor;
-
+        public final ModConfigSpec.ConfigValue<Integer> entryBetweenColor;
         public final Map<IBook, ModConfigSpec.ConfigValue<Integer>> bookColors = Maps.newHashMap();
 
         public ClientConfigurations ( ModConfigSpec.@NotNull Builder pBuilder ) {
             pBuilder.push("RenderConfiguration");
 
-            this.entryHoverColor = pBuilder.comment("The color of the entries when the mouse is between them").defineInRange("entryHoverColor", ChatFormatting.BLUE.getColor(), 0, 16581375);
+            this.entryBetweenColor = pBuilder.comment("The color of the entries when the mouse is between them").defineInRange("entryHoverColor", ChatFormatting.BLUE.getColor(), 0, 16581375);
 
             pBuilder.comment("The color of this book.");
             for ( IBook book : GuidebookAPI.getBooks().values() )

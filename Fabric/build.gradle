@@ -65,6 +65,7 @@ unifiedPublishing {
 
             displayName = "guidebookapi-fabric-${mod_version}"
             version = "${mod_version}"
+            changelog = "Added configurations for the mod and fix some bugs."
             releaseType = 'release'
             gameVersions = ['1.20.2']
             gameLoaders = ['fabric']
