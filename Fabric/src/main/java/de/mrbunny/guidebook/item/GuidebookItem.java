@@ -4,6 +4,7 @@ import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.client.GuidebookClientMod;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -55,7 +56,7 @@ public class GuidebookItem extends Item implements IBookItem  {
         if ( !pLevel.isClientSide() ) return InteractionResultHolder.success(heldStack);
 
 
-        GuidebookMod.CLIENT_PROXY.openGuidebook(pPlayer, pLevel, this.book, heldStack);
+        GuidebookClientMod.CLIENT_PROXY.openGuidebook(pPlayer, pLevel, this.book, heldStack);
         return InteractionResultHolder.success(heldStack);
     }
 

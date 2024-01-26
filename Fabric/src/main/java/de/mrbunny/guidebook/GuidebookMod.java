@@ -28,9 +28,6 @@ public class GuidebookMod implements ModInitializer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(References.GUIDEBOOKAPI_ID);
 
-    @Environment(EnvType.CLIENT)
-    public static final ClientProxy CLIENT_PROXY = new ClientProxy();
-
     public void onInitialize() {
         LOGGER.info("Initializing GuidebookAPI");
 
@@ -41,8 +38,6 @@ public class GuidebookMod implements ModInitializer {
         this.registerItems();
 
         ModelLoadingPlugin.register(new ClientModelHandler());
-
-        CLIENT_PROXY.initColors();
 
         WorldEventHandler.loadWorldEvents();
     }

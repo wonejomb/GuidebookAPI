@@ -10,7 +10,9 @@ import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
 import de.mrbunny.guidebook.client.button.SearchButton;
+import de.mrbunny.guidebook.ext.IScreenRenderablesAccessor;
 import de.mrbunny.guidebook.wrapper.BookCategoryWrapper;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -135,7 +137,7 @@ public class GuideHomeScreen extends GuideScreen {
                 this.yOffset + this.heightSize - 23, ChatFormatting.DARK_GRAY.getColor(),
                 false);
 
-        for ( Renderable renderable : this.renderables )
+        for ( Renderable renderable : ((IScreenRenderablesAccessor) this).getRenderables() )
             renderable.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 

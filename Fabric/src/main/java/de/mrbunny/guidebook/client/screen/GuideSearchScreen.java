@@ -5,12 +5,14 @@ import de.mrbunny.guidebook.GuidebookMod;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
+import de.mrbunny.guidebook.client.GuidebookClientMod;
 import de.mrbunny.guidebook.config.ModConfigManager;
 import de.mrbunny.guidebook.config.ModConfigurations;
 import de.mrbunny.guidebook.client.button.BackButton;
 import de.mrbunny.guidebook.client.button.NextButton;
 import de.mrbunny.guidebook.client.button.PreviousButton;
 import de.mrbunny.guidebook.client.button.SearchButton;
+import de.mrbunny.guidebook.ext.IScreenRenderablesAccessor;
 import de.mrbunny.guidebook.util.ComponentUtils;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import joptsimple.internal.Strings;
@@ -114,7 +116,7 @@ public class GuideSearchScreen extends GuideScreen {
 
                     for ( Pair<IBookEntry, IBookCategory> pair : pageResults ) {
                         if ( ScreenUtils.isMouseBetween(pMouseX, pMouseY, entryX, entryY, pair.getLeft().getWidth(), pair.getLeft().getHeight()) )
-                            GuidebookMod.CLIENT_PROXY.openEntry(this.book, pair.getRight(), pair.getLeft(), this.getPlayer(), this.getBookStack());
+                            GuidebookClientMod.CLIENT_PROXY.openEntry(this.book, pair.getRight(), pair.getLeft(), this.getPlayer(), this.getBookStack());
 
                         entryY += 15;
                     }
@@ -171,7 +173,7 @@ public class GuideSearchScreen extends GuideScreen {
             }
         }
 
-        for ( Renderable renderable : this.renderables )
+        for ( Renderable renderable : ((IScreenRenderablesAccessor) this).getRenderables() )
             renderable.render(pGraphics, pMouseX, pMouseY, pPartialTick);
     }
 

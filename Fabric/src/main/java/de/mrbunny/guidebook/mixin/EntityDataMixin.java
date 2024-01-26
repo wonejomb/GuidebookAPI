@@ -1,13 +1,9 @@
 package de.mrbunny.guidebook.mixin;
 
 import de.mrbunny.guidebook.ext.IEntityDataExtension;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class EntityDataMixin implements IEntityDataExtension {
+    @Unique
     private CompoundTag persistentData;
-
 
     @Inject(method = "saveWithoutId", at = @At("HEAD"))
     protected void injectSaveMethod (CompoundTag pNbt, CallbackInfoReturnable<CompoundTag> cir ) {

@@ -32,7 +32,7 @@ public class ModConfigurations {
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 this.bookColors.put(book,
                         this.createConfig(
-                                new ConfigValueBuilder<Integer>(book.getId().getPath() + ".color")
+                                new ConfigValueBuilder<Integer>(book.getId().getNamespace() + "." + book.getId().getPath() + ".color")
                                 .comment("The color of this book")
                                 .defaultValue(book.getColor().getRGB())
                         )
@@ -45,7 +45,7 @@ public class ModConfigurations {
 
             this.bookColors.clear();
             for ( IBook book : GuidebookAPI.getBooks().values() )
-                this.bookColors.put(book, this.getConfigByName(book.getId().getPath() + ".color"));
+                this.bookColors.put(book, this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".color"));
         }
 
     }
@@ -63,7 +63,7 @@ public class ModConfigurations {
 
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 spawnBooks.put(book,
-                            this.createConfig(new ConfigValueBuilder<Boolean>(book.getId().getPath() + ".spawn")
+                            this.createConfig(new ConfigValueBuilder<Boolean>(book.getId().getNamespace() + "." + book.getId().getPath() + ".spawn")
                                     .comment("If the player should spawn with this book.")
                                     .defaultValue(book.shouldSpawnWithBook()))
                         );
@@ -76,7 +76,7 @@ public class ModConfigurations {
             this.spawnBooks.clear();
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 this.spawnBooks.put(book,
-                        this.getConfigByName(book.getId().getPath() + ".spawn")
+                        this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".spawn")
                 );
         }
 

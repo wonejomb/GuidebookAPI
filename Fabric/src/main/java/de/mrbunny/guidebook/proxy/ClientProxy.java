@@ -1,7 +1,6 @@
 package de.mrbunny.guidebook.proxy;
 
 import de.mrbunny.guidebook.api.GuidebookAPI;
-import de.mrbunny.guidebook.api.IGuidebook;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
@@ -9,8 +8,6 @@ import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.client.screen.GuideEntryScreen;
 import de.mrbunny.guidebook.client.screen.GuideHomeScreen;
 import de.mrbunny.guidebook.config.ModConfigManager;
-import de.mrbunny.guidebook.config.ModConfigurations;
-import de.mrbunny.guidebook.handler.GuidebooksRegister;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;

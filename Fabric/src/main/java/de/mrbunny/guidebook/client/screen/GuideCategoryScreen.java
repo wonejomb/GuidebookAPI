@@ -12,6 +12,7 @@ import de.mrbunny.guidebook.client.button.PreviousButton;
 import de.mrbunny.guidebook.client.button.SearchButton;
 import de.mrbunny.guidebook.config.ModConfigManager;
 import de.mrbunny.guidebook.config.ModConfigurations;
+import de.mrbunny.guidebook.ext.IScreenRenderablesAccessor;
 import de.mrbunny.guidebook.wrapper.BookEntryWrapper;
 import net.fabricmc.fabric.impl.client.indigo.renderer.IndigoRenderer;
 import net.minecraft.ChatFormatting;
@@ -150,7 +151,7 @@ public class GuideCategoryScreen extends GuideScreen {
                 this.yOffset + this.heightSize - 23, ChatFormatting.DARK_GRAY.getColor(),
                 false);
 
-        for ( Renderable renderable : this.renderables )
+        for ( Renderable renderable : ((IScreenRenderablesAccessor) this).getRenderables() )
             renderable.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
 

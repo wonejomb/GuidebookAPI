@@ -14,8 +14,6 @@ java {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-
     mods {
         "${mod_id}" {
             sourceSet sourceSets.main
@@ -40,10 +38,7 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${mc_version}"
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.20.2:2023.10.08@zip")
-    }
+    mappings loom.officialMojangMappings()
 
     modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -65,12 +60,16 @@ unifiedPublishing {
 
             displayName = "guidebookapi-fabric-${mod_version}"
             version = "${mod_version}"
-            changelog = "Added configurations for the mod and fix some bugs."
+            changelog = "Change cfg names and remapJar."
             releaseType = 'release'
             gameVersions = ['1.20.2']
             gameLoaders = ['fabric']
 
-            mainPublication tasks.jar
+            relations {
+                depends 'fabric-api'
+            }
+
+            mainPublication tasks.remapJar
         }
     }
 }

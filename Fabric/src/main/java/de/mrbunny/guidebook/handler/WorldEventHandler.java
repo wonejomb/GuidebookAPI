@@ -2,10 +2,8 @@ package de.mrbunny.guidebook.handler;
 
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
-import de.mrbunny.guidebook.api.config.IConfigValue;
-import de.mrbunny.guidebook.config.ModConfigManager;
 import de.mrbunny.guidebook.ext.IEntityDataExtension;
-import de.mrbunny.guidebook.ext.NBTTags;
+import de.mrbunny.guidebook.util.NBTTags;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;

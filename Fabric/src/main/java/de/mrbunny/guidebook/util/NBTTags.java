@@ -1,4 +1,4 @@
-package de.mrbunny.guidebook.ext;
+package de.mrbunny.guidebook.util;
 
 public class NBTTags {
 
