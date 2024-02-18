@@ -23,13 +23,11 @@ public class WorldEventHandler {
                 CompoundTag moddedTag = getModTag(player);
 
                 if (ModConfigManager.COMMON.shouldSpawnWithBook.get()) {
-                    System.out.println("ShouldSpawnWithBook is enabled");
 
                     for (IBook book : GuidebookAPI.getBooks().values()) {
                         IConfigValue<Boolean> bookShouldSpawn = ModConfigManager.COMMON.spawnBooks.get(book);
 
                         if ((bookShouldSpawn.get()) && !moddedTag.getBoolean("hasInitial" + book.getId().toString())) {
-                            System.out.println("Player doesn't have a initial book, giving it");
                             player.getInventory().add(GuidebookAPI.getStackFromBook(book));
                             moddedTag.putBoolean("hasInitial" + book.getId().toString(), true);
                         }
