@@ -43,4 +43,4 @@ bin/
 /Neoforge/runs/
 /Fabric/run/
 /.idea/
-gradle.properties
+./gradle.properties
