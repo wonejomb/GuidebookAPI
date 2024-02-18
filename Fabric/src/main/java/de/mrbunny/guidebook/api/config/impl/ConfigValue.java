@@ -25,8 +25,6 @@ public final class ConfigValue<T> implements IConfigValue<T> {
         this.comment = pComment;
     }
 
-
-
     public String getKey() {
         return this.key;
     }

@@ -17,13 +17,13 @@ public abstract class EntityDataMixin implements IEntityDataExtension {
 
     @Inject(method = "saveWithoutId", at = @At("HEAD"))
     protected void injectSaveMethod (CompoundTag pNbt, CallbackInfoReturnable<CompoundTag> cir ) {
-        if ( this.persistentData != null ) pNbt.put("guidebookAPI", persistentData);
+        if ( this.persistentData != null ) pNbt.put("persistedData", persistentData);
     }
 
     @Inject(method = "load", at = @At("HEAD"))
     protected void injectLoadMethod ( CompoundTag pNbt, CallbackInfo pInfo ) {
-        if ( pNbt.contains("guidebookAPI", 10) )
-            this.persistentData = pNbt.getCompound("guidebookAPI");
+        if ( pNbt.contains("persistedData", 10) )
+            this.persistentData = pNbt.getCompound("persistedData");
     }
 
     public CompoundTag getPersistentData() {

@@ -2,13 +2,15 @@ package de.mrbunny.guidebook.handler;
 
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.config.IConfigValue;
+import de.mrbunny.guidebook.config.ModConfigManager;
 import de.mrbunny.guidebook.ext.IEntityDataExtension;
 import de.mrbunny.guidebook.util.NBTTags;
+import de.mrbunny.guidebook.util.ParseUtils;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
-
 
 public class WorldEventHandler {
 
@@ -21,12 +23,17 @@ public class WorldEventHandler {
             if ( !entity.level().isClientSide && entity instanceof Player player ) {
                 CompoundTag moddedTag = getModTag(player);
 
-                for (IBook book : GuidebookAPI.getBooks().values()) {
-                    boolean bookShouldSpawn = book.shouldSpawnWithBook();
+                if (ModConfigManager.COMMON.shouldSpawnWithBook.get()) {
+                    System.out.println("ShouldSpawnWithBook is enabled");
 
-                    if ((bookShouldSpawn) && !moddedTag.getBoolean("hasInitial" + book.getId().toString())) {
-                        player.getInventory().add(GuidebookAPI.getStackFromBook(book));
-                        moddedTag.putBoolean("hasInitial" + book.getId().toString(), true);
+                    for (IBook book : GuidebookAPI.getBooks().values()) {
+                        IConfigValue<Boolean> bookShouldSpawn = ModConfigManager.COMMON.spawnBooks.get(book);
+
+                        if ((bookShouldSpawn.get()) && !moddedTag.getBoolean("hasInitial" + book.getId().toString())) {
+                            System.out.println("Player doesn't have a initial book, giving it");
+                            player.getInventory().add(GuidebookAPI.getStackFromBook(book));
+                            moddedTag.putBoolean("hasInitial" + book.getId().toString(), true);
+                        }
                     }
                 }
             }

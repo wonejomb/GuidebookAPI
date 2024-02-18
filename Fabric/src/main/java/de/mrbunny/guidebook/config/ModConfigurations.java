@@ -45,7 +45,8 @@ public class ModConfigurations {
 
             this.bookColors.clear();
             for ( IBook book : GuidebookAPI.getBooks().values() )
-                this.bookColors.put(book, this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".color"));
+                this.bookColors.put(book, this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".color")
+                );
         }
 
     }

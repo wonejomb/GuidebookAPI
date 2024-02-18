@@ -106,7 +106,15 @@ public class ConfigFile implements IConfigFile {
 
                     if ( parts.length == 2 ) {
 
-                        provider.loadedConfigurations().put(parts[0], new ConfigValue<>(parts[0], parts[1]));
+                        if ( parts[1].equalsIgnoreCase("true") || parts[1].equalsIgnoreCase("false") ) {
+
+                            boolean boolValue = parts[1].equalsIgnoreCase("true");
+
+                            ConfigValue<Boolean> cfgValue = new ConfigValue<>(parts[0], boolValue);
+                            provider.loadedConfigurations().put(parts[0], cfgValue);
+                        } else {
+                            provider.loadedConfigurations().put(parts[0], new ConfigValue<>(parts[0], parts[1]));
+                        }
 
                     } else {
                         LoggerFactory.getLogger("GuidebookAPI/Config").error("Error in line: {} of file '{}'", lineId, this.fileName);
