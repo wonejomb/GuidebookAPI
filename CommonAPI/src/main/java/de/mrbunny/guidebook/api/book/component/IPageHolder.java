@@ -1,14 +1,15 @@
 package de.mrbunny.guidebook.api.book.component;
 
 import de.mrbunny.guidebook.api.book.IBook;
+import net.minecraft.network.chat.Component;
 
 import java.awt.*;
 
 public interface IPageHolder {
 
     IBook getBook ();
-    IBookEntry getHolderEntry ();
-    Color getDiscriminatorColor ();
-    int getPageNumber ();
-
+    Component getTitle ();
+    IBookEntry getHolderEntryReference ();
+    Color getColorDiscriminator ();
+    int getPageId();
 }

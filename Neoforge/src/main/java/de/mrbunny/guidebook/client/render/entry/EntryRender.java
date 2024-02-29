@@ -3,6 +3,7 @@ package de.mrbunny.guidebook.client.render.entry;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.client.book.IEntryRender;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.util.ComponentUtils;
 import de.mrbunny.guidebook.util.ScreenUtils;
@@ -30,9 +31,11 @@ public class EntryRender implements IEntryRender {
             entryName = FormattedText.composite(entryName, FormattedText.of("..."));
         }
 
+        int entryBetweenColor = Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.entryBetweenColor.get()));
+
         FormattedCharSequence sequence = Language.getInstance().getVisualOrder(entryName);
         if (ScreenUtils.isMouseBetween(pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight())) {
-            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, ModConfigurations.CLIENT.entryBetweenColor.get(), false);
+            pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 5, entryBetweenColor, false);
         } else {
             pGraphics.drawString(pFont, sequence, pEntry.getX() + 22, pEntry.getY() + 4, ChatFormatting.DARK_GRAY.getColor(), false);
         }

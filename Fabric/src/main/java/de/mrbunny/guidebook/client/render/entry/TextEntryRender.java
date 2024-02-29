@@ -3,11 +3,14 @@ package de.mrbunny.guidebook.client.render.entry;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.config.ModConfigManager;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+
+import java.awt.*;
 
 public class TextEntryRender extends EntryRender {
 
@@ -26,5 +29,6 @@ public class TextEntryRender extends EntryRender {
         }
 
         super.renderExtras(pGraphics, pAccess, pMouseX, pMouseY, pEntry, pScreen, pFont);
+
     }
 }

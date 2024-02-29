@@ -65,16 +65,6 @@ public class ExampleBook implements IGuidebook {
                                 Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
         ));
         pages.add(new RecipePage(
-                new ShapedRecipe(
-                        "test11",
-                        CraftingBookCategory.EQUIPMENT,
-                        1,
-                        1,
-                        NonNullList.of(Ingredient.EMPTY, Ingredient.of(new ItemStack(Items.PUMPKIN))),
-                        new ItemStack(Blocks.OAK_LOG)
-                )
-        ));
-        pages.add(new RecipePage(
                 new SmeltingRecipe(
                         "",
                         CookingBookCategory.FOOD,

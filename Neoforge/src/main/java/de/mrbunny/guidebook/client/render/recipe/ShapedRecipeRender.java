@@ -23,8 +23,8 @@ public class ShapedRecipeRender extends CraftingRecipeRender<ShapedRecipe> {
             for ( int x = 0; x < this.recipe.getRecipeWidth(); x++ ) {
                 int i = y * this.recipe.getRecipeWidth() + x;
 
-                int stackX = (x + 1) * 17 + (pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 89) + x;
-                int stackY = (y + 1) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 58) + y;
+                int stackX = (x + 2) * 17 + (pScreen.getXOffset() + pScreen.getWidthSize() / 2 - 98) + x;
+                int stackY = (y + 2) * 17 + (pScreen.getYOffset() + pScreen.getHeightSize() / 2 - 68) + y;
 
                 Ingredient ingredient = this.recipe.getIngredients().get(i);
 

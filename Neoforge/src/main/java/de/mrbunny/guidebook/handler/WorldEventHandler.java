@@ -2,7 +2,9 @@ package de.mrbunny.guidebook.handler;
 
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.config.IConfigValue;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.cfg.ModConfigurations;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
@@ -17,14 +19,17 @@ public class WorldEventHandler {
 
     @SubscribeEvent
     public static void onPlayerJoinWorld (EntityJoinLevelEvent pEvent ) {
-        if (!pEvent.getEntity().getCommandSenderWorld().isClientSide && pEvent.getEntity() instanceof Player player) {
-            CompoundTag tag = getModTag(player, References.GUIDEBOOKAPI_ID);
-            if (ModConfigurations.COMMON.shouldSpawnWithBooks.get()) {
+        if ( !pEvent.getEntity().level().isClientSide && pEvent.getEntity() instanceof Player player ) {
+            CompoundTag moddedTag = getModTag(player, References.GUIDEBOOKAPI_ID);
+
+            if (ModConfigManager.COMMON.shouldSpawnWithBook.get()) {
+
                 for (IBook book : GuidebookAPI.getBooks().values()) {
-                    ModConfigSpec.ConfigValue<Boolean> bookSpawnConfig = ModConfigurations.COMMON.spawnBooks.get(book);
-                    if ((bookSpawnConfig == null || bookSpawnConfig.get()) && !tag.getBoolean("hasInitial" + book.getId().toString())) {
-                        ItemHandlerHelper.giveItemToPlayer(player, GuidebookAPI.getStackFromBook(book));
-                        tag.putBoolean("hasInitial" + book.getId().toString(), true);
+                    IConfigValue<Boolean> bookShouldSpawn = ModConfigManager.COMMON.spawnBooks.get(book);
+
+                    if ((bookShouldSpawn.get()) && !moddedTag.getBoolean("hasInitial" + book.getId().toString())) {
+                        player.getInventory().add(GuidebookAPI.getStackFromBook(book));
+                        moddedTag.putBoolean("hasInitial" + book.getId().toString(), true);
                     }
                 }
             }

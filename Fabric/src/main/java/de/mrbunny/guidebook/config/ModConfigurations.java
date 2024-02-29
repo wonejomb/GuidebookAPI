@@ -21,13 +21,13 @@ public class ModConfigurations {
 
     public static class ClientConfiguration extends ConfigProvider {
 
-        public IConfigValue<Integer> entryBetweenColor;
+        public IConfigValue<String> entryBetweenColor;
         public Map<IBook, IConfigValue<Integer>> bookColors = Maps.newHashMap();
 
         public void createConfigurations() {
-            this.entryBetweenColor = this.createConfig(new ConfigValueBuilder<Integer>("entryBetweenColor")
+            this.entryBetweenColor = this.createConfig(new ConfigValueBuilder<String>("entryBetweenColor")
                     .comment("The color of the entries when the mouse is between them")
-                    .defaultValue(ChatFormatting.BLUE.getColor()));
+                    .defaultValue(ChatFormatting.BLUE.getColor().toString()));
 
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 this.bookColors.put(book,

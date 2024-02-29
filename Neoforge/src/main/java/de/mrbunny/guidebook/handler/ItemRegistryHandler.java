@@ -3,6 +3,7 @@ package de.mrbunny.guidebook.handler;
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.item.GuidebookItem;
 import de.mrbunny.guidebook.util.APIUtils;
@@ -23,7 +24,7 @@ public class ItemRegistryHandler {
 
         AnnotationHandler.gatherBooks();
 
-        ModConfigurations.registerConfigurations();
+        ModConfigManager.setupConfigurations();
 
         for (IBook book : GuidebookAPI.getBooks().values()) {
             ResourceLocation id = new ResourceLocation(References.GUIDEBOOKAPI_ID, book.getId().toString().replace(":", "-"));

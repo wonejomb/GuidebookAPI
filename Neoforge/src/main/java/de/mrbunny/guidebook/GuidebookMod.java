@@ -3,6 +3,7 @@ package de.mrbunny.guidebook;
 import com.mojang.logging.LogUtils;
 import de.mrbunny.guidebook.api.proxy.IProxy;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.proxy.ClientProxy;
 import de.mrbunny.guidebook.proxy.CommonProxy;
@@ -29,12 +30,12 @@ public class GuidebookMod {
     }
 
     private void commonSetup (final FMLCommonSetupEvent pEvent) {
+        if (ModConfigManager.COMMON == null || ModConfigManager.CLIENT == null)
+            throw new NullPointerException("Client config can't be null or Common configurations can't be null in commonSetup phase");
+
         if (FMLLoader.getDist().isClient()) {
             CLIENT_PROXY = new ClientProxy();
         }
-
-        if (ModConfigurations.clientSpec == null || ModConfigurations.commonSpec == null)
-            throw new NullPointerException("Client configurations or Common configurations can't be null in commonSetup phase");
     }
 
     private void loadComplete (final FMLLoadCompleteEvent pEvent) {

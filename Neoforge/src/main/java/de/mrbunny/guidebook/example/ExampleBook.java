@@ -66,13 +66,14 @@ public class ExampleBook implements IGuidebook {
                         NonNullList.of(Ingredient.of(),
                                 Ingredient.of(Items.COBBLESTONE, Items.COBBLESTONE, Items.STICK)))
         ));
+
+        Map<Character, Ingredient> shapedRecipeExample = Map.of('#', Ingredient.of(Items.ACACIA_LOG));
+
         pages.add(new RecipePage(
                 new ShapedRecipe(
                         "test11",
                         CraftingBookCategory.EQUIPMENT,
-                        1,
-                        1,
-                        NonNullList.of(Ingredient.EMPTY, Ingredient.of(new ItemStack(Items.PUMPKIN))),
+                        ShapedRecipePattern.of(shapedRecipeExample, "###", "###", "###"),
                         new ItemStack(Blocks.OAK_LOG)
                 )
         ));

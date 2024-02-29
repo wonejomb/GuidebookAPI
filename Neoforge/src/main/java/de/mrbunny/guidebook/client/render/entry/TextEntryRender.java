@@ -3,6 +3,7 @@ package de.mrbunny.guidebook.client.render.entry;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.client.IModScreen;
 import de.mrbunny.guidebook.api.util.References;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.cfg.ModConfigurations;
 import de.mrbunny.guidebook.util.ScreenUtils;
 import net.minecraft.client.gui.Font;
@@ -22,7 +23,9 @@ public class TextEntryRender extends EntryRender {
     public void renderExtras(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookEntry pEntry, IModScreen pScreen, Font pFont) {
 
         if (ScreenUtils.isMouseBetween( pMouseX, pMouseY, pEntry.getX(), pEntry.getY(), pEntry.getWidth(), pEntry.getHeight() )) {
-            Color color = new Color(ModConfigurations.CLIENT.entryBetweenColor.get());
+            int entryBetweenColor = Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.entryBetweenColor.get()));
+
+            Color color = new Color(entryBetweenColor);
 
             float red = color.getRed() / 255.0F;
             float green = color.getGreen() / 255.0F;

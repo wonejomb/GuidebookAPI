@@ -3,77 +3,79 @@ package de.mrbunny.guidebook.cfg;
 import com.google.common.collect.Maps;
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
+import de.mrbunny.guidebook.api.config.IConfigValue;
+import de.mrbunny.guidebook.api.config.impl.ConfigProvider;
+import de.mrbunny.guidebook.api.config.impl.ConfigValueBuilder;
 import net.minecraft.ChatFormatting;
-import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.neoforge.common.ModConfigSpec;
-import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ModConfigurations {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModConfigurations.class);
 
-    public static ClientConfigurations CLIENT;
-    public static CommonConfigurations COMMON;
-    public static ModConfigSpec clientSpec;
-    public static ModConfigSpec commonSpec;
+    public static class ClientConfiguration extends ConfigProvider {
 
-    public static void registerConfigurations ( ) {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, clientSpec);
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, commonSpec);
-    }
+        public IConfigValue<String> entryBetweenColor;
+        public Map<IBook, IConfigValue<Integer>> bookColors = Maps.newHashMap();
 
-    public static class ClientConfigurations {
+        public void createConfigurations() {
+            this.entryBetweenColor = this.createConfig(new ConfigValueBuilder<String>("entryBetweenColor")
+                    .comment("The color of the entries when the mouse is between them")
+                    .defaultValue(ChatFormatting.BLUE.getColor().toString()));
 
-        public final ModConfigSpec.ConfigValue<Integer> entryBetweenColor;
-        public final Map<IBook, ModConfigSpec.ConfigValue<Integer>> bookColors = Maps.newHashMap();
-
-        public ClientConfigurations ( ModConfigSpec.@NotNull Builder pBuilder ) {
-            pBuilder.push("RenderConfiguration");
-
-            this.entryBetweenColor = pBuilder.comment("The color of the entries when the mouse is between them").defineInRange("entryHoverColor", ChatFormatting.BLUE.getColor(), 0, 16581375);
-
-            pBuilder.comment("The color of this book.");
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 this.bookColors.put(book,
-                        pBuilder.defineInRange(book.getId().getNamespace() + "-" + book.getId().getPath(), book.getColor().getRGB(),0, 16581375));
+                        this.createConfig(
+                                new ConfigValueBuilder<Integer>(book.getId().getNamespace() + "." + book.getId().getPath() + ".color")
+                                .comment("The color of this book")
+                                .defaultValue(book.getColor().getRGB())
+                        )
+                );
 
-            pBuilder.pop();
+        }
+
+        public void loadConfigurations() {
+            this.entryBetweenColor = this.getConfigByName("entryBetweenColor");
+
+            this.bookColors.clear();
+            for ( IBook book : GuidebookAPI.getBooks().values() )
+                this.bookColors.put(book, this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".color")
+                );
         }
 
     }
 
-    public static class CommonConfigurations {
+    public static class CommonConfiguration extends ConfigProvider {
 
-        public final ModConfigSpec.ConfigValue<Boolean> shouldSpawnWithBooks;
-        public final Map<IBook, ModConfigSpec.ConfigValue<Boolean>> spawnBooks = new HashMap<>();
+        public IConfigValue<Boolean> shouldSpawnWithBook;
+        public final Map<IBook, IConfigValue<Boolean>> spawnBooks = Maps.newHashMap();
 
-        public CommonConfigurations(ModConfigSpec.@NotNull Builder pBuilder ) {
-            pBuilder.push("SpawnConfigurations");
+        public void createConfigurations() {
+            this.shouldSpawnWithBook = this.createConfig(new ConfigValueBuilder<Boolean>("shouldSpawnWithBook")
+                    .comment("Allows books to spawn with new players, this is a global override for all books if set to false")
+                    .defaultValue(true)
+            );
 
-            this.shouldSpawnWithBooks = pBuilder.comment("Allows books to spawn with new players.\nThis is a global override for all books if set to false").define("shouldSpawnWithBooks", true);
-            pBuilder.comment("If the player should spawn with this book").push("spawnBook");
             for ( IBook book : GuidebookAPI.getBooks().values() )
                 spawnBooks.put(book,
-                        pBuilder.define(book.getId().getNamespace() + "-" + book.getId().getPath(), book.shouldSpawnWithBook()));
+                            this.createConfig(new ConfigValueBuilder<Boolean>(book.getId().getNamespace() + "." + book.getId().getPath() + ".spawn")
+                                    .comment("If the player should spawn with this book.")
+                                    .defaultValue(book.shouldSpawnWithBook()))
+                        );
 
-            pBuilder.pop();
-            pBuilder.pop();
         }
 
-    }
+        public void loadConfigurations() {
+            this.shouldSpawnWithBook = this.getConfigByName("shouldSpawnWithBook");
 
-    static {
-        Pair<ClientConfigurations, ModConfigSpec> clientCfgSpec = new ModConfigSpec.Builder().configure(ClientConfigurations::new);
-        clientSpec = clientCfgSpec.getRight();
-        CLIENT = clientCfgSpec.getLeft();
-    }
+            this.spawnBooks.clear();
+            for ( IBook book : GuidebookAPI.getBooks().values() )
+                this.spawnBooks.put(book,
+                        this.getConfigByName(book.getId().getNamespace() + "." + book.getId().getPath() + ".spawn")
+                );
+        }
 
-    static {
-        Pair<CommonConfigurations, ModConfigSpec> serverCfgSpec = new ModConfigSpec.Builder().configure(CommonConfigurations::new);
-        COMMON = serverCfgSpec.getLeft();
-        commonSpec = serverCfgSpec.getRight();
     }
 }

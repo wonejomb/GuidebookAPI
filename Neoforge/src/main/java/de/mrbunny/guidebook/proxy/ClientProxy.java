@@ -6,12 +6,10 @@ import de.mrbunny.guidebook.api.book.IBookItem;
 import de.mrbunny.guidebook.api.book.component.IBookCategory;
 import de.mrbunny.guidebook.api.book.component.IBookEntry;
 import de.mrbunny.guidebook.api.event.GuidebookEvent;
-import de.mrbunny.guidebook.cfg.ModConfigurations;
+import de.mrbunny.guidebook.cfg.ModConfigManager;
 import de.mrbunny.guidebook.client.screen.GuideEntryScreen;
 import de.mrbunny.guidebook.client.screen.GuideHomeScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -26,14 +24,17 @@ public class ClientProxy extends CommonProxy {
 
     @OnlyIn(Dist.CLIENT)
     public void initColors() {
-        for (Supplier<ItemStack> bookStack : GuidebookAPI.getBookToStack().values()) {
+        for ( Supplier<ItemStack> bookStack : GuidebookAPI.getBookToStack().values() ) {
+
             Minecraft.getInstance().getItemColors().register((stack, tint) -> {
-                IBookItem item = (IBookItem) stack.getItem();
+                IBookItem item = (IBookItem) bookStack.get().getItem();
+
                 if ( item.getBook(stack) != null && tint == 0 )
-                    return ModConfigurations.CLIENT.bookColors.get(item.getBook(stack)).get();
+                    return Integer.parseInt(String.valueOf(ModConfigManager.CLIENT.bookColors.get(item.getBook(stack)).get()));
 
                 return -1;
             }, bookStack.get().getItem());
+
         }
     }
 
