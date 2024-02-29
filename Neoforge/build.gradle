@@ -1,3 +1,5 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.96'
 }
@@ -29,4 +31,17 @@ subsystems {
         minecraftVersion = "1.20.3"
         mappingsVersion = "${parchmentVersion}"
     }
+}
+
+tasks.register("publishToCurseforgeNeoforgeVersion", TaskPublishCurseForge) {
+    dependsOn(tasks.jar)
+
+    apiToken = "${curseforgeToken}"
+    projectId = "${curseforgeProjectId}"
+
+    def mainFile = upload(projectId, jar)
+    mainFile.releaseType = "release"
+    mainFile.addGameVersion("${mc_version}")
+    mainFile.addModLoader("Neoforge")
+    mainFile.changelog = "Change cfg system"
 }

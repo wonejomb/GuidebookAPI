@@ -16,3 +16,6 @@ issueTrackerURL="https://github.com/JoulsMB/GuidebookAPI/issues"
         versionRange="${neo_version_range}"
         ordering="NONE"
         side="BOTH"
+
+[[mixins]]
+    config="guidebookapi.mixins.json"

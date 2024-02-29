@@ -30,6 +30,8 @@ public class GuidebookMod {
     }
 
     private void commonSetup (final FMLCommonSetupEvent pEvent) {
+        ModConfigManager.setupConfigurations();
+
         if (ModConfigManager.COMMON == null || ModConfigManager.CLIENT == null)
             throw new NullPointerException("Client config can't be null or Common configurations can't be null in commonSetup phase");
 

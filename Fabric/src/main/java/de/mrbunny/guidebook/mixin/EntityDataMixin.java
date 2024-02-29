@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class EntityDataMixin implements IEntityDataExtension {
+public class EntityDataMixin implements IEntityDataExtension {
     @Unique
     private CompoundTag persistentData;
 

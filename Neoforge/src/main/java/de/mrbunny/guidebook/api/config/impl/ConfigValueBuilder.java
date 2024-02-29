@@ -35,7 +35,7 @@ public final class ConfigValueBuilder<T> implements IConfigValueBuilder<T> {
         return this.defaultValue;
     }
 
-    public IConfigValue<T> build() {
+    public ConfigValue<T> build() {
         return this.comment == null ? new ConfigValue<>(this.key, this.defaultValue) : new ConfigValue<>(this.key, this.defaultValue, this.comment);
     }
 
