@@ -47,11 +47,13 @@ subprojects.forEach {sub ->
         it.options.encoding = 'UTF-8'
     }
 
-    sub.tasks.withType(Jar) {
-        from project(":CommonAPI").sourceSets.main.output
+    sub.tasks.withType(Jar).tap {
+        configureEach {
+            from project(":CommonAPI").sourceSets.main.output
 
-        from("LICENSE") {
-            rename { "${it}_${project.base.archivesName.get()}" }
+            from("LICENSE") {
+                rename { "${it}_${project.base.archivesName.get()}" }
+            }
         }
     }
 
