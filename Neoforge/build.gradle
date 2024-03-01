@@ -1,4 +1,5 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import net.darkhax.curseforgegradle.Constants as CFG_Constants
 
 plugins {
     id 'net.neoforged.gradle.userdev' version '7.0.96'
@@ -37,11 +38,12 @@ tasks.register("publishToCurseforgeNeoforgeVersion", TaskPublishCurseForge) {
     dependsOn(tasks.jar)
 
     apiToken = "${curseforgeToken}"
-    projectId = "${curseforgeProjectId}"
 
-    def mainFile = upload(projectId, jar)
-    mainFile.releaseType = "release"
-    mainFile.addGameVersion("${mc_version}")
-    mainFile.addModLoader("Neoforge")
+    var mainFile = upload(curseforgeProjectId, tasks.jar.getArchiveFile())
     mainFile.changelog = "Change cfg system"
+    mainFile.changelogType = CFG_Constants.CHANGELOG_TEXT
+    mainFile.releaseType = CFG_Constants.RELEASE_TYPE_RELEASE
+    mainFile.addGameVersion("${mc_version}")
+    mainFile.addModLoader("NeoForge")
+
 }

@@ -1,3 +1,6 @@
+import net.darkhax.curseforgegradle.Constants
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'fabric-loom' version '1.5-SNAPSHOT'
 }
@@ -40,4 +43,18 @@ loom {
 
         }
     }
+}
+
+tasks.register("publishToCurseforgeFabricVersion", TaskPublishCurseForge) {
+    dependsOn(tasks.remapJar)
+
+    apiToken = "${curseforgeToken}"
+
+    var mainFile = upload(curseforgeProjectId, tasks.remapJar.getArchiveFile())
+    mainFile.changelog = "Update version"
+    mainFile.changelogType = Constants.CHANGELOG_TEXT
+    mainFile.releaseType = Constants.RELEASE_TYPE_RELEASE
+    mainFile.addGameVersion("${mc_version}")
+    mainFile.addModLoader("Fabric")
+
 }
