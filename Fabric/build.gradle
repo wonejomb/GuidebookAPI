@@ -61,7 +61,7 @@ tasks.register("publishToCurseforgeFabricVersion", TaskPublishCurseForge) {
 }
 
 modrinth {
-    token = "mrp_r2LoPKuUaEeViOAeDLNB0oOh6WaOetj7B2nbKjkCxNLIn9QyKXFCKIEMchuw"
+    token = ""
     projectId = "STb5IL4E"
     versionName = "GuidebookAPI-Fabric"
     uploadFile = remapJar
