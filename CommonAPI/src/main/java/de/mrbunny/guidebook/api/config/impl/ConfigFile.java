@@ -3,7 +3,6 @@ package de.mrbunny.guidebook.api.config.impl;
 import de.mrbunny.guidebook.api.config.IConfigFile;
 import de.mrbunny.guidebook.api.config.IConfigProvider;
 import de.mrbunny.guidebook.api.config.IConfigValue;
-import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -17,9 +16,8 @@ public class ConfigFile implements IConfigFile {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("GuidebookAPI/ConfigFile");
 
-    public static IConfigFile of(String pFileName) {
-        File configFileDir = FabricLoader.getInstance().getConfigDir().toFile();
-        File configFile = new File(configFileDir, pFileName + ".properties");
+    public static IConfigFile of(File pConfigDir, String pFileName) {
+        File configFile = new File(pConfigDir, pFileName + ".properties");
 
         return new ConfigFile(pFileName, configFile);
     }

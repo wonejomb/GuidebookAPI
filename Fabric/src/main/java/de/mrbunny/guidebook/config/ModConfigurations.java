@@ -3,17 +3,13 @@ package de.mrbunny.guidebook.config;
 import com.google.common.collect.Maps;
 import de.mrbunny.guidebook.api.GuidebookAPI;
 import de.mrbunny.guidebook.api.book.IBook;
-import de.mrbunny.guidebook.api.config.IConfigProvider;
 import de.mrbunny.guidebook.api.config.IConfigValue;
-import de.mrbunny.guidebook.api.config.IConfigValueBuilder;
 import de.mrbunny.guidebook.api.config.impl.ConfigProvider;
-import de.mrbunny.guidebook.api.config.impl.ConfigValue;
 import de.mrbunny.guidebook.api.config.impl.ConfigValueBuilder;
 import net.minecraft.ChatFormatting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ModConfigurations {

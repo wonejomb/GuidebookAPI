@@ -29,7 +29,7 @@ public final class ConfigValue<T> implements IConfigValue<T> {
     }
 
     public T get() {
-        return this.value;
+        return this.value == null ? this.defaultValue : this.value;
     }
 
     public T getDefaultValue() {
