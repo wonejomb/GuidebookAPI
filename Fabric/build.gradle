@@ -3,6 +3,7 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id 'fabric-loom' version '1.5-SNAPSHOT'
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 repositories {
@@ -23,7 +24,7 @@ dependencies {
 
     mappings loom.layered {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
+//        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
     }
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
@@ -57,4 +58,17 @@ tasks.register("publishToCurseforgeFabricVersion", TaskPublishCurseForge) {
     mainFile.addGameVersion("${mc_version}")
     mainFile.addModLoader("Fabric")
 
+}
+
+modrinth {
+    token = "mrp_r2LoPKuUaEeViOAeDLNB0oOh6WaOetj7B2nbKjkCxNLIn9QyKXFCKIEMchuw"
+    projectId = "STb5IL4E"
+    versionName = "GuidebookAPI-Fabric"
+    uploadFile = remapJar
+    gameVersions = ["1.20.4"]
+    loaders = ["fabric"]
+
+    dependencies {
+        required.project 'fabric-api'
+    }
 }

@@ -2,6 +2,7 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import net.darkhax.curseforgegradle.Constants as CFG_Constants
 
 plugins {
+    id 'com.modrinth.minotaur' version '2.+'
     id 'net.neoforged.gradle.userdev' version '7.0.96'
 }
 
@@ -46,4 +47,13 @@ tasks.register("publishToCurseforgeNeoforgeVersion", TaskPublishCurseForge) {
     mainFile.addGameVersion("${mc_version}")
     mainFile.addModLoader("NeoForge")
 
+}
+
+modrinth {
+    token = "mrp_r2LoPKuUaEeViOAeDLNB0oOh6WaOetj7B2nbKjkCxNLIn9QyKXFCKIEMchuw"
+    projectId = "STb5IL4E"
+    versionName = "GuidebookAPI-Neoforge"
+    uploadFile = jar
+    gameVersions = ["1.20.4"]
+    loaders = ["neoforge"]
 }

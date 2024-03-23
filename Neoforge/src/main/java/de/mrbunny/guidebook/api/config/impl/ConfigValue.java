@@ -28,10 +28,6 @@ public final class ConfigValue<T> implements IConfigValue<T> {
         return this.comment;
     }
 
-    public T getOrDefault(String pKey, T pDefaultValue) {
-        return this.defaultValue;
-    }
-
     public T get() {
         return this.value;
     }

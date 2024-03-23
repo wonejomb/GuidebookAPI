@@ -7,7 +7,6 @@ public interface IConfigValue<T> extends Supplier<T> {
     String getKey ();
     String getComment ();
 
-    T getOrDefault ( String pKey, T pDefaultValue );
     T get ();
     T getDefaultValue  ();
 

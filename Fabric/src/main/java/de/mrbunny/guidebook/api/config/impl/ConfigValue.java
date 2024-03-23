@@ -1,5 +1,6 @@
 package de.mrbunny.guidebook.api.config.impl;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.mrbunny.guidebook.api.config.IConfigValue;
 import org.slf4j.LoggerFactory;
 
@@ -33,12 +34,8 @@ public final class ConfigValue<T> implements IConfigValue<T> {
         return this.comment;
     }
 
-    public T getOrDefault(String pKey, T pDefaultValue) {
-        return this.defaultValue;
-    }
-
     public T get() {
-        return this.value;
+        return this.value == null ? this.defaultValue : this.value;
     }
 
     public T getDefaultValue() {
