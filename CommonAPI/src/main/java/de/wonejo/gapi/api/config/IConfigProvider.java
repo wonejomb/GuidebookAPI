@@ -2,7 +2,6 @@ package de.wonejo.gapi.api.config;
 
 import de.wonejo.gapi.api.util.Id;
 
-import java.net.IDN;
 import java.util.Map;
 
 public interface IConfigProvider {
