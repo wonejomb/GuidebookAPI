@@ -19,7 +19,7 @@ public class ConfigFile implements IConfigFile {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("Config");
 
-    public static IConfigFile file (Path pConfigPath, String pFilename ) {
+    public static ConfigFile of (Path pConfigPath, String pFilename ) {
         File configFile = new File(pConfigPath.toFile(), pFilename);
         return new ConfigFile(configFile, pFilename);
     }
@@ -30,7 +30,7 @@ public class ConfigFile implements IConfigFile {
     private IConfigProvider provider;
     private boolean broken = false;
 
-    public ConfigFile ( File pConfigFile, String pFileName ) {
+    private ConfigFile ( File pConfigFile, String pFileName ) {
         this.configFile = pConfigFile;
         this.fileName = pFileName;
     }

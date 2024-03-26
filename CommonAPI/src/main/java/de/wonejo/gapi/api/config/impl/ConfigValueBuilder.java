@@ -1,6 +1,5 @@
 package de.wonejo.gapi.api.config.impl;
 
-import de.wonejo.gapi.api.config.IConfigValue;
 import de.wonejo.gapi.api.config.IConfigValueBuilder;
 
 public final class ConfigValueBuilder<T> implements IConfigValueBuilder<T> {

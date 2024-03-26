@@ -3,7 +3,6 @@ package de.wonejo.gapi.api.config.impl;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
-import de.wonejo.gapi.api.config.IConfigValueBuilder;
 import de.wonejo.gapi.api.util.Id;
 
 import java.util.Map;
@@ -14,9 +13,13 @@ public abstract class ConfigProvider implements IConfigProvider {
 
     public abstract void buildConfigurations();
 
+    public <T> IConfigValue<T> createConfig ( String pKey, T pDefaultValue ) {
+        return this.createConfig(pKey, "", pDefaultValue);
+    }
+
     @SuppressWarnings("unchecked")
     public <T> IConfigValue<T> createConfig(String pKey, String pComment, T pDefaultValue) {
-        IConfigValue<T> value = (IConfigValue<T>) ConfigValueBuilder.of(pKey).comment(pComment).defaultValue(pDefaultValue);
+        ConfigValue<T> value = (ConfigValue<T>) ConfigValueBuilder.of(pKey).comment(pComment).defaultValue(pDefaultValue).build();
         this.configurations.put(new Id<>(pKey), value);
         return value;
     }
