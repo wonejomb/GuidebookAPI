@@ -98,7 +98,6 @@ public class BookRegistry {
     }
 
     public static @NotNull @Unmodifiable Map<ResourceLocation, IBook> getLoadedBooks () {
-        parseAllBooks(Minecraft.getInstance().getResourceManager());
         return ImmutableMap.copyOf(LOADED_BOOKS);
     }
 
