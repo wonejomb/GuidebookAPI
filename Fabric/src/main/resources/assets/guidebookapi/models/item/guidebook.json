@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "guidebookapi:item/book_grayscale",
-    "layer1": "guidebookapi:item/book_pages"
-  }
-}

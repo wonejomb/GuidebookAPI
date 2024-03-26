@@ -2,12 +2,12 @@ plugins {
     id 'java-library'
     id 'com.modrinth.minotaur' version '2.+'
     id 'net.darkhax.curseforgegradle' version '1.1.18'
-    id 'idea'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 group = "${mod_group}"
 version = "${mod_version}"
+
 
 subprojects.forEach {sub ->
     sub.apply plugin: 'java-library'

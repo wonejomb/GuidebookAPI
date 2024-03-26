@@ -1,9 +1,0 @@
-1.0.3:
-    - Deleted classes like GuidebookAPI, @Guidebook and IGuidebook for errors
-1.0.2:
-    - Modified book component render values, now they get a IModScreen parameter
-1.0.1:
-    - Created IPageRender, IEntryRender and ICategoryRender.
-    - Delete guide recipes.
-1.0.0:
-    - Created CommonAPI
