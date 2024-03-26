@@ -12,6 +12,8 @@ public interface IBook {
     Component itemName ();
     Component author ();
 
+    boolean shouldSpawnWithBook ();
+
     Color color ();
 
 }
