@@ -1,8 +1,6 @@
 package de.wonejo.gapi.api.registry.data;
 
 import de.wonejo.gapi.api.IGuidebook;
-import de.wonejo.gapi.api.util.Constants;
-import net.minecraft.resources.ResourceLocation;
 
 public final class BookData {
 
