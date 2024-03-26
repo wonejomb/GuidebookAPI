@@ -2,20 +2,15 @@ package de.wonejo.gapi.api.registry;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookBuilder;
 import de.wonejo.gapi.api.registry.data.BookData;
 import de.wonejo.gapi.api.registry.json.adapter.BookDataTypeAdapter;
 import de.wonejo.gapi.api.registry.json.adapter.ListBookDataTypeAdapter;
 import de.wonejo.gapi.api.util.Constants;
-import de.wonejo.gapi.api.util.Id;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -29,7 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class BookRegistry {

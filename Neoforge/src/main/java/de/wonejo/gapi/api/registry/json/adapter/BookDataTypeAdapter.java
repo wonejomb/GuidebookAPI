@@ -6,7 +6,6 @@ import com.google.gson.stream.JsonWriter;
 import de.wonejo.gapi.api.registry.data.BookData;
 
 import java.io.IOException;
-import java.util.List;
 
 public final class BookDataTypeAdapter extends TypeAdapter<BookData> {
 
