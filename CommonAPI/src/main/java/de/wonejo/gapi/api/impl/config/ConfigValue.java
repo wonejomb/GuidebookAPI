@@ -1,4 +1,4 @@
-package de.wonejo.gapi.api.config.impl;
+package de.wonejo.gapi.api.impl.config;
 
 import de.wonejo.gapi.api.config.IConfigValue;
 

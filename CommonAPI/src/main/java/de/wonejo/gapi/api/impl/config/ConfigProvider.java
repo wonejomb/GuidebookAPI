@@ -1,4 +1,4 @@
-package de.wonejo.gapi.api.config.impl;
+package de.wonejo.gapi.api.impl.config;
 
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.config.IConfigProvider;

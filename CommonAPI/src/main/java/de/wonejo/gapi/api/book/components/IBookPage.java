@@ -7,5 +7,6 @@ public interface IBookPage extends BookAccessible {
 
     void init ();
 
-    default IPageRender render () { return (IPageRender) this; }
+    IPageRender render ();
+
 }

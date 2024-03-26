@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -19,7 +20,7 @@ public interface IBookBuilder {
     IBookBuilder subHeader ( Component pHeader );
     IBookBuilder itemName ( Component pItemName );
     IBookBuilder author ( Component pAuthor );
-    IBookBuilder contentProvider (Consumer<Map<ResourceLocation, IBookCategory>> pContentProvider);
+    IBookBuilder contentProvider (Consumer<List<IBookCategory>> pContentProvider);
 
 
     IBook build ();
