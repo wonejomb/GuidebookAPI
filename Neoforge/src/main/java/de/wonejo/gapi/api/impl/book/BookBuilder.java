@@ -4,6 +4,7 @@ import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookBuilder;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.util.Constants;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,7 +25,7 @@ public final class BookBuilder implements IBookBuilder {
     private Component itemName;
     private Component author;
     private boolean shouldSpawnWithBook = false;
-    private Color color = new Color(128, 88, 66);
+    private Color color = new Color(255, 128, 26);
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
@@ -84,7 +85,7 @@ public final class BookBuilder implements IBookBuilder {
             this.itemName = this.title;
 
         if ( this.author == null )
-            this.author = Component.translatable("text.gapi.unknown");
+            this.author = Component.translatable("text.gapi.author.unknown").withColor(ChatFormatting.AQUA.getColor());
 
         if ( this.contentProvider == null )
             throw new IllegalStateException("Content provider can't be null");
