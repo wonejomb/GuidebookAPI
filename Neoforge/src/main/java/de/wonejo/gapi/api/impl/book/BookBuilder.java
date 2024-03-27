@@ -18,6 +18,10 @@ public final class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
 
+    private ResourceLocation topTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/top_texture.png");
+    private ResourceLocation pagesTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/pages_texture.png");
+    private ResourceLocation modelLocation = new ResourceLocation(Constants.MOD_ID, "guidebook");
+
     private Consumer<List<IBookCategory>> contentProvider;
     private Component title;
     private Component header;
@@ -29,6 +33,21 @@ public final class BookBuilder implements IBookBuilder {
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
+    }
+
+    public IBookBuilder topTexture(ResourceLocation pId) {
+        this.topTexture = pId;
+        return this;
+    }
+
+    public IBookBuilder pagesTexture(ResourceLocation pPageTextures) {
+        this.pagesTexture = pPageTextures;
+        return this;
+    }
+
+    public IBookBuilder model(ResourceLocation pModelLocation) {
+        this.modelLocation = pModelLocation;
+        return this;
     }
 
     public IBookBuilder color(Color pColor) {
@@ -90,6 +109,9 @@ public final class BookBuilder implements IBookBuilder {
         if ( this.contentProvider == null )
             throw new IllegalStateException("Content provider can't be null");
 
-        return new Book(id, this.color, this.title, this.header, this.subHeader, this.itemName, this.author, this.shouldSpawnWithBook, this.contentProvider);
+        return new Book(id,
+                this.color, this.title, this.header, this.subHeader, this.itemName, this.author,
+                this.topTexture, this.pagesTexture, this.modelLocation
+                ,this.shouldSpawnWithBook, this.contentProvider);
     }
 }

@@ -30,8 +30,6 @@ public class ModRegistryHandler {
 
         BookRegistry.registerAllBooks();
 
-        LogManager.getLogger().debug("################ THERE IS A TOTAL OF: {} GUIDES FOR REGISTER", BookRegistry.getLoadedBooks().size());
-
         for (IBook book : BookRegistry.getLoadedBooks().values()) {
             ResourceLocation id = new ResourceLocation(Constants.MOD_ID, book.id().toString().replace(":", "."));
             pEvent.register(Registries.ITEM, id, ()-> new BookItem(book));

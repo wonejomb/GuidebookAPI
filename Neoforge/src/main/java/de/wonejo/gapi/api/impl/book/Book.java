@@ -2,9 +2,11 @@ package de.wonejo.gapi.api.impl.book;
 
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.util.Constants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.List;
@@ -13,6 +15,11 @@ import java.util.function.Consumer;
 public final class Book implements IBook {
 
     private final ResourceLocation id;
+
+    private final ResourceLocation topTexture;
+    private final ResourceLocation pagesTexture;
+    private final ResourceLocation modelLocation;
+
 
     private boolean init;
 
@@ -30,7 +37,12 @@ public final class Book implements IBook {
 
     public Book ( ResourceLocation pId, Color pColor,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
+                  ResourceLocation pTopTexture, ResourceLocation pPagesTexture, ResourceLocation pModelLocation,
                   boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider ) {
+
+        this.topTexture = pTopTexture;
+        this.pagesTexture = pPagesTexture;
+        this.modelLocation = pModelLocation;
 
         this.id = pId;
         this.color = pColor;
@@ -52,6 +64,18 @@ public final class Book implements IBook {
 
     public ResourceLocation id() {
         return this.id;
+    }
+
+    public ResourceLocation topTexture() {
+        return this.topTexture;
+    }
+
+    public ResourceLocation pagesTexture() {
+        return this.pagesTexture;
+    }
+
+    public ResourceLocation modelLocation() {
+        return this.modelLocation;
     }
 
     public Component title() {

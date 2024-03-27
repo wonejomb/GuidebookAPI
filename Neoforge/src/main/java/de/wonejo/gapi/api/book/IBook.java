@@ -13,6 +13,10 @@ public interface IBook {
 
     ResourceLocation id ();
 
+    ResourceLocation topTexture ();
+    ResourceLocation pagesTexture ();
+    ResourceLocation modelLocation ();
+
     Component title ();
     Component header ();
     Component subHeader ();

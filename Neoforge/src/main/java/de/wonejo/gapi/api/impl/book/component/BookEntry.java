@@ -2,49 +2,62 @@ package de.wonejo.gapi.api.impl.book.component;
 
 import de.wonejo.gapi.api.book.components.IBookEntry;
 import de.wonejo.gapi.api.book.components.IBookPage;
+import de.wonejo.gapi.api.client.render.IEntryRender;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.apache.commons.compress.utils.Lists;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BookEntry implements IBookEntry {
-    @Override
-    public ResourceLocation entryId() {
-        return null;
+
+    private final List<IBookPage> pages = Lists.newArrayList();
+
+    private final ResourceLocation id;
+    private final Component name;
+    private final IEntryRender render;
+
+    public BookEntry ( ResourceLocation pId, Component pName, IEntryRender pRender ) {
+        this.id = pId;
+        this.name = pName;
+        this.render = pRender;
     }
 
-    @Override
-    public Component name() {
-        return null;
-    }
-
-    @Override
-    public List<IBookPage> pages() {
-        return null;
-    }
-
-    @Override
     public void init() {
 
     }
 
-    @Override
     public void addPage(IBookPage pPage) {
-
+        this.pages.add(pPage);
     }
 
-    @Override
     public void addPages(List<IBookPage> pPages) {
-
+        this.pages.addAll(pPages);
     }
 
-    @Override
     public void addPages(IBookPage... pPages) {
-
+        this.pages.addAll(Arrays.asList(pPages));
     }
 
-    @Override
     public IBookPage getPage(int pIndex) {
-        return null;
+        return this.pages.get(pIndex);
     }
+
+    public ResourceLocation entryId() {
+        return this.id;
+    }
+
+    public Component name() {
+        return this.name;
+    }
+
+    public List<IBookPage> pages() {
+        return this.pages;
+    }
+
+    public IEntryRender render() {
+        return this.render;
+    }
+
 }

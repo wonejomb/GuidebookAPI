@@ -1,6 +1,5 @@
 package de.wonejo.gapi.api.registry;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.GuidebookAPI;
@@ -12,8 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforgespi.language.ModFileScanData;
-import org.apache.commons.compress.utils.Lists;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.objectweb.asm.Type;
@@ -27,8 +24,6 @@ import java.util.function.Supplier;
 public class BookRegistry {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BookRegistry.class);
-
-    private static final List<Pair<IBook, IGuidebook>> BOOKS = Lists.newArrayList();
 
     private static final Map<ResourceLocation, IBook> LOADED_BOOKS = Maps.newHashMap();
     private static final Map<IBook, Supplier<ItemStack>> BOOK_TO_STACK = Maps.newHashMap();
@@ -54,7 +49,6 @@ public class BookRegistry {
                 IBook book = guide.build().build();
                 if ( book == null ) continue;
                 LOADED_BOOKS.put(book.id(), book);
-                BOOKS.add(Pair.of(book, guide));
             } catch (Exception pException) {
                 LOGGER.error("Error in register book for class: {}", data.clazz().getClassName());
             }
@@ -74,10 +68,6 @@ public class BookRegistry {
 
     public static @NotNull @Unmodifiable Map<ResourceLocation, IBook> getLoadedBooks () {
         return ImmutableMap.copyOf(LOADED_BOOKS);
-    }
-
-    public static List<Pair<IBook, IGuidebook>> getBooks() {
-        return ImmutableList.copyOf(BOOKS);
     }
 
     public static Map<IBook, Supplier<ItemStack>> getBookToStack() {

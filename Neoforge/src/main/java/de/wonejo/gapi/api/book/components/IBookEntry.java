@@ -1,5 +1,6 @@
 package de.wonejo.gapi.api.book.components;
 
+import de.wonejo.gapi.api.client.render.IEntryRender;
 import de.wonejo.gapi.api.util.BookAccessible;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,7 @@ public interface IBookEntry extends BookAccessible {
     ResourceLocation entryId ();
     Component name ();
     List<IBookPage> pages ();
+    IEntryRender render ();
 
 
     void init ();

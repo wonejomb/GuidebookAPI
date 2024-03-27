@@ -19,8 +19,8 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void onRegisterModel (ModelEvent.RegisterAdditional pEvent) {
-        for ( Pair<IBook, IGuidebook> guide : BookRegistry.getBooks() ) {
-            ResourceLocation id = guide.getRight().getModelLocation();
+        for ( IBook book : BookRegistry.getLoadedBooks().values() ) {
+            ResourceLocation id = book.modelLocation();
 
             if ( id != null )
                 pEvent.register(new ModelResourceLocation(id, "inventory"));
@@ -29,12 +29,12 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void onBakeModel (ModelEvent.ModifyBakingResult pEvent) {
-        for  (Pair<IBook, IGuidebook> guide : BookRegistry.getBooks()) {
-            ResourceLocation id = guide.getRight().getModelLocation();
+        for  ( IBook book : BookRegistry.getLoadedBooks().values() ) {
+            ResourceLocation id = book.modelLocation();
 
             if (id != null) {
                 ModelResourceLocation newModel = new ModelResourceLocation(id, "inventory");
-                Item item = BookRegistry.getBookItem(guide.getLeft()).getItem();
+                Item item = BookRegistry.getBookItem(book).getItem();
                 ModelResourceLocation oldModel = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), "inventory");
                 BakedModel model = pEvent.getModels().get(newModel);
 
