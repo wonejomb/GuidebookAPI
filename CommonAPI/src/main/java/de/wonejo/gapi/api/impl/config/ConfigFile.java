@@ -20,7 +20,7 @@ public class ConfigFile implements IConfigFile {
     private static final Logger LOGGER = LoggerFactory.getLogger("Config");
 
     public static ConfigFile of (Path pConfigPath, String pFilename ) {
-        File configFile = new File(pConfigPath.toFile(), pFilename);
+        File configFile = new File(pConfigPath.toFile(), pFilename + ".properties");
         return new ConfigFile(configFile, pFilename);
     }
 
