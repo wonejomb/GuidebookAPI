@@ -2,31 +2,41 @@ plugins {
     id 'java-library'
     id 'com.modrinth.minotaur' version '2.+'
     id 'net.darkhax.curseforgegradle' version '1.1.18'
+    id 'idea'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 group = "${mod_group}"
 version = "${mod_version}"
 
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
+}
 
-subprojects.forEach {sub ->
-    sub.apply plugin: 'java-library'
+tasks.withType(JavaCompile) {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
 
-    sub.group = "${group}"
-    sub.version = "${version}"
-    sub.base.archivesName = "GuidebookAPI-${sub.name}"
 
-    sub.java {
+subprojects {
+    apply plugin: 'java-library'
 
-        withSourcesJar ()
+    group = "${project.group}"
+    version = "${project.version}"
+
+    java {
+        withSourcesJar()
 
         toolchain.languageVersion = JavaLanguageVersion.of(17)
-
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    sub.tasks.withType(ProcessResources).configureEach {
+    tasks.withType(JavaCompile) {
+        options.release = 17
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.withType(ProcessResources).configureEach {
         var replaceProperties = [
                 neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_version_range,
 
@@ -42,16 +52,14 @@ subprojects.forEach {sub ->
         }
     }
 
-    sub.tasks.withType(JavaCompile).configureEach {
+    tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
         it.options.encoding = 'UTF-8'
     }
 
-    sub.tasks.withType(Jar).tap {
+    tasks.withType(Jar).tap {
         configureEach {
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-            from project(":CommonAPI").sourceSets.main.output
 
             from("LICENSE") {
                 rename { "${it}_${project.base.archivesName.get()}" }

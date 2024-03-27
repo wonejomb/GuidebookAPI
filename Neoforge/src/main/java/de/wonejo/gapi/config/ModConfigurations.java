@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class ModConfigurations {
 
-    private static final ConfigFile COMMON_CONFIG_FILE = ConfigFile.of(FMLPaths.CONFIGDIR.get(), "GuidebookApi-Common");
-    private static final ConfigFile CLIENT_CONFIG_FILE = ConfigFile.of(FMLPaths.CONFIGDIR.get(), "GuidebookApi-Client");
+    private static final ConfigFile COMMON_CONFIG_FILE = ConfigFile.of(FMLPaths.CONFIGDIR.get(), "GuidebookApi_Common");
+    private static final ConfigFile CLIENT_CONFIG_FILE = ConfigFile.of(FMLPaths.CONFIGDIR.get(), "GuidebookApi_Client");
 
     public static final CommonConfigurations COMMON = new CommonConfigurations();
     public static final ClientConfigurations CLIENT = new ClientConfigurations();
@@ -53,7 +53,7 @@ public class ModConfigurations {
             for ( Map.Entry<ResourceLocation, IBook> book : BookRegistry.getLoadedBooks().entrySet() )
                 this.bookColors.put(book.getValue(),
                             this.createConfig(
-                                    "bookColor.%s".formatted(book.getKey().getPath()),
+                                    "bookColor.%s.%s".formatted(book.getKey().getNamespace(), book.getKey().getPath()),
                                     "Define the color of the book: %s".formatted(book.getKey().getPath()),
                                     book.getValue().color().getRGB()
                             )
@@ -76,7 +76,7 @@ public class ModConfigurations {
             for ( Map.Entry<ResourceLocation, IBook> bookEntry : BookRegistry.getLoadedBooks().entrySet() )
                 this.spawnBooks.add(
                         this.createConfig(
-                                "spawn.%s".formatted(bookEntry.getKey().getPath()),
+                                "spawn.%s.%s".formatted(bookEntry.getKey().getNamespace(), bookEntry.getKey().getPath()),
                                 "Define if player should spawn with book: %s. This config apply only to that book. (%s)".formatted(bookEntry.getKey().getPath(), bookEntry.getKey().getPath()),
                             bookEntry.getValue().shouldSpawnWithBook()
                 ));

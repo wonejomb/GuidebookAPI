@@ -1,74 +1,22 @@
-import net.darkhax.curseforgegradle.Constants
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
-
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT'
     id 'com.modrinth.minotaur' version '2.+'
+    id 'fabric-loom' version '1.5-SNAPSHOT'
 }
 
 repositories {
-    exclusiveContent {
-        forRepository {
-            maven {
-                url = 'https://maven.parchmentmc.org'
-            }
-        }
-        filter {
-            includeGroup "org\\.parchmentmc.*"
-        }
+    maven {
+        url 'https://maven.parchmentmc.org'
     }
 }
 
 dependencies {
-    minecraft group: 'com.mojang', name: 'minecraft', version: "${mc_version}"
+    minecraft "com.mojang:minecraft:${mc_version}"
 
     mappings loom.layered {
         officialMojangMappings()
-//        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
+        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
     }
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-
-    implementation project(":CommonAPI")
-}
-
-loom {
-    runs {
-        named("client") {
-
-            client()
-            configName = "Fabric Client"
-            ideConfigGenerated(true)
-            runDir("run/client")
-
-        }
-    }
-}
-
-tasks.register("publishToCurseforgeFabricVersion", TaskPublishCurseForge) {
-    dependsOn(tasks.remapJar)
-
-    apiToken = "${curseforgeToken}"
-
-    var mainFile = upload(curseforgeProjectId, tasks.remapJar.getArchiveFile())
-    mainFile.changelog = "Update version"
-    mainFile.changelogType = Constants.CHANGELOG_TEXT
-    mainFile.releaseType = Constants.RELEASE_TYPE_RELEASE
-    mainFile.addGameVersion("${mc_version}")
-    mainFile.addModLoader("Fabric")
-
-}
-
-modrinth {
-    token = ""
-    projectId = "STb5IL4E"
-    versionName = "GuidebookAPI-Fabric"
-    uploadFile = remapJar
-    gameVersions = ["1.20.4"]
-    loaders = ["fabric"]
-
-    dependencies {
-        required.project 'fabric-api'
-    }
 }

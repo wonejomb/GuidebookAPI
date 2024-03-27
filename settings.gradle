@@ -12,6 +12,5 @@ pluginManagement {
 
 }
 
-include 'CommonAPI'
 include 'Neoforge'
 include 'Fabric'
