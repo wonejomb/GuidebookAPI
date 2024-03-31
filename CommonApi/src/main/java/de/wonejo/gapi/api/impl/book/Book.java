@@ -3,11 +3,9 @@ package de.wonejo.gapi.api.impl.book;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookInformation;
 import de.wonejo.gapi.api.book.components.IBookCategory;
-import de.wonejo.gapi.api.util.Constants;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.List;

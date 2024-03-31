@@ -1,7 +1,6 @@
 package de.wonejo.gapi.api.book;
 
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
 
 public interface IBookInformationBuilder {
 

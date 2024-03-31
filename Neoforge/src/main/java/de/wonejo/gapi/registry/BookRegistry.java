@@ -1,4 +1,4 @@
-package de.wonejo.gapi.api.registry;
+package de.wonejo.gapi.registry;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;

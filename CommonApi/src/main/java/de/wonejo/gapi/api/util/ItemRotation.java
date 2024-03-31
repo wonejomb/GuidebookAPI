@@ -3,7 +3,6 @@ package de.wonejo.gapi.api.util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.Random;
@@ -14,7 +13,7 @@ public class ItemRotation {
     private long lastCycle = -1;
     private int cycleIdx = 0;
 
-    public Optional<ItemStack> cycleIngredientStack (@NotNull Ingredient pIngredient, int pIndex) {
+    public Optional<ItemStack> cycleIngredientStack ( Ingredient pIngredient, int pIndex) {
         ItemStack[] stacks = pIngredient.getItems();
         if ( stacks.length > 0 ) {
             this.random.setSeed(pIndex);
@@ -25,7 +24,7 @@ public class ItemRotation {
         return Optional.empty();
     }
 
-    public void tick (@NotNull Minecraft pMinecraft) {
+    public void tick ( Minecraft pMinecraft) {
         long time = pMinecraft.level != null ? pMinecraft.level.getGameTime() : 0;
 
         if ( time < 0 || this.lastCycle < time - 20 ) {

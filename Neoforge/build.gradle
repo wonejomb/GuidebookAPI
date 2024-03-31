@@ -1,53 +1,42 @@
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
-import net.darkhax.curseforgegradle.Constants as CFG_Constants
-
 plugins {
-    id 'com.modrinth.minotaur' version '2.+'
-    id 'net.neoforged.gradle.userdev' version '7.0.96'
+    id 'net.neoforged.gradle.vanilla' version '7.0.102' apply false
+    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.102'
+}
+
+sourceSets {
+    main {
+        compileClasspath += project(":CommonApi").sourceSets.main.output
+        runtimeClasspath += project(":CommonApi").sourceSets.main.output
+    }
+}
+
+var notNeoTask = { Task task -> !task.name.startsWith("neo") }
+
+tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
+    source project(":CommonApi").sourceSets.main.getAllSource ()
+}
+
+dependencies  {
+    implementation "net.neoforged:neoforge:${neo_version}"
+    runtimeOnly project(":CommonApi")
 }
 
 runs {
-
     client {
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
-        systemProperty 'forge.enabledGameTestNamespaces', "${project.mod_id}"
+        systemProperty('forge.logging.console.level', 'debug')
+        systemProperty('forge.enableGameTestNamespaces', "${project.mod_id}")
 
-        modSource project.sourceSets.main
+        modSources(
+                [sourceSets.main,
+                 project(":CommonApi").sourceSets.main]
+        )
     }
-
-}
-
-dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
 }
 
 subsystems {
     parchment {
-        minecraftVersion = "1.20.3"
+        minecraftVersion = "${parchment_mc_version}"
         mappingsVersion = "${parchmentVersion}"
     }
-}
-
-tasks.register("publishToCurseforgeNeoforgeVersion", TaskPublishCurseForge) {
-    dependsOn(tasks.jar)
-
-    apiToken = ""
-
-    var mainFile = upload(curseforgeProjectId, tasks.jar.getArchiveFile())
-    mainFile.changelog = "Change cfg system"
-    mainFile.changelogType = CFG_Constants.CHANGELOG_TEXT
-    mainFile.releaseType = CFG_Constants.RELEASE_TYPE_RELEASE
-    mainFile.addGameVersion("${mc_version}")
-    mainFile.addModLoader("NeoForge")
-
-}
-
-modrinth {
-    token = ""
-    projectId = "STb5IL4E"
-    versionName = "GuidebookAPI-Neoforge"
-    uploadFile = jar
-    gameVersions = ["1.20.4"]
-    loaders = ["neoforge"]
 }

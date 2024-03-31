@@ -1,47 +1,40 @@
 plugins {
+    id 'net.neoforged.gradle.vanilla' version '7.0.102' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.102' apply false
+    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
+
     id 'java-library'
-    id 'com.modrinth.minotaur' version '2.+'
     id 'net.darkhax.curseforgegradle' version '1.1.18'
-    id 'idea'
+    id 'com.modrinth.minotaur' version '2.+'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 group = "${mod_group}"
-version = "${mod_version}"
+version = "${mc_version}.${mod_version}-${mod_version_type}"
 
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(17)
-}
+subprojects.forEach {
+    it.plugins.apply 'java-library'
 
-tasks.withType(JavaCompile) {
-    options.release = 17
-    options.encoding = 'UTF-8'
-}
+    it.group = "${project.group}"
+    it.version = "${project.version}-${it.name}"
+    it.base.archivesName = "GuidebookApi-${it.name}"
 
-
-subprojects {
-    apply plugin: 'java-library'
-
-    group = "${project.group}"
-    version = "${project.version}"
-
-    java {
-        withSourcesJar()
+    it.java {
+        withSourcesJar ()
 
         toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    tasks.withType(JavaCompile) {
-        options.release = 17
-        options.encoding = 'UTF-8'
-    }
-
-    tasks.withType(ProcessResources).configureEach {
+    it.tasks.withType(ProcessResources).configureEach {
         var replaceProperties = [
                 neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_version_range,
 
                 mc_version: mc_version, mc_version_range: mc_version_range,
-                mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version, mod_authors: mod_authors, mod_description: mod_description, pack_format: pack_format_version,
+                mod_id: mod_id, mod_name: mod_name, mod_license: mod_license,
+                mod_version: mod_version, mod_authors: mod_authors, mod_description: mod_description, pack_format: pack_format_version,
 
                 fabric_loader_range:  fabric_loader_version, fabric_version: fabric_version
         ]
@@ -52,19 +45,20 @@ subprojects {
         }
     }
 
-    tasks.withType(JavaCompile).configureEach {
+    it.tasks.withType(JavaCompile).configureEach {
         it.options.release = 17
         it.options.encoding = 'UTF-8'
     }
 
-    tasks.withType(Jar).tap {
+    it.tasks.withType(Jar).tap {
         configureEach {
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+            from project(":CommonApi").sourceSets.main.output
+
             from("LICENSE") {
-                rename { "${it}_${project.base.archivesName.get()}" }
+                rename { "${it}_${project.base.archivesName.get()}"}
             }
         }
     }
-
 }

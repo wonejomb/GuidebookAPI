@@ -1,8 +1,7 @@
 package de.wonejo.gapi.client;
 
-import de.wonejo.gapi.api.IGuidebook;
 import de.wonejo.gapi.api.book.IBook;
-import de.wonejo.gapi.api.registry.BookRegistry;
+import de.wonejo.gapi.registry.BookRegistry;
 import de.wonejo.gapi.api.util.Constants;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -12,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import org.apache.commons.lang3.tuple.Pair;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {

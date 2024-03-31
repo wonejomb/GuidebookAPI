@@ -1,7 +1,10 @@
 package de.wonejo.gapi.api.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -14,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -28,12 +30,12 @@ public final class RenderUtils {
         return (pMouseX >= pX && pMouseX <= widthSize) && (pMouseY >= pY && pMouseY <= heightSize);
     }
 
-    public static void renderItem ( @NotNull GuiGraphics pGraphics, ItemStack pStack, int pX, int pY ) {
+    public static void renderItem ( GuiGraphics pGraphics, ItemStack pStack, int pX, int pY ) {
         pGraphics.renderItem(pStack, pX, pY);
         pGraphics.renderItemDecorations(Minecraft.getInstance().font, pStack, pX, pY);
     }
 
-    public static void renderScaledItem (@NotNull GuiGraphics pGraphics, ItemStack pStack, int pX, int pY, float pScale) {
+    public static void renderScaledItem ( GuiGraphics pGraphics, ItemStack pStack, int pX, int pY, float pScale) {
         PoseStack stack = pGraphics.pose();
 
         stack.pushPose();
@@ -43,20 +45,21 @@ public final class RenderUtils {
         stack.popPose();
     }
 
-    public static void renderImage (@NotNull GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight) {
+    public static void renderImage ( GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight) {
         pGraphics.blit(pImage, pX, pY, 0, 0, pWidth, pHeight, pWidth, pHeight);
     }
 
-    public static void renderScaledImage (@NotNull GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight, float pScale) {
+    public static void renderScaledImage ( GuiGraphics pGraphics, ResourceLocation pImage, int pX, int pY, int pWidth, int pHeight, float pScale) {
         PoseStack stack = pGraphics.pose();
 
         stack.pushPose();
+        stack.translate((float) pX / pScale, (float) pY / pScale, 1.0F);
         stack.scale(pScale, pScale, pScale);
-        pGraphics.blit(pImage, (int) (pX / pScale), (int) (pY / pScale), 0, 0, pWidth, pHeight, pWidth, pHeight);
+        pGraphics.blit(pImage, pX, pY, 0, 0, pWidth, pHeight, pWidth, pHeight);
         stack.popPose();
     }
 
-    public static <T extends Entity> void renderEntity (@NotNull PoseStack pPoseStack, MultiBufferSource pSource, @NotNull T pEntity, int pX, int pY ) {
+    public static <T extends Entity> void renderEntity ( PoseStack pPoseStack, MultiBufferSource pSource,  T pEntity, int pX, int pY ) {
         double entityScale = 100.0F;
         double bbSie = Math.max(pEntity.getBbWidth(), pEntity.getBbHeight());
 
@@ -77,7 +80,7 @@ public final class RenderUtils {
         pPoseStack.popPose();
     }
 
-    public static <T extends Entity> void renderRotationEntity (@NotNull PoseStack pPoseStack, MultiBufferSource pSource, @NotNull T pEntity, int pX, int pY ) {
+    public static <T extends Entity> void renderRotationEntity ( PoseStack pPoseStack, MultiBufferSource pSource,  T pEntity, int pX, int pY ) {
         double entityScale = 100.0F;
         double bbSie = Math.max(pEntity.getBbWidth(), pEntity.getBbHeight());
 
