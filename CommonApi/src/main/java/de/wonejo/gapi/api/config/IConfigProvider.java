@@ -1,16 +1,16 @@
 package de.wonejo.gapi.api.config;
 
-import de.wonejo.gapi.api.util.Id;
-
 import java.util.Map;
 
 public interface IConfigProvider {
 
     void buildConfigurations ();
+    void defineConfigurations ();
 
-    <T> IConfigValue<T> createConfig ( String pKey, T pDefaultValue );
-    <T> IConfigValue<T> createConfig ( String pKey, String pComment, T pDefaultValue );
+    <T> IConfigValue<T> createConfig ( String pKey, String pComment, T pValue );
+    <T> IConfigValue<T> getConfigById ( String pKey );
+    <T> IConfigValue<T> getOrDefault ( String pKey, IConfigValue<T> pDefaultReturn );
 
-    Map<Id<String>, IConfigValue<?>> configurations ();
+    Map<String, IConfigValue<?>> configurations ();
 
 }

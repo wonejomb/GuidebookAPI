@@ -7,15 +7,15 @@ import java.nio.file.Path;
 
 public interface IConfigFile {
 
-    static IConfigFile of ( Path pConfigPath, String pFilename ) { return ConfigFile.of(pConfigPath, pFilename); }
-
-    void init ();
-
-    void save ();
-    void load () throws IOException;
+    static IConfigFile of ( Path pConfigPath, String pFileName ) { return ConfigFile.of(pConfigPath, pFileName); };
 
     IConfigFile provider ( IConfigProvider pProvider );
 
+    void init();
+    void load () throws IOException;
+    void save ();
+
     boolean isBroken ();
+
 
 }

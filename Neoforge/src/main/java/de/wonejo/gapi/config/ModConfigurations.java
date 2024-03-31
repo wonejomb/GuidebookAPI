@@ -6,7 +6,8 @@ import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.config.IConfigValue;
 import de.wonejo.gapi.api.impl.config.ConfigFile;
 import de.wonejo.gapi.api.impl.config.ConfigProvider;
-import de.wonejo.gapi.api.registry.BookRegistry;
+import de.wonejo.gapi.api.impl.config.ConfigValue;
+import de.wonejo.gapi.registry.BookRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -39,7 +40,7 @@ public class ModConfigurations {
 
         public void buildConfigurations() {
 
-            this.entryColor = this.createConfig(
+            this.entryColor =  this.createConfig(
                     "entryColor",
                     "Define the color of the entries when the mouse isn't between this.",
                     new Color(75, 61, 54).getRGB());
@@ -50,16 +51,24 @@ public class ModConfigurations {
                     new Color(39, 26, 23).getRGB()
             );
 
-            for ( Map.Entry<ResourceLocation, IBook> book : BookRegistry.getLoadedBooks().entrySet() )
-                this.bookColors.put(book.getValue(),
-                            this.createConfig(
-                                    "bookColor.%s.%s".formatted(book.getKey().getNamespace(), book.getKey().getPath()),
-                                    "Define the color of the book: %s".formatted(book.getKey().getPath()),
-                                    book.getValue().color().getRGB()
-                            )
-                        );
+            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+                this.bookColors.put(book,
+                        this.createConfig(
+                                "bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                                "Define the color of the book: %s".formatted(book.id().getPath()),
+                                book.color().getRGB()
+                        )
+                );
+        }
 
+        public void defineConfigurations() {
+            this.bookColors.clear();
 
+            this.entryColor = this.getConfigById("entryColor");
+            this.entryBetweenColor = this.getConfigById("entryBetweenColor");
+
+            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+                this.bookColors.put(book, this.getConfigById("bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
         }
     }
 
@@ -73,14 +82,23 @@ public class ModConfigurations {
                     "Define if the player should spawn with books. This configurations is for general use and encapsulate all the books",
                     true);
 
-            for ( Map.Entry<ResourceLocation, IBook> bookEntry : BookRegistry.getLoadedBooks().entrySet() )
+            for ( IBook book : BookRegistry.getLoadedBooks().values() )
                 this.spawnBooks.add(
                         this.createConfig(
-                                "spawn.%s.%s".formatted(bookEntry.getKey().getNamespace(), bookEntry.getKey().getPath()),
-                                "Define if player should spawn with book: %s. This config apply only to that book. (%s)".formatted(bookEntry.getKey().getPath(), bookEntry.getKey().getPath()),
-                            bookEntry.getValue().shouldSpawnWithBook()
+                                "spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                                "Define if player should spawn with book: %s. This config apply only to that book. (%s)".formatted(book.id().getPath(), book.id().getPath()),
+                                book.shouldSpawnWithBook()
                 ));
 
+        }
+
+        public void defineConfigurations() {
+            this.spawnBooks.clear();
+
+            this.shouldSpawnWithBook = this.getConfigById("shouldSpawnWithBook");
+
+            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+                this.spawnBooks.add(this.getConfigById("spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
         }
     }
 }

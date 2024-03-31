@@ -3,13 +3,11 @@ package de.wonejo.gapi.api.impl.config;
 import de.wonejo.gapi.api.config.IConfigFile;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
-import de.wonejo.gapi.api.util.Id;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Scanner;
@@ -48,6 +46,8 @@ public class ConfigFile implements IConfigFile {
             }
         }
 
+        this.provider.configurations().clear();
+
         if ( !this.isBroken() ) {
             try {
                 LOGGER.debug("Loading configurations from: {}", this.configFile);
@@ -61,41 +61,29 @@ public class ConfigFile implements IConfigFile {
     }
 
     public void load() throws IOException {
-        this.provider.configurations().clear();
+        Scanner reader = new Scanner(this.configFile);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(this.configFile))) {
-            String line;
-            int lineNumber = 0;
-            while ((line = reader.readLine()) != null) {
-                lineNumber++;
-                line = line.trim();
+        for ( int lineIndex = 1; reader.hasNextLine(); lineIndex++ ) {
+            String line = reader.nextLine();
 
-                if (line.isEmpty() || line.startsWith("#")) continue;
+            if (line.isEmpty() || line.startsWith("#")) continue;
 
-                int separatorIndex = line.indexOf('=');
-                if (separatorIndex != -1) {
-                    String key = line.substring(0, separatorIndex).trim();
-                    String value = line.substring(separatorIndex + 1).trim();
+            String[] configParts = line.split("=", 2);
+            String key = configParts[0];
+            String value = configParts[1];
 
-                    Object configValue = parseConfigValue(value);
+            Object configValue = parseConfigValue(value);
 
-                    if (configValue != null) {
-                        LOGGER.debug("Registering config value: {} for {} config", configValue, key);
-                        this.provider.configurations().put(new Id<>(key), new ConfigValue<>(key, "", configValue));
-                    } else {
-                        LOGGER.error("Error parsing value in line {} of config '{}'", lineNumber, this.fileName);
-                    }
-                } else {
-                    LOGGER.error("Error in line {} of config '{}': missing '=' separator", lineNumber, this.fileName);
-                }
+            if ( configValue != null )  {
+                this.provider.configurations().put(key, new ConfigValue<>(key, "", configValue));
             }
-        } catch (IOException e) {
-            LOGGER.error("Error reading config file '{}'", this.fileName, e);
         }
 
+        this.provider.defineConfigurations();
+        this.provider.configurations().clear();
     }
 
-    private Object parseConfigValue (String pValue ) {
+    private Object parseConfigValue (String pValue) {
         if ( pValue.equalsIgnoreCase("true") || pValue.equalsIgnoreCase("false") )
             return Boolean.parseBoolean(pValue);
 
@@ -126,9 +114,9 @@ public class ConfigFile implements IConfigFile {
     private String getFileContent () {
         StringBuilder builder = new StringBuilder();
 
-        for (Map.Entry<Id<String>, IConfigValue<?>> configEntry : this.provider.configurations().entrySet()) {
+        for (Map.Entry<String, IConfigValue<?>> configEntry : this.provider.configurations().entrySet()) {
             String comment = configEntry.getValue().comment();
-            String key = configEntry.getKey().get();
+            String key = configEntry.getKey();
             IConfigValue<?> value = configEntry.getValue();
 
             builder.append("#").append(comment).append("  ||  DEFAULT: ").append(value.defaultValue()).append("\n");

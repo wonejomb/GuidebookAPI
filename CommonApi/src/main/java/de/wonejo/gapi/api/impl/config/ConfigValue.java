@@ -5,9 +5,9 @@ import de.wonejo.gapi.api.config.IConfigValue;
 public class ConfigValue<T> implements IConfigValue<T> {
 
     private final String key;
-    private final T defaultValue;
     private final String comment;
-    private final T value;
+    private final T defaultValue;
+    protected T value;
 
     protected ConfigValue ( String pKey, String pComment, T pDefaultValue ) {
         this.key = pKey;
