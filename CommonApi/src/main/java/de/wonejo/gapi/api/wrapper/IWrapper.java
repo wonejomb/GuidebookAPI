@@ -11,4 +11,9 @@ public interface IWrapper extends CanView {
 
     boolean isMouseOnWrapper ( double pMouseX, double pMouseY );
 
+    IWrapper setX ( int pX );
+    IWrapper setY ( int pY );
+    IWrapper setWidth ( int pWidth );
+    IWrapper setHeight ( int pHeight);
+
 }
