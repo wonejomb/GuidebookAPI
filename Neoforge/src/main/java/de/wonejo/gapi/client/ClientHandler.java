@@ -17,7 +17,7 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void onRegisterModel (ModelEvent.RegisterAdditional pEvent) {
-        for ( IBook book : BookRegistry.getLoadedBooks().values() ) {
+        for ( IBook book : BookRegistry.getLoadedBooks() ) {
             ResourceLocation id = book.modelLocation();
 
             if ( id != null )
@@ -27,7 +27,7 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void onBakeModel (ModelEvent.ModifyBakingResult pEvent) {
-        for  ( IBook book : BookRegistry.getLoadedBooks().values() ) {
+        for  ( IBook book : BookRegistry.getLoadedBooks() ) {
             ResourceLocation id = book.modelLocation();
 
             if (id != null) {

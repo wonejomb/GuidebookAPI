@@ -1,6 +1,7 @@
 package de.wonejo.gapi.api.book;
 
 import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,9 +16,13 @@ public interface IBook {
 
     ResourceLocation id ();
 
-    ResourceLocation topTexture ();
-    ResourceLocation pagesTexture ();
+    GuideTexture topTexture ();
+    GuideTexture pagesTexture ();
     ResourceLocation modelLocation ();
+
+    GuideTexture infoPageTexture ();
+    GuideTexture infoPageTopTexture ();
+
 
     IBookInformation information ();
 

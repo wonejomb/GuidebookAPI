@@ -8,12 +8,14 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -29,6 +31,28 @@ public final class RenderUtils {
 
         return (pMouseX >= pX && pMouseX <= widthSize) && (pMouseY >= pY && pMouseY <= heightSize);
     }
+
+    public static void renderTextInRange ( GuiGraphics pGraphics, Font pFont, Component pText, int pX, int pY, int pTextLarge, int pColor ) {
+        List<FormattedCharSequence> cutLines = pFont.split(pText, pTextLarge);
+
+        for ( FormattedCharSequence cut : cutLines ) {
+            pGraphics.drawString(pFont, cut, pX, pY, pColor, false);
+            pY += 10;
+        }
+    }
+
+    public static void drawCenteredStringWithoutShadow(GuiGraphics pGraphics, Font pFont, String pString, int pX, int pY, int pColor) {
+        pGraphics.drawString(pFont, pString, pX - pFont.width(pString) / 2, pY, pColor, false);
+    }
+
+    public static void drawCenteredStringWithoutShadow(GuiGraphics pGraphics, Font pFont, FormattedCharSequence pString, int pX, int pY, int pColor) {
+        pGraphics.drawString(pFont, pString, pX - pFont.width(pString) / 2, pY, pColor, false);
+    }
+
+    public static void drawCenteredStringWithoutShadow(GuiGraphics pGraphics, Font pFont, Component pString, int pX, int pY, int pColor) {
+        pGraphics.drawString(pFont, pString, pX - pFont.width(pString) / 2, pY, pColor, false);
+    }
+
 
     public static void renderItem ( GuiGraphics pGraphics, ItemStack pStack, int pX, int pY ) {
         pGraphics.renderItem(pStack, pX, pY);

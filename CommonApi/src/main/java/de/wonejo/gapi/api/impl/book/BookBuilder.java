@@ -6,6 +6,7 @@ import de.wonejo.gapi.api.book.IBookInformation;
 import de.wonejo.gapi.api.book.IBookInformationBuilder;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.util.Constants;
+import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,11 +21,13 @@ public final class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
 
-    private ResourceLocation topTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png");
-    private ResourceLocation pagesTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png");
+    private GuideTexture topTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png"), 273, 129);
+    private GuideTexture pagesTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png"), 273, 129);
+    private GuideTexture infoPageTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_page.png"), 282, 129);
+    private GuideTexture infoPageTopTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_top.png"), 282, 129);
     private ResourceLocation modelLocation = new ResourceLocation(Constants.MOD_ID, "guidebook");
 
-    private IBookInformation bookInformation;
+    private IBookInformation bookInformation = BookInformationBuilder.of().build();
 
     private Consumer<List<IBookCategory>> contentProvider;
     private Component title;
@@ -44,13 +47,23 @@ public final class BookBuilder implements IBookBuilder {
         return this;
     }
 
-    public IBookBuilder topTexture(ResourceLocation pId) {
-        this.topTexture = pId;
+    public IBookBuilder topTexture(GuideTexture pTopTexture) {
+        this.topTexture = pTopTexture;
         return this;
     }
 
-    public IBookBuilder pagesTexture(ResourceLocation pPageTextures) {
+    public IBookBuilder pagesTexture(GuideTexture pPageTextures) {
         this.pagesTexture = pPageTextures;
+        return this;
+    }
+
+    public IBookBuilder infoPageTexture(GuideTexture pInfoPageTexture) {
+        this.infoPageTexture = pInfoPageTexture;
+        return this;
+    }
+
+    public IBookBuilder infoPageTopTexture(GuideTexture pInfoPageTopTexture) {
+        this.infoPageTopTexture = pInfoPageTopTexture;
         return this;
     }
 
@@ -66,11 +79,6 @@ public final class BookBuilder implements IBookBuilder {
 
     public IBookBuilder spawnWithBook() {
         this.shouldSpawnWithBook = true;
-        return this;
-    }
-
-    public IBookBuilder title(Component pTitle) {
-        this.title = pTitle;
         return this;
     }
 
@@ -100,14 +108,10 @@ public final class BookBuilder implements IBookBuilder {
     }
 
     public IBook build() {
-        if ( this.title == null )
-            this.title = Component.translatable("text.gapi.unknown");
+        this.title = this.bookInformation.title();
 
         if ( this.header == null )
-            this.header = title;
-
-        if ( this.subHeader == null )
-            this.subHeader = Component.literal("");
+            this.header = this.title;
 
         if (this.itemName == null)
             this.itemName = this.title;
@@ -120,7 +124,7 @@ public final class BookBuilder implements IBookBuilder {
 
         return new Book(id,
                 this.color, this.title, this.header, this.subHeader, this.itemName, this.author,
-                this.topTexture, this.pagesTexture, this.modelLocation
+                this.topTexture, this.pagesTexture, this.modelLocation, this.infoPageTexture, this.infoPageTopTexture
                 ,this.shouldSpawnWithBook, this.contentProvider, this.bookInformation);
     }
 }

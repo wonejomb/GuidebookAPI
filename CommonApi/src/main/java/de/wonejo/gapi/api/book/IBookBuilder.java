@@ -2,6 +2,7 @@ package de.wonejo.gapi.api.book;
 
 
 import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -14,12 +15,13 @@ public interface IBookBuilder {
     IBookBuilder color (Color pColor);
 
     IBookBuilder spawnWithBook ();
-    IBookBuilder title ( Component pTitle );
     IBookBuilder header ( Component pHeader );
     IBookBuilder subHeader ( Component pHeader );
     IBookBuilder itemName ( Component pItemName );
-    IBookBuilder topTexture (ResourceLocation pId);
-    IBookBuilder pagesTexture ( ResourceLocation pPageTextures );
+    IBookBuilder topTexture ( GuideTexture pTopTexture );
+    IBookBuilder pagesTexture ( GuideTexture pPageTextures );
+    IBookBuilder infoPageTexture ( GuideTexture pInfoPageTexture );
+    IBookBuilder infoPageTopTexture ( GuideTexture pInfoPageTopTexture );
     IBookBuilder model ( ResourceLocation pModelLocation );
     IBookBuilder author ( Component pAuthor );
     IBookBuilder information ( IBookInformation pInformation );

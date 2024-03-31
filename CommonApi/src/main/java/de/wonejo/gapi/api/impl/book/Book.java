@@ -3,6 +3,7 @@ package de.wonejo.gapi.api.impl.book;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookInformation;
 import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
@@ -14,10 +15,12 @@ import java.util.function.Consumer;
 public final class Book implements IBook {
 
     private final ResourceLocation id;
-
-    private final ResourceLocation topTexture;
-    private final ResourceLocation pagesTexture;
     private final ResourceLocation modelLocation;
+
+    private final GuideTexture topTexture;
+    private final GuideTexture pagesTexture;
+    private final GuideTexture infoPageTexture;
+    private final GuideTexture infoPageTopTexture;
 
     private boolean init;
 
@@ -37,12 +40,14 @@ public final class Book implements IBook {
 
     public Book ( ResourceLocation pId, Color pColor,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
-                  ResourceLocation pTopTexture, ResourceLocation pPagesTexture, ResourceLocation pModelLocation,
+                  GuideTexture pTopTexture, GuideTexture pPagesTexture, ResourceLocation pModelLocation, GuideTexture pInfoPageTexture, GuideTexture pInfoPageTopTexture,
                   boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation ) {
 
         this.topTexture = pTopTexture;
         this.pagesTexture = pPagesTexture;
         this.modelLocation = pModelLocation;
+        this.infoPageTexture = pInfoPageTexture;
+        this.infoPageTopTexture = pInfoPageTopTexture;
 
         this.id = pId;
         this.color = pColor;
@@ -67,16 +72,24 @@ public final class Book implements IBook {
         return this.id;
     }
 
-    public ResourceLocation topTexture() {
+    public GuideTexture topTexture() {
         return this.topTexture;
     }
 
-    public ResourceLocation pagesTexture() {
+    public GuideTexture pagesTexture() {
         return this.pagesTexture;
     }
 
     public ResourceLocation modelLocation() {
         return this.modelLocation;
+    }
+
+    public GuideTexture infoPageTexture() {
+        return this.infoPageTexture;
+    }
+
+    public GuideTexture infoPageTopTexture() {
+        return this.infoPageTopTexture;
     }
 
     public Component title() {

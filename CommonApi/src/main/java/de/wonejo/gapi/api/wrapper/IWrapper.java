@@ -5,15 +5,14 @@ import de.wonejo.gapi.api.util.CanView;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
-public interface IWrapper extends CanView {
+import java.util.function.Supplier;
 
-    void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen );
+public interface IWrapper<T> extends CanView, Supplier<T> {
+
+    void render ( GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen );
+    void tick ();
 
     boolean isMouseOnWrapper ( double pMouseX, double pMouseY );
 
-    IWrapper setX ( int pX );
-    IWrapper setY ( int pY );
-    IWrapper setWidth ( int pWidth );
-    IWrapper setHeight ( int pHeight);
 
 }

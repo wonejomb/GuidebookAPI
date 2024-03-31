@@ -2,6 +2,7 @@ package de.wonejo.gapi.api.book.components;
 
 import de.wonejo.gapi.api.client.render.ICategoryRender;
 import de.wonejo.gapi.api.util.BookAccessible;
+import de.wonejo.gapi.api.util.ITick;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
