@@ -12,6 +12,4 @@ public interface IProxy {
 
     void openGuidebook(Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack);
 
-    void playSound(SoundEvent pSound);
-
 }

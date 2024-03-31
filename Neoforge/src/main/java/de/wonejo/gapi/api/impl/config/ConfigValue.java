@@ -6,8 +6,8 @@ public class ConfigValue<T> implements IConfigValue<T> {
 
     private final String key;
     private final T defaultValue;
-    private String comment;
-    private T value;
+    private final String comment;
+    private final T value;
 
     protected ConfigValue ( String pKey, String pComment, T pDefaultValue ) {
         this.key = pKey;

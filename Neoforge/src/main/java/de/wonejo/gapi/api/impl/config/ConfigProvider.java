@@ -1,6 +1,7 @@
 package de.wonejo.gapi.api.impl.config;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.platform.MemoryTracker;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
 import de.wonejo.gapi.api.util.Id;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 public abstract class ConfigProvider implements IConfigProvider {
 
-    private final Map<Id<String>, IConfigValue<?>> configurations = Maps.newLinkedHashMap();
+    private final Map<Id<String>, IConfigValue<?>> configurations = Maps.newHashMap();
 
     public abstract void buildConfigurations();
 

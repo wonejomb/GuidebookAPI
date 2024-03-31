@@ -1,9 +1,11 @@
 package de.wonejo.gapi.api.book;
 
+import de.wonejo.gapi.api.book.components.IBookCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.awt.*;
+import java.util.List;
 
 public interface IBook {
 
@@ -17,6 +19,8 @@ public interface IBook {
     ResourceLocation pagesTexture ();
     ResourceLocation modelLocation ();
 
+    IBookInformation information ();
+
     Component title ();
     Component header ();
     Component subHeader ();
@@ -24,5 +28,7 @@ public interface IBook {
     Component author ();
 
     Color color ();
+
+    List<IBookCategory> categories ();
 
 }

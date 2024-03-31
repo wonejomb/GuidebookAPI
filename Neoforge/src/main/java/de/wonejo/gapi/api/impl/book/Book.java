@@ -1,6 +1,7 @@
 package de.wonejo.gapi.api.impl.book;
 
 import de.wonejo.gapi.api.book.IBook;
+import de.wonejo.gapi.api.book.IBookInformation;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.util.Constants;
 import net.minecraft.network.chat.Component;
@@ -20,8 +21,9 @@ public final class Book implements IBook {
     private final ResourceLocation pagesTexture;
     private final ResourceLocation modelLocation;
 
-
     private boolean init;
+
+    private final IBookInformation bookInformation;
 
     private final Component title;
     private final Component header;
@@ -38,7 +40,7 @@ public final class Book implements IBook {
     public Book ( ResourceLocation pId, Color pColor,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
                   ResourceLocation pTopTexture, ResourceLocation pPagesTexture, ResourceLocation pModelLocation,
-                  boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider ) {
+                  boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation ) {
 
         this.topTexture = pTopTexture;
         this.pagesTexture = pPagesTexture;
@@ -53,6 +55,7 @@ public final class Book implements IBook {
         this.author = pAuthor;
         this.shouldSpawnWithBook = pShouldSpawnWithBook;
         this.contentProvider = pContentProvider;
+        this.bookInformation = pInformation;
     }
 
     public void initializeContent() {
@@ -104,5 +107,13 @@ public final class Book implements IBook {
 
     public boolean shouldSpawnWithBook() {
         return this.shouldSpawnWithBook;
+    }
+
+    public IBookInformation information() {
+        return this.bookInformation;
+    }
+
+    public List<IBookCategory> categories() {
+        return this.categories;
     }
 }

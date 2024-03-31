@@ -22,6 +22,7 @@ public interface IBookBuilder {
     IBookBuilder pagesTexture ( ResourceLocation pPageTextures );
     IBookBuilder model ( ResourceLocation pModelLocation );
     IBookBuilder author ( Component pAuthor );
+    IBookBuilder information ( IBookInformation pInformation );
     IBookBuilder contentProvider (Consumer<List<IBookCategory>> pContentProvider);
 
 

@@ -2,6 +2,8 @@ package de.wonejo.gapi.api.impl.book;
 
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookBuilder;
+import de.wonejo.gapi.api.book.IBookInformation;
+import de.wonejo.gapi.api.book.IBookInformationBuilder;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.util.Constants;
 import net.minecraft.ChatFormatting;
@@ -18,9 +20,11 @@ public final class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
 
-    private ResourceLocation topTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/top_texture.png");
-    private ResourceLocation pagesTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/pages_texture.png");
+    private ResourceLocation topTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png");
+    private ResourceLocation pagesTexture = new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png");
     private ResourceLocation modelLocation = new ResourceLocation(Constants.MOD_ID, "guidebook");
+
+    private IBookInformation bookInformation;
 
     private Consumer<List<IBookCategory>> contentProvider;
     private Component title;
@@ -33,6 +37,11 @@ public final class BookBuilder implements IBookBuilder {
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
+    }
+
+    public IBookBuilder information (IBookInformation pInfo) {
+        this.bookInformation = pInfo;
+        return this;
     }
 
     public IBookBuilder topTexture(ResourceLocation pId) {
@@ -112,6 +121,6 @@ public final class BookBuilder implements IBookBuilder {
         return new Book(id,
                 this.color, this.title, this.header, this.subHeader, this.itemName, this.author,
                 this.topTexture, this.pagesTexture, this.modelLocation
-                ,this.shouldSpawnWithBook, this.contentProvider);
+                ,this.shouldSpawnWithBook, this.contentProvider, this.bookInformation);
     }
 }

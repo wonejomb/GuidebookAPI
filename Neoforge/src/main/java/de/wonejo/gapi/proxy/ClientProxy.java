@@ -4,7 +4,9 @@ import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.item.IBookItem;
 import de.wonejo.gapi.api.proxy.IProxy;
 import de.wonejo.gapi.api.registry.BookRegistry;
+import de.wonejo.gapi.client.screen.MainGuideScreen;
 import de.wonejo.gapi.config.ModConfigurations;
+import de.wonejo.gapi.item.BookItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvent;
@@ -33,10 +35,10 @@ public class ClientProxy implements IProxy {
     }
 
     public void openGuidebook(Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack) {
+        if (!pStack.isEmpty() && pStack.getItem() instanceof BookItem)
+            pBook.initializeContent();
 
+        Minecraft.getInstance().setScreen(new MainGuideScreen(pBook));
     }
 
-    public void playSound(SoundEvent pSound) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(pSound, 1.0F));
-    }
 }
