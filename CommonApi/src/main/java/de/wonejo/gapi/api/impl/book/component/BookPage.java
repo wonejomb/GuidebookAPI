@@ -11,11 +11,8 @@ public class BookPage implements IBookPage {
         this.render = pRender;
     }
 
-    public void init() {
-
-    }
-
     public IPageRender render() {
         return this.render;
     }
+
 }

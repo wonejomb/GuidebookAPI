@@ -14,13 +14,9 @@ public class BookEntry implements IBookEntry {
 
     private final List<IBookPage> pages = Lists.newArrayList();
 
-    private final ResourceLocation id;
-    private final Component name;
     private final IEntryRender render;
 
-    public BookEntry ( ResourceLocation pId, Component pName, IEntryRender pRender ) {
-        this.id = pId;
-        this.name = pName;
+    public BookEntry ( IEntryRender pRender ) {
         this.render = pRender;
     }
 
@@ -42,14 +38,6 @@ public class BookEntry implements IBookEntry {
 
     public IBookPage getPage(int pIndex) {
         return this.pages.get(pIndex);
-    }
-
-    public ResourceLocation entryId() {
-        return this.id;
-    }
-
-    public Component name() {
-        return this.name;
     }
 
     public List<IBookPage> pages() {

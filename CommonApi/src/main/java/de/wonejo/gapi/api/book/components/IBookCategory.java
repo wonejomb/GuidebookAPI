@@ -10,8 +10,6 @@ import java.util.Map;
 
 public interface IBookCategory extends BookAccessible {
 
-    Component name ();
-    ResourceLocation categoryId ();
     ICategoryRender render ();
     Map<ResourceLocation, IBookEntry> entries ();
 

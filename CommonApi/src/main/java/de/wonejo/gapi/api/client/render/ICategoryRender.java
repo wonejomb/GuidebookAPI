@@ -11,7 +11,7 @@ import net.minecraft.core.RegistryAccess;
 
 public interface ICategoryRender extends CanView, Clickable, ITick {
 
-    void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IBookCategory pCategory, IModScreen pScreen, Font pFont);
+    void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pCategoryX, int pCategoryY, int pMouseX, int pMouseY, IBookCategory pCategory, IModScreen pScreen, Font pFont);
     void init ();
 
 }

@@ -11,13 +11,10 @@ import java.util.List;
 
 public interface IBookEntry extends BookAccessible {
 
-    ResourceLocation entryId ();
-    Component name ();
-    List<IBookPage> pages ();
     IEntryRender render ();
 
+    List<IBookPage> pages ();
 
-    void init ();
     void addPage ( IBookPage pPage );
     void addPages (List<IBookPage> pPages);
     void addPages ( IBookPage... pPages );

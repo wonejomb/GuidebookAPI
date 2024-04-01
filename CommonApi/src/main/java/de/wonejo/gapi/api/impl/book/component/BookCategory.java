@@ -13,22 +13,10 @@ public class BookCategory implements IBookCategory {
 
     private final Map<ResourceLocation, IBookEntry> entries = Maps.newHashMap();
 
-    private final ResourceLocation id;
-    private final Component name;
     private final ICategoryRender render;
 
-    public BookCategory ( ResourceLocation pId, Component pName, ICategoryRender pRender ) {
-        this.id = pId;
-        this.name = pName;
+    public BookCategory ( ICategoryRender pRender ) {
         this.render = pRender;
-    }
-
-    public Component name() {
-        return this.name;
-    }
-
-    public ResourceLocation categoryId() {
-        return this.id;
     }
 
     public ICategoryRender render() {
