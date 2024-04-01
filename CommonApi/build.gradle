@@ -1,0 +1,16 @@
+plugins {
+    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.102' apply false
+    id 'net.neoforged.gradle.vanilla' version '7.0.102'
+}
+
+dependencies {
+    implementation "net.minecraft:client:${mc_version}"
+}
+
+subsystems {
+    parchment {
+        minecraftVersion = "${parchment_mc_version}"
+        mappingsVersion = "${parchmentVersion}"
+    }
+}
