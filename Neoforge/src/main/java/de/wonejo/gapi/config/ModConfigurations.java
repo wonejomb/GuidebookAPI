@@ -43,7 +43,7 @@ public class ModConfigurations {
             this.entryColor = this.createConfig(
                     "textColor",
                     "Define the color of all the texts in the books",
-                    1192712);
+                    new Color(164, 135, 125).getRGB());
 
             this.entryColor =  this.createConfig(
                     "entryColor",
@@ -80,7 +80,7 @@ public class ModConfigurations {
 
     public static final class CommonConfigurations extends ConfigProvider {
         public IConfigValue<Boolean> shouldSpawnWithBook;
-        public List<IConfigValue<Boolean>> spawnBooks = Lists.newArrayList();
+        public Map<IBook, IConfigValue<Boolean>> spawnBooks = Maps.newHashMap();
 
         public void buildConfigurations() {
             this.shouldSpawnWithBook = createConfig(
@@ -89,7 +89,7 @@ public class ModConfigurations {
                     true);
 
             for ( IBook book : BookRegistry.getLoadedBooks() )
-                this.spawnBooks.add(
+                this.spawnBooks.put(book,
                         this.createConfig(
                                 "spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
                                 "Define if player should spawn with book: %s. This config apply only to that book. (%s)".formatted(book.id().getPath(), book.id().getPath()),
@@ -104,7 +104,7 @@ public class ModConfigurations {
             this.shouldSpawnWithBook = this.getConfigById("shouldSpawnWithBook");
 
             for ( IBook book : BookRegistry.getLoadedBooks() )
-                this.spawnBooks.add(this.getConfigById("spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
+                this.spawnBooks.put(book, this.getConfigById("spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
         }
     }
 }

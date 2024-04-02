@@ -7,9 +7,9 @@
   "gapi.book.button.next": "Next",
   "gapi.book.button.back": "Back",
   "gapi.book.button.home": "Home",
+  "gapi.book.button.category.home": "Back",
   "gapi.book.button.information": "Information",
   "__comment": "Information",
   "text.gapi.information.modName": "Mod: %s",
-  "text.gapi.information.credits": "Credits: %s",
-  "gapi.book.button.category.home": "Back"
+  "text.gapi.information.credits": "Credits: %s"
 }

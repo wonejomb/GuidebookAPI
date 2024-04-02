@@ -10,10 +10,12 @@ import de.wonejo.gapi.book.BookCategory;
 import de.wonejo.gapi.book.BookEntry;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.api.util.GuideTexture;
+import de.wonejo.gapi.book.BookPage;
 import de.wonejo.gapi.client.render.category.ImageCategoryRender;
 import de.wonejo.gapi.client.render.category.ItemCategoryRender;
 import de.wonejo.gapi.client.render.entry.ImageEntryRender;
 import de.wonejo.gapi.client.render.entry.ItemEntryRender;
+import de.wonejo.gapi.client.render.page.TextPageRender;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +30,7 @@ public class ExampleBook implements IGuidebook {
 
     public IBookBuilder build() {
         return BookBuilder.of(new ResourceLocation(Constants.MOD_ID, "example_book"))
+                .spawnWithBook()
                 .information(BookInformationBuilder.of()
                         .title(Component.literal("Title test"))
                         .credits(Component.literal("WonejoMB"))
@@ -45,8 +48,9 @@ public class ExampleBook implements IGuidebook {
         List<IBookCategory> categories = new ArrayList<>();
 
         BookCategory category = new BookCategory(new ItemCategoryRender(Component.literal("Test ItemRender category"), new ItemStack(Items.CARROT)));
-        category.addEntry(new ResourceLocation("test"), new BookEntry(new ItemEntryRender(Component.literal("Test entry"), new ItemStack(Items.CARROT))));
-        category.addEntry(new ResourceLocation("test1"), new BookEntry(new ImageEntryRender(Component.literal("Test image entry"), new ResourceLocation("textures/block/acacia_door_bottom.png"))));
+        BookEntry entry = new BookEntry(new ItemEntryRender(Component.literal("Example entry"), new ItemStack(Items.CARROT)));
+        entry.addPage(new BookPage(new TextPageRender(Component.literal("Example text page render AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA-"))));
+        category.addEntry(new ResourceLocation("test"), entry);
 
         categories.add(category);
         categories.add(new BookCategory(new ImageCategoryRender(Component.literal("Test ImageRender Category"), new ResourceLocation("textures/item/acacia_chest_boat.png"))));

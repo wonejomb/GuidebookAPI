@@ -65,6 +65,8 @@ public final class CategoryGuideScreen extends GuideScreen {
         int pageNumber = 0;
 
         for (IBookEntry entry : this.category.entries().values()) {
+            if (entry.pages().isEmpty()) continue;
+
             entry.render().init();
 
             if (index == 5) {
