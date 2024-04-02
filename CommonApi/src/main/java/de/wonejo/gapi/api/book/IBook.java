@@ -18,11 +18,8 @@ public interface IBook {
 
     GuideTexture topTexture ();
     GuideTexture pagesTexture ();
+    GuideTexture infoTexture ();
     ResourceLocation modelLocation ();
-
-    GuideTexture infoPageTexture ();
-    GuideTexture infoPageTopTexture ();
-
 
     IBookInformation information ();
 

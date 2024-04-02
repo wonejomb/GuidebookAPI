@@ -4,26 +4,23 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GuideTexture {
 
-    private final ResourceLocation textureLoc;
-    private final int imageWidth;
-    private final int imageHeight;
-
-    public GuideTexture ( ResourceLocation pTextureLoc, int pImageWidth, int pImageHeight ) {
-        this.textureLoc = pTextureLoc;
-        this.imageWidth = pImageWidth;
-        this.imageHeight = pImageHeight;
+    public static GuideTexture of ( ResourceLocation pPagesTexture, ResourceLocation pTopTexture ) {
+        return new GuideTexture(pPagesTexture, pTopTexture);
     }
 
-    public ResourceLocation getTextureLoc() {
-        return textureLoc;
+    private final ResourceLocation pagesTexture;
+    private final ResourceLocation topTexture;
+
+    private GuideTexture ( ResourceLocation pPagesTexture, ResourceLocation pTopTexture ) {
+        this.pagesTexture = pPagesTexture;
+        this.topTexture = pTopTexture;
     }
 
-    public int getImageWidth() {
-        return imageWidth;
+    public ResourceLocation getPagesTexture() {
+        return pagesTexture;
     }
 
-    public int getImageHeight() {
-        return imageHeight;
+    public ResourceLocation getTopTexture() {
+        return topTexture;
     }
-
 }

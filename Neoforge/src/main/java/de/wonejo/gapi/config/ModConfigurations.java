@@ -33,12 +33,17 @@ public class ModConfigurations {
 
     public static final class ClientConfigurations extends ConfigProvider {
 
+        public IConfigValue<Integer> textColor;
         public IConfigValue<Integer> entryColor;
         public IConfigValue<Integer> entryBetweenColor;
-
         public Map<IBook, IConfigValue<Integer>> bookColors = Maps.newHashMap();
 
         public void buildConfigurations() {
+
+            this.entryColor = this.createConfig(
+                    "textColor",
+                    "Define the color of all the texts in the books",
+                    1192712);
 
             this.entryColor =  this.createConfig(
                     "entryColor",
@@ -51,7 +56,7 @@ public class ModConfigurations {
                     new Color(39, 26, 23).getRGB()
             );
 
-            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+            for ( IBook book : BookRegistry.getLoadedBooks() )
                 this.bookColors.put(book,
                         this.createConfig(
                                 "bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
@@ -64,10 +69,11 @@ public class ModConfigurations {
         public void defineConfigurations() {
             this.bookColors.clear();
 
+            this.textColor = this.getConfigById("textColor");
             this.entryColor = this.getConfigById("entryColor");
             this.entryBetweenColor = this.getConfigById("entryBetweenColor");
 
-            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+            for ( IBook book : BookRegistry.getLoadedBooks() )
                 this.bookColors.put(book, this.getConfigById("bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
         }
     }
@@ -82,7 +88,7 @@ public class ModConfigurations {
                     "Define if the player should spawn with books. This configurations is for general use and encapsulate all the books",
                     true);
 
-            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+            for ( IBook book : BookRegistry.getLoadedBooks() )
                 this.spawnBooks.add(
                         this.createConfig(
                                 "spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
@@ -97,7 +103,7 @@ public class ModConfigurations {
 
             this.shouldSpawnWithBook = this.getConfigById("shouldSpawnWithBook");
 
-            for ( IBook book : BookRegistry.getLoadedBooks().values() )
+            for ( IBook book : BookRegistry.getLoadedBooks() )
                 this.spawnBooks.add(this.getConfigById("spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
         }
     }

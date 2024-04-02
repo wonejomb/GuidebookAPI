@@ -77,9 +77,8 @@ public final class RenderUtils {
         PoseStack stack = pGraphics.pose();
 
         stack.pushPose();
-        stack.translate((float) pX / pScale, (float) pY / pScale, 1.0F);
         stack.scale(pScale, pScale, pScale);
-        pGraphics.blit(pImage, pX, pY, 0, 0, pWidth, pHeight, pWidth, pHeight);
+        pGraphics.blit(pImage, (int) (pX / pScale), (int) (pY / pScale), 0, 0, pWidth, pHeight, pWidth, pHeight);
         stack.popPose();
     }
 

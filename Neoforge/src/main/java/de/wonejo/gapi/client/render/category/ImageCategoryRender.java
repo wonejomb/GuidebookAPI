@@ -1,0 +1,37 @@
+package de.wonejo.gapi.client.render.category;
+
+import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.client.IModScreen;
+import de.wonejo.gapi.api.client.render.ICategoryRender;
+import de.wonejo.gapi.api.util.RenderUtils;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+
+public final class ImageCategoryRender implements ICategoryRender {
+
+    private final Component name;
+    private final ResourceLocation image;
+
+    public ImageCategoryRender ( Component pName, ResourceLocation pImage )  {
+        this.name = pName;
+        this.image = pImage;
+    }
+
+    public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pCategoryX, int pCategoryY, int pMouseX, int pMouseY, IBookCategory pCategory, IModScreen pScreen, Font pFont) {
+        RenderUtils.renderScaledImage(pGraphics, this.image, pCategoryX, pCategoryY + 1, 16, 16, 1.2F);
+
+        if (RenderUtils.isMouseBetween(pMouseX, pMouseY, pCategoryX, pCategoryY, 16, 16))
+            pGraphics.renderTooltip(pFont, this.name, pMouseX, pMouseY);
+    }
+
+    public void init() {
+
+    }
+
+    public Component name() {
+        return this.name;
+    }
+}

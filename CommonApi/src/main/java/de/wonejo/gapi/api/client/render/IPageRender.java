@@ -8,9 +8,9 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
-public interface IPageRender extends CanView, Clickable, ITick {
+public interface IPageRender extends CanView, ITick {
 
     void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont);
-    void init ();
+    default void init () {};
 
 }

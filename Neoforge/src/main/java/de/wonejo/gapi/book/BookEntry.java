@@ -1,8 +1,12 @@
-package de.wonejo.gapi.api.impl.book.component;
+package de.wonejo.gapi.book;
 
+import de.wonejo.gapi.api.book.IBook;
+import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.book.components.IBookEntry;
 import de.wonejo.gapi.api.book.components.IBookPage;
 import de.wonejo.gapi.api.client.render.IEntryRender;
+import de.wonejo.gapi.client.screen.EntryGuideScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
@@ -18,6 +22,12 @@ public class BookEntry implements IBookEntry {
 
     public BookEntry ( IEntryRender pRender ) {
         this.render = pRender;
+    }
+
+    public void onClick(IBook pBook, IBookCategory pCategory, double pMouseX, double pMouseY, int pClickType) {
+        IBookEntry.super.onClick(pBook, pCategory, pMouseX, pMouseY, pClickType);
+
+        Minecraft.getInstance().setScreen(new EntryGuideScreen(pBook, pCategory, this));
     }
 
     public void init() {

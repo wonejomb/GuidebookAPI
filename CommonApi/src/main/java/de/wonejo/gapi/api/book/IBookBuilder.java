@@ -18,10 +18,9 @@ public interface IBookBuilder {
     IBookBuilder header ( Component pHeader );
     IBookBuilder subHeader ( Component pHeader );
     IBookBuilder itemName ( Component pItemName );
-    IBookBuilder topTexture ( GuideTexture pTopTexture );
+    IBookBuilder bookTextures ( GuideTexture pBookTextures );
+    IBookBuilder infoTextures ( GuideTexture pInfoTextures );
     IBookBuilder pagesTexture ( GuideTexture pPageTextures );
-    IBookBuilder infoPageTexture ( GuideTexture pInfoPageTexture );
-    IBookBuilder infoPageTopTexture ( GuideTexture pInfoPageTopTexture );
     IBookBuilder model ( ResourceLocation pModelLocation );
     IBookBuilder author ( Component pAuthor );
     IBookBuilder information ( IBookInformation pInformation );

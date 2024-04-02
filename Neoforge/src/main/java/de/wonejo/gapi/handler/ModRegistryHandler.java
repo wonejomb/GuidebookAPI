@@ -22,7 +22,7 @@ public class ModRegistryHandler {
 
         BookRegistry.registerAllBooks();
 
-        for (IBook book : BookRegistry.getLoadedBooks().values()) {
+        for (IBook book : BookRegistry.getLoadedBooks()) {
             ResourceLocation id = new ResourceLocation(Constants.MOD_ID, book.id().toString().replace(":", "."));
             pEvent.register(Registries.ITEM, id, ()-> new BookItem(book));
             BookRegistry.getBookToStack().put(book, () -> new ItemStack(BuiltInRegistries.ITEM.get(id)));

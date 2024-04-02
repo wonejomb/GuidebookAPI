@@ -3,7 +3,6 @@ package de.wonejo.gapi.api.impl.book;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.IBookBuilder;
 import de.wonejo.gapi.api.book.IBookInformation;
-import de.wonejo.gapi.api.book.IBookInformationBuilder;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.api.util.GuideTexture;
@@ -21,10 +20,9 @@ public final class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
 
-    private GuideTexture topTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png"), 273, 129);
-    private GuideTexture pagesTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png"), 273, 129);
-    private GuideTexture infoPageTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_page.png"), 282, 129);
-    private GuideTexture infoPageTopTexture = new GuideTexture(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_top.png"), 282, 129);
+    private GuideTexture bookTextures = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png"));
+    private GuideTexture infoTextures = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_page.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/info_top.png"));
+    private GuideTexture pagesTexture = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/page.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/page_top.png"));
     private ResourceLocation modelLocation = new ResourceLocation(Constants.MOD_ID, "guidebook");
 
     private IBookInformation bookInformation = BookInformationBuilder.of().build();
@@ -47,8 +45,8 @@ public final class BookBuilder implements IBookBuilder {
         return this;
     }
 
-    public IBookBuilder topTexture(GuideTexture pTopTexture) {
-        this.topTexture = pTopTexture;
+    public IBookBuilder infoTextures(GuideTexture pInfoTextures) {
+        this.infoTextures = pInfoTextures;
         return this;
     }
 
@@ -57,13 +55,8 @@ public final class BookBuilder implements IBookBuilder {
         return this;
     }
 
-    public IBookBuilder infoPageTexture(GuideTexture pInfoPageTexture) {
-        this.infoPageTexture = pInfoPageTexture;
-        return this;
-    }
-
-    public IBookBuilder infoPageTopTexture(GuideTexture pInfoPageTopTexture) {
-        this.infoPageTopTexture = pInfoPageTopTexture;
+    public IBookBuilder bookTextures(GuideTexture pBookTextures) {
+        this.bookTextures = pBookTextures;
         return this;
     }
 
@@ -124,7 +117,7 @@ public final class BookBuilder implements IBookBuilder {
 
         return new Book(id,
                 this.color, this.title, this.header, this.subHeader, this.itemName, this.author,
-                this.topTexture, this.pagesTexture, this.modelLocation, this.infoPageTexture, this.infoPageTopTexture
+                this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation
                 ,this.shouldSpawnWithBook, this.contentProvider, this.bookInformation);
     }
 }

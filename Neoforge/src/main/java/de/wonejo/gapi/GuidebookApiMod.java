@@ -8,9 +8,11 @@ import de.wonejo.gapi.proxy.CommonProxy;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import org.jetbrains.annotations.NotNull;
 
 @Mod(Constants.MOD_ID)
 public class GuidebookApiMod {
@@ -18,10 +20,10 @@ public class GuidebookApiMod {
     public static final IProxy PROXY = FMLEnvironment.dist == Dist.CLIENT ? new ClientProxy() : new CommonProxy();
 
 
-    public GuidebookApiMod (IEventBus pBus) {
+    public GuidebookApiMod (@NotNull IEventBus pBus) {
 
         pBus.addListener(this::onCommonSetup);
-        pBus.addListener(this::onLoadComplete);
+        pBus.addListener(this::onClientSetup);
 
     }
 
@@ -29,7 +31,7 @@ public class GuidebookApiMod {
         ModConfigurations.setupConfigurations();
     }
 
-    private void onLoadComplete (final FMLLoadCompleteEvent pEvent) {
+    private void onClientSetup (final FMLClientSetupEvent pEvent) {
         PROXY.registerColors();
     }
 

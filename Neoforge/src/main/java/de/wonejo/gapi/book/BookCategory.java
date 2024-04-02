@@ -1,9 +1,13 @@
-package de.wonejo.gapi.api.impl.book.component;
+package de.wonejo.gapi.book;
 
 import com.google.common.collect.Maps;
+import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.book.components.IBookEntry;
 import de.wonejo.gapi.api.client.render.ICategoryRender;
+import de.wonejo.gapi.api.util.ClickType;
+import de.wonejo.gapi.client.screen.CategoryGuideScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -21,6 +25,11 @@ public class BookCategory implements IBookCategory {
 
     public ICategoryRender render() {
         return this.render;
+    }
+
+    public void onClick(IBook pBook, double pMouseX, double pMouseY, int pClickType) {
+        if ( pClickType == ClickType.LEFT_CLICK.getId() )
+            Minecraft.getInstance().setScreen(new CategoryGuideScreen(pBook, this));
     }
 
     public Map<ResourceLocation, IBookEntry> entries() {

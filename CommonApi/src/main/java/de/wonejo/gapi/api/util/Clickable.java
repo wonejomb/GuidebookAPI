@@ -1,7 +1,9 @@
 package de.wonejo.gapi.api.util;
 
+import de.wonejo.gapi.api.book.IBook;
+
 public interface Clickable {
 
-    default void onClick ( double pMouseX, double pMouseY, int pClickType) {};
+    default void onClick (IBook pBook, double pMouseX, double pMouseY, int pClickType) {};
 
 }

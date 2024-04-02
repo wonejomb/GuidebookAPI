@@ -1,4 +1,4 @@
-package de.wonejo.gapi.api.impl.book.component;
+package de.wonejo.gapi.book;
 
 import de.wonejo.gapi.api.book.components.IBookPage;
 import de.wonejo.gapi.api.client.render.IPageRender;

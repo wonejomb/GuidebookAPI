@@ -5,7 +5,7 @@ import de.wonejo.gapi.api.util.BookAccessible;
 import de.wonejo.gapi.api.util.Clickable;
 import de.wonejo.gapi.api.util.ITick;
 
-public interface IBookPage extends BookAccessible {
+public interface IBookPage extends BookAccessible, Clickable {
 
     IPageRender render ();
 

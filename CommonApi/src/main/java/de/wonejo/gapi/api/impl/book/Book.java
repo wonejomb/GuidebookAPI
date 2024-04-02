@@ -17,10 +17,9 @@ public final class Book implements IBook {
     private final ResourceLocation id;
     private final ResourceLocation modelLocation;
 
-    private final GuideTexture topTexture;
-    private final GuideTexture pagesTexture;
-    private final GuideTexture infoPageTexture;
-    private final GuideTexture infoPageTopTexture;
+    private final GuideTexture bookTextures;
+    private final GuideTexture infoTextures;
+    private final GuideTexture pageTextures;
 
     private boolean init;
 
@@ -40,14 +39,13 @@ public final class Book implements IBook {
 
     public Book ( ResourceLocation pId, Color pColor,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
-                  GuideTexture pTopTexture, GuideTexture pPagesTexture, ResourceLocation pModelLocation, GuideTexture pInfoPageTexture, GuideTexture pInfoPageTopTexture,
+                  GuideTexture pBookTextures, GuideTexture pInfoTextures, GuideTexture pPagesTexture, ResourceLocation pModelLocation,
                   boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation ) {
 
-        this.topTexture = pTopTexture;
-        this.pagesTexture = pPagesTexture;
+        this.bookTextures = pBookTextures;
+        this.infoTextures = pInfoTextures;
+        this.pageTextures = pPagesTexture;
         this.modelLocation = pModelLocation;
-        this.infoPageTexture = pInfoPageTexture;
-        this.infoPageTopTexture = pInfoPageTopTexture;
 
         this.id = pId;
         this.color = pColor;
@@ -73,23 +71,19 @@ public final class Book implements IBook {
     }
 
     public GuideTexture topTexture() {
-        return this.topTexture;
+        return this.bookTextures;
+    }
+
+    public GuideTexture infoTexture() {
+        return this.infoTextures;
     }
 
     public GuideTexture pagesTexture() {
-        return this.pagesTexture;
+        return this.pageTextures;
     }
 
     public ResourceLocation modelLocation() {
         return this.modelLocation;
-    }
-
-    public GuideTexture infoPageTexture() {
-        return this.infoPageTexture;
-    }
-
-    public GuideTexture infoPageTopTexture() {
-        return this.infoPageTopTexture;
     }
 
     public Component title() {
