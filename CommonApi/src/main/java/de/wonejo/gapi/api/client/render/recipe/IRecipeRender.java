@@ -11,6 +11,6 @@ public interface IRecipeRender extends CanView {
 
 
     void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont, ItemRotation pRotation);
-    void init ();
+    default void init () {};
 
 }

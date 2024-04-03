@@ -11,5 +11,9 @@
   "gapi.book.button.information": "Information",
   "__comment": "Information",
   "text.gapi.information.modName": "Mod: %s",
-  "text.gapi.information.credits": "Credits: %s"
+  "text.gapi.information.credits": "Credits: %s",
+  "gapi.recipe.shaped": "Shaped Recipe",
+  "gapi.recipe.shapeless": "Shapeless Recipe",
+  "gapi.recipe.furnace": "Smelting Recipe",
+  "gapi.recipe.brewing": "Brewing Recipe"
 }
