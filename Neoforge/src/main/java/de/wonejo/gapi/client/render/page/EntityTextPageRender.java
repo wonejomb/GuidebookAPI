@@ -40,7 +40,7 @@ public class EntityTextPageRender implements IPageRender {
                 pFont,
                 this.content,
                 pScreen.xOffset() + 10,
-                pScreen.yOffset() + 16,
+                pScreen.yOffset() + pScreen.widthSize() / 2 + 30,
                 pScreen.widthSize() - 18,
                 ModConfigurations.CLIENT.textColor.get()
         );
@@ -48,15 +48,16 @@ public class EntityTextPageRender implements IPageRender {
         if ( this.entity != null ) {
             PoseStack stack = pGraphics.pose();
 
-            double x = pScreen.xOffset() + (double) pScreen.widthSize() / 2;
-            double y = pScreen.yOffset() + (double) pScreen.heightSize() / 2;
-            double z = 50.0F;
-
             double entityScale = 100.0F;
             double bbSize = Math.max(this.entity.getBbWidth(), this.entity.getBbHeight());
 
             if (bbSize > 1.0)
                 entityScale /= bbSize * 1.5F;
+
+
+            double x = pScreen.xOffset() + (double) pScreen.widthSize() / 2;
+            double y = pScreen.yOffset() + (double) pScreen.heightSize() / 2 + 10;
+            double z = 50.0F;
 
             RenderSystem.setShaderLights(
                     new Vector3f(1.0F, 1.0F, 1.0F).normalize(),

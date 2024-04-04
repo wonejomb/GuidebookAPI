@@ -88,10 +88,9 @@ public final class EntryGuideScreen extends GuideScreen {
     }
 
     public void tick() {
-        this.pages.stream()
-                .filter(page -> this.pageId < this.pages.size())
-                .filter(page -> this.pages.get(this.pageId).canView())
-                .forEach(PageWrapper::tick);
+        if ( this.pageId < this.pages.size() )
+            if ( this.pages.get(this.pageId).canView() )
+                this.pages.get(this.pageId).tick();
     }
 
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
@@ -112,10 +111,9 @@ public final class EntryGuideScreen extends GuideScreen {
 
         this.pageId = Mth.clamp(this.pageId, 0, this.pages.size() - 1);
 
-        this.pages.stream()
-                .filter(page -> this.pageId < this.pages.size())
-                .filter(page -> this.pages.get(this.pageId).canView())
-                .forEach((page) -> page.render(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, this));
+        if ( this.pageId < this.pages.size() )
+            if ( this.pages.get(this.pageId).canView() )
+                this.pages.get(this.pageId).render(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, this);
 
         this.renderables.forEach(render -> render.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick));
     }
