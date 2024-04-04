@@ -4,13 +4,11 @@ plugins {
     id 'fabric-loom' version '1.5-SNAPSHOT' apply false
 
     id 'java-library'
-    id 'net.darkhax.curseforgegradle' version '1.1.18'
-    id 'com.modrinth.minotaur' version '2.+'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
 }
 
 group = "${mod_group}"
-version = "${mc_version}.${mod_version}-${mod_version_type}"
+version = "${mc_version}.${mod_version}"
 
 subprojects.forEach {
     it.plugins.apply 'java-library'

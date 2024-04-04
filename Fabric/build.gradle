@@ -2,6 +2,9 @@ plugins {
     id 'net.neoforged.gradle.vanilla' version '7.0.102' apply false
     id 'net.neoforged.gradle.userdev' version '7.0.102' apply false
     id 'fabric-loom' version '1.5-SNAPSHOT'
+
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 dependencies {
@@ -23,5 +26,38 @@ loom.runs {
         configName = "FabricClient"
         ideConfigGenerated(true)
         runDir("run/client")
+    }
+}
+
+curseforge {
+    apiKey = "${curseforgeApiToken}"
+    project {
+        id = "${curseProjectId}"
+        changelog = ""
+        releaseType = "release"
+        addGameVersion "${mc_version}"
+
+        mainArtifact(remapJar) {
+            displayName = "GuidebookApi-Fabric-${mod_version}"
+
+            relations {
+                requiredDependency "fabric-api"
+            }
+        }
+    }
+}
+
+
+modrinth {
+    token = "${modrinthToken}"
+    projectId = "${modrinthProjectId}"
+    versionName = "GuidebookAPI-Fabric"
+    versionNumber = "${mod_version}"
+    uploadFile = remapJar
+    gameVersions = ["${mc_version}"] as Iterable
+    loaders = ['fabric']
+
+    dependencies {
+        required.project 'fabric-api'
     }
 }

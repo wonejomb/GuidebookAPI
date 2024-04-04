@@ -2,6 +2,9 @@ plugins {
     id 'net.neoforged.gradle.vanilla' version '7.0.102' apply false
     id 'fabric-loom' version '1.5-SNAPSHOT' apply false
     id 'net.neoforged.gradle.userdev' version '7.0.102'
+
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 sourceSets {
@@ -38,5 +41,19 @@ subsystems {
     parchment {
         minecraftVersion = "${parchment_mc_version}"
         mappingsVersion = "${parchmentVersion}"
+    }
+}
+
+curseforge {
+    apiKey = "${curseforgeApiToken}"
+    project {
+        id = "${curseProjectId}"
+        changelog = ""
+        releaseType = "release"
+        addGameVersion "${mc_version}"
+
+        mainArtifact(jar) {
+            displayName = "GuidebookApi-Neoforge-${mod_version}"
+        }
     }
 }
