@@ -22,13 +22,13 @@
   ],
   "entrypoints": {
     "main": [
-      "de.mrbunny.guidebook.GuidebookMod"
+      "de.wonejo.gapi.GuidebookApiMod"
     ],
     "client": [
-      "de.mrbunny.guidebook.client.GuidebookClientMod"
+      "de.wonejo.gapi.client.GapiClientMod"
     ],
     "guidebookapi": [
-      "de.mrbunny.guidebook.example.ExampleBook"
+      "de.wonejo.gapi.example.ExampleBook"
     ]
   },
   "depends": {

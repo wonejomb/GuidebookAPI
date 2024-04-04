@@ -20,30 +20,18 @@ import org.joml.Vector3f;
 
 import java.util.function.Function;
 
-public class EntityTextPageRender implements IPageRender {
+public class EntityPageRender implements IPageRender {
 
-    private final Function<Level, ? extends Entity> entityType;
-    private final Component content;
     private Component title;
     private @Nullable Entity entity;
+    private final Function<Level, ? extends Entity> entityType;
 
-    public EntityTextPageRender ( Function<Level, ? extends Entity> pEntityType, Component pContent ) {
-        this.entityType = pEntityType;
-        this.content = pContent;
+    public EntityPageRender( Function<Level, ? extends Entity> pEntity ) {
+        this.entityType = pEntity;
     }
 
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont) {
         RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get());
-
-        RenderUtils.renderTextInRange(
-                pGraphics,
-                pFont,
-                this.content,
-                pScreen.xOffset() + 10,
-                pScreen.yOffset() + pScreen.widthSize() / 2 + 30,
-                pScreen.widthSize() - 18,
-                ModConfigurations.CLIENT.textColor.get()
-        );
 
         if ( this.entity != null ) {
             PoseStack stack = pGraphics.pose();

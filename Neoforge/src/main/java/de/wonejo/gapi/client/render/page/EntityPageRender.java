@@ -53,6 +53,7 @@ public class EntityPageRender implements IPageRender {
                     new Vector3f(-1.0F, -1.0F, 0.0F).normalize()
             );
 
+            stack.pushPose();
             stack.translate(x, y, z);
             stack.scale((float) entityScale, (float) entityScale, (float) entityScale);
             stack.mulPose(Axis.YP.rotationDegrees(((float) Util.getMillis() / 15) % 360));

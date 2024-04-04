@@ -16,3 +16,12 @@ dependencies {
 
     implementation project(":CommonApi")
 }
+
+loom.runs {
+    named("client") {
+        client()
+        configName = "FabricClient"
+        ideConfigGenerated(true)
+        runDir("run/client")
+    }
+}
