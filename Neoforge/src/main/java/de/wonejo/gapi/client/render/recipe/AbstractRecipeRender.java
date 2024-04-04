@@ -1,7 +1,6 @@
 package de.wonejo.gapi.client.render.recipe;
 
 import de.wonejo.gapi.api.client.render.recipe.IRecipeRender;
-import de.wonejo.gapi.api.util.RenderUtils;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;

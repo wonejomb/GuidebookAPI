@@ -26,8 +26,8 @@ public class ShapelessRecipeRender extends AbstractCraftingRecipeRender<Shapeles
         for ( int y = 0; y < 3; y++ ) {
             for ( int x = 0; x < 3; x++ ) {
                 int i = 3 * y + x;
-                int stackX = (x + 1) * 17 + (pScreen.xOffset() + pScreen.widthSize() / 2 - 100) + x;
-                int stackY = (y + 1) * 17 + (pScreen.yOffset() + pScreen.heightSize() / 2 - 58) + y;
+                int stackX = x * 24 + pScreen.xOffset() + pScreen.widthSize() / 2 - 59 + x;
+                int stackY = y * 24 + pScreen.yOffset() + pScreen.heightSize() / 2 - 32 + y;
 
                 if ( i < this.recipe.getIngredients().size() ) {
                     Ingredient ingredient = this.recipe.getIngredients().get(i);
