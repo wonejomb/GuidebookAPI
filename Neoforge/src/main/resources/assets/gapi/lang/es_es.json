@@ -1,0 +1,20 @@
+{
+  "__comentario": "Libro",
+  "text.gapi.unknown": "Desconocido",
+  "text.gapi.author.unknown": "Autor: Desconocido",
+  "gapi.category.entry.select": "Categoria: %s",
+  "__comentario": "Botones",
+  "gapi.book.button.home": "Principal",
+  "gapi.book.button.category.home": "Principal",
+  "gapi.book.button.back": "Volver",
+  "gapi.book.button.next": "Siguiente",
+  "gapi.book.button.information": "Informacion",
+  "__comentario": "Informacion",
+  "text.gapi.information.modName": "Mod: %s",
+  "text.gapi.information.credits": "Creditos: %s",
+  "__comentario": "Recetas",
+  "gapi.recipe.shaped": "Receta ordenada",
+  "gapi.recipe.shapeless": "Receta desordenada",
+  "gapi.recipe.furnace": "Receta de cocina",
+  "gapi.recipe.brewing": "Receta de pocion"
+}
