@@ -1,3 +1,7 @@
+# 2.0.2:
+
+Update item textures and logo.
+
 # 2.0.1:
 
 This update only remove the ExampleBook from the Jar
