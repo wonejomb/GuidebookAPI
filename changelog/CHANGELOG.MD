@@ -1,3 +1,7 @@
+# 2.0.1:
+
+This update only remove the ExampleBook from the Jar
+
 # 2.0.0:
 
 The GuidebookAPI 2.0.0 just release! This update has some breaking changes for the old 1.0.0 API.
