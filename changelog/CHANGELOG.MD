@@ -1,4 +1,4 @@
-# 2.1.0:
+# 2.1.4:
 
 This update has minimal changes for colors in the books. Now the GuidebookAPI proxy doesn't set a color if there is a custom texture in the guide.
 
