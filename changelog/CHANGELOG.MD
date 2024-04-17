@@ -1,3 +1,9 @@
+# 2.1.0:
+
+This update has minimal changes for colors in the books. Now the GuidebookAPI proxy doesn't set a color if there is a custom texture in the guide.
+
+In configurations now you can change like the book colors the color of the pages.
+
 # 2.0.2:
 
 Update item textures and logo.
