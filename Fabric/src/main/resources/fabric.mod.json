@@ -26,9 +26,6 @@
     ],
     "client": [
       "de.wonejo.gapi.client.GapiClientMod"
-    ],
-    "guidebookapi": [
-      "de.wonejo.gapi.example.ExampleBook"
     ]
   },
   "depends": {

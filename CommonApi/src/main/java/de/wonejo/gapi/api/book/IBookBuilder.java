@@ -12,7 +12,8 @@ import java.util.function.Consumer;
 
 public interface IBookBuilder {
 
-    IBookBuilder color (Color pColor);
+    IBookBuilder bookColor (Color pBookColor);
+    IBookBuilder pagesColor ( Color pPagesColor );
 
     IBookBuilder spawnWithBook ();
     IBookBuilder header ( Component pHeader );

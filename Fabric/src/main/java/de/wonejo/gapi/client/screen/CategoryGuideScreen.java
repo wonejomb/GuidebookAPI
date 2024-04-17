@@ -111,7 +111,7 @@ public final class CategoryGuideScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        Color bookColor = new Color(ModConfigurations.CLIENT.bookColors.get(this.getBook()).get());
+        Color bookColor = new Color(ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get());
 
         float red = bookColor.getRed() / 255.0F;
         float green = bookColor.getGreen() / 255.0F;

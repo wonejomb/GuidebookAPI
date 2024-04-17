@@ -34,7 +34,8 @@ public final class BookBuilder implements IBookBuilder {
     private Component itemName;
     private Component author;
     private boolean shouldSpawnWithBook = false;
-    private Color color = new Color(255, 128, 26);
+    private Color bookColor = new Color(255, 128, 26);
+    private Color pagesColor = new Color(255, 128, 26);
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
@@ -65,8 +66,13 @@ public final class BookBuilder implements IBookBuilder {
         return this;
     }
 
-    public IBookBuilder color(Color pColor) {
-        this.color = pColor;
+    public IBookBuilder bookColor(Color pBookColor) {
+        this.bookColor = pBookColor;
+        return this;
+    }
+
+    public IBookBuilder pagesColor(Color pPagesColor) {
+        this.pagesColor = pPagesColor;
         return this;
     }
 
@@ -116,7 +122,8 @@ public final class BookBuilder implements IBookBuilder {
             throw new IllegalStateException("Content provider can't be null");
 
         return new Book(id,
-                this.color, this.title, this.header, this.subHeader, this.itemName, this.author,
+                this.bookColor, this.pagesColor,
+                this.title, this.header, this.subHeader, this.itemName, this.author,
                 this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation
                 ,this.shouldSpawnWithBook, this.contentProvider, this.bookInformation);
     }

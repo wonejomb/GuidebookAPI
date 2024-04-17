@@ -30,20 +30,6 @@ public class WorldEventHandler {
                 }
             }
         });
-//        if ( !pEvent.getEntity().level().isClientSide && pEvent.getEntity() instanceof Player player ) {
-//            CompoundTag initialBooks = getInitialBooksTag(player);
-//
-//            if (ModConfigurations.COMMON.shouldSpawnWithBook.get()) {
-//                for (IBook book : BookRegistry.getLoadedBooks()) {
-//                    IConfigValue<Boolean> bookSpawn = ModConfigurations.COMMON.spawnBooks.get(book);
-//
-//                    if ((book == null || bookSpawn.get()) && !initialBooks.getBoolean("%s.%s".formatted(book.id().getNamespace(), book.id().getPath())))  {
-//                        player.getInventory().add(BookRegistry.getBookItem(book));
-//                        initialBooks.putBoolean("%s.%s".formatted(book.id().getNamespace(), book.id().getPath()), true);
-//                    }
-//                }
-//            }
-//        }
     }
 
     private static @NotNull CompoundTag getInitialBooksTag (Player pPlayer) {

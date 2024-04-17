@@ -29,7 +29,8 @@ public interface IBook {
     Component itemName ();
     Component author ();
 
-    Color color ();
+    Color bookColor ();
+    Color pagesColor ();
 
     List<IBookCategory> categories ();
 

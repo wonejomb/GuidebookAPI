@@ -32,12 +32,14 @@ public final class Book implements IBook {
     private final Component author;
 
     private final boolean shouldSpawnWithBook;
-    private final Color color;
+    private final Color bookColor;
+    private final Color pagesColor;
 
     private final Consumer<List<IBookCategory>> contentProvider;
     private final List<IBookCategory> categories = Lists.newArrayList();
 
-    public Book ( ResourceLocation pId, Color pColor,
+    public Book ( ResourceLocation pId,
+                  Color pBookColor, Color pPagesColor,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
                   GuideTexture pBookTextures, GuideTexture pInfoTextures, GuideTexture pPagesTexture, ResourceLocation pModelLocation,
                   boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation ) {
@@ -48,7 +50,10 @@ public final class Book implements IBook {
         this.modelLocation = pModelLocation;
 
         this.id = pId;
-        this.color = pColor;
+
+        this.bookColor = pBookColor;
+        this.pagesColor = pPagesColor;
+
         this.title = pTitle;
         this.header = pHeader;
         this.subHeader = pSubHeader;
@@ -106,9 +111,10 @@ public final class Book implements IBook {
         return this.author;
     }
 
-    public Color color() {
-        return this.color;
+    public Color bookColor() {
+        return this.bookColor;
     }
+    public Color pagesColor () { return this.pagesColor; }
 
     public boolean shouldSpawnWithBook() {
         return this.shouldSpawnWithBook;

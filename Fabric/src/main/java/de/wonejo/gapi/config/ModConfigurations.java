@@ -33,6 +33,8 @@ public class ModConfigurations {
         public IConfigValue<Integer> textColor;
         public IConfigValue<Integer> entryColor;
         public IConfigValue<Integer> entryBetweenColor;
+
+        public Map<IBook, IConfigValue<Integer>> pageBookColors = Maps.newHashMap();
         public Map<IBook, IConfigValue<Integer>> bookColors = Maps.newHashMap();
 
         public void buildConfigurations() {
@@ -53,25 +55,34 @@ public class ModConfigurations {
                     new Color(39, 26, 23).getRGB()
             );
 
-            for ( IBook book : BookRegistry.getLoadedBooks() )
+            for ( IBook book : BookRegistry.getLoadedBooks() ) {
                 this.bookColors.put(book,
                         this.createConfig(
                                 "bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
                                 "Define the color of the book: %s".formatted(book.id().getPath()),
-                                book.color().getRGB()
+                                book.bookColor().getRGB()
                         )
                 );
+
+                this.pageBookColors .put(book,
+                        this.createConfig("bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                                "Define the color of the pages of the book: %s".formatted(book.id().getPath()),
+                                book.pagesColor().getRGB()));
+            }
         }
 
         public void defineConfigurations() {
             this.bookColors.clear();
+            this.pageBookColors.clear();
 
             this.textColor = this.getConfigById("textColor");
             this.entryColor = this.getConfigById("entryColor");
             this.entryBetweenColor = this.getConfigById("entryBetweenColor");
 
-            for ( IBook book : BookRegistry.getLoadedBooks() )
+            for ( IBook book : BookRegistry.getLoadedBooks() ) {
                 this.bookColors.put(book, this.getConfigById("bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
+                this.pageBookColors.put(book, this.getConfigById("bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
+            }
         }
     }
 
