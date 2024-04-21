@@ -10,12 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class ConfigFile implements IConfigFile {
 
@@ -53,9 +49,10 @@ public class ConfigFile implements IConfigFile {
             }
         }
 
-
         if ( !this.isBroken() ) {
             try {
+                this.updateFileWithMissingKeys();
+
                 LOGGER.debug("Loading configurations from: {}", this.configFile);
 
                 this.load();
@@ -129,6 +126,44 @@ public class ConfigFile implements IConfigFile {
         IConfigValueSerializer<T> serializer = value.serializer();
         T actualValue = value.get();
         return serializer.serialize(actualValue);
+    }
+
+    private void updateFileWithMissingKeys () throws IOException {
+        LOGGER.warn("Config file needs update the configurations");
+        Set<String> existingKeys = readExistingKeys();
+        Set<String> providerKeys = this.provider.configurations().keySet();
+
+        try ( BufferedWriter writer = new BufferedWriter(new FileWriter(this.configFile, true)) )  {
+            for ( String key : providerKeys ) {
+                if (!existingKeys.contains(key)) {
+                    IConfigValue<?> config = this.provider.configurations().get(key);
+                    String comment = config.comment();
+                    Object value = config.get();
+                    writer.write("#" + comment + "  ||  DEFAULT: " + config.defaultValue());
+                    writer.newLine();
+                    writer.write(key + "=" + serializeValue(config));
+                    writer.newLine();
+                }
+            }
+        }
+    }
+
+    private Set<String> readExistingKeys() throws IOException {
+        Set<String> existingKeys = new HashSet<>();
+
+        try (Scanner scanner = new Scanner(configFile)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (!line.isEmpty() && !line.startsWith("#")) {
+                    String[] parts = line.split("=", 2);
+                    if (parts.length == 2) {
+                        existingKeys.add(parts[0].trim());
+                    }
+                }
+            }
+        }
+
+        return existingKeys;
     }
 
     public ConfigFile provider (IConfigProvider pProvider )  {
