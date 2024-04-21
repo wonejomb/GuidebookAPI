@@ -1,15 +1,14 @@
 # 2.2.6
 
-2.2.6 es una actualización realizada para el sistema de configuración de mods.
+2.2.6 is an update made for the mod configuration system.
 
-El sistema de configuración del mod ahora permite serializadores, esto permite una carga más fácil de configuraciones y permite definir otros tipos de configuraciones más fácilmente. Ejemplo: colores
+The mod's configuration system now allows serializers, this allows for easier loading of configurations and allows other types of configurations to be defined more easily. Example: colors
 
-Ahora la carga de color del mod es más fácil de entender, quedando ahora: RGB (rojo, verde, azul) como valor de la configuración de color.
+Now the color loading of the mod is easier to understand, now remaining: RGB (red, green, blue) as the value of the color settings.
 
-Ahora, para que el mod cargue las configuraciones del cliente que son principalmente de color, puede eliminarlas en el archivo o eliminar el archivo (GuidebookApi-Client.properties) y permitir que el mod cree un nuevo archivo con la serialización actual.
+Now to have the mod load the client settings that are primarily color you can delete them in the file or delete the file(GuidebookApi-Client.properties) and allow the mod to create a new file with the current serialization.
 
-También se solucionó un error al intentar agregar una nueva configuración automáticamente, ya que el mod previamente recreó el archivo con los valores predeterminados y no guardó los que ya tenía.
-
+Also fixed a bug when trying to add a new setting automatically, as the mod previously recreated the file with the default values ​​and did not save the ones it already had.
 # 2.1.5:
 
 This update fix the check in ClientProxy when a guide use custom textures.
