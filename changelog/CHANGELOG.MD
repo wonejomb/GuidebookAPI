@@ -1,6 +1,6 @@
 # 2.2.6
 
-2.2.6 is a specialized update to the Configuration API.
+2.2.6 is an update made for the mod configurations.
 
 Now the Configuration section in the API has serializers, this makes it easier to load configuration and define some settings (like colors)
 
