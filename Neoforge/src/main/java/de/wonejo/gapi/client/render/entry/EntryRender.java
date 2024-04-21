@@ -39,8 +39,8 @@ public abstract class EntryRender implements IEntryRender {
             name = FormattedText.composite(name, FormattedText.of("..."));
         }
 
-        int entryColor = ModConfigurations.CLIENT.entryColor.get();
-        int entryBetweenColor = ModConfigurations.CLIENT.entryBetweenColor.get();
+        int entryColor = ModConfigurations.CLIENT.entryColor.get().getRGB();
+        int entryBetweenColor = ModConfigurations.CLIENT.entryBetweenColor.get().getRGB();
 
         FormattedCharSequence sequence = Language.getInstance().getVisualOrder(name);
         if (RenderUtils.isMouseBetween(pMouseX, pMouseY, pEntryX - 16, pEntryY, 116, 12)) {

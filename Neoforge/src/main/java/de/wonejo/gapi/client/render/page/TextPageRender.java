@@ -25,7 +25,7 @@ public class TextPageRender implements IPageRender {
                 pScreen.xOffset() + 10,
                 pScreen.yOffset() + 10,
                 pScreen.widthSize() - 15,
-                ModConfigurations.CLIENT.textColor.get()
+                ModConfigurations.CLIENT.textColor.get().getRGB()
         );
     }
 

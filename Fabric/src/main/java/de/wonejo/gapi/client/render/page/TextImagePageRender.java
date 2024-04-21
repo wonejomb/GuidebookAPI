@@ -33,7 +33,7 @@ public class TextImagePageRender implements IPageRender {
                 pScreen.xOffset() + 10,
                 pScreen.yOffset() + 10,
                 pScreen.widthSize() - 18,
-                ModConfigurations.CLIENT.textColor.get()
+                ModConfigurations.CLIENT.textColor.get().getRGB()
         );
 
         PoseStack pose = pGraphics.pose();

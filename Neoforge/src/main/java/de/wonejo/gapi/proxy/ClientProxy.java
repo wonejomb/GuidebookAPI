@@ -25,7 +25,7 @@ public class ClientProxy implements IProxy {
                 IBookItem item = (IBookItem) bookStack.get().getItem();
 
                 if ( item.get() != null && !item.get().useCustomBookTextures() && tint == 0 )
-                    return ModConfigurations.CLIENT.bookColors.get(item.get()).get();
+                    return ModConfigurations.CLIENT.bookColors.get(item.get()).get().getRGB();
 
                 return -1;
             },  bookStack.get().getItem());

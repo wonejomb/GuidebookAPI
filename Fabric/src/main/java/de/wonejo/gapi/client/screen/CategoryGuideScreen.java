@@ -111,14 +111,15 @@ public final class CategoryGuideScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        Color bookColor = new Color(ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get());
+        if (!this.getBook().useCustomPagesTexture()) {
+            float red = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getRed() / 255.0F;
+            float green = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getGreen() / 255.0F;
+            float blue = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getBlue() / 255.0F;
 
-        float red = bookColor.getRed() / 255.0F;
-        float green = bookColor.getGreen() / 255.0F;
-        float blue = bookColor.getBlue() / 255.0F;
+            pGuiGraphics.setColor(red, green, blue, 1.0F);
+            RenderUtils.renderImage(pGuiGraphics, this.topTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
+        }
 
-        pGuiGraphics.setColor(red, green, blue, 1.0F);
-        RenderUtils.renderImage(pGuiGraphics, this.topTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
         pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderUtils.renderImage(pGuiGraphics, this.pagesTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
 

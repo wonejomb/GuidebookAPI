@@ -32,7 +32,7 @@ public class EntityPageRender implements IPageRender {
     }
 
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont) {
-        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get());
+        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get().getRGB());
 
         if ( this.entity != null ) {
             PoseStack stack = pGraphics.pose();

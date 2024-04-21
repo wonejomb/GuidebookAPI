@@ -30,7 +30,7 @@ public abstract class AbstractCraftingRecipeRender<T extends Recipe<?>> extends 
 
         RenderUtils.renderScaledImage(pGraphics, CRAFTING_GRID, pScreen.xOffset() + pScreen.widthSize() / 2 - 64, pScreen.yOffset() + pScreen.heightSize() / 2 - 36, 100, 58, 1.3F);
 
-        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 12, ModConfigurations.CLIENT.textColor.get());
+        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 12, ModConfigurations.CLIENT.textColor.get().getRGB());
 
         int outputX = pScreen.xOffset() + pScreen.widthSize() / 2 + 45;
         int outputY = pScreen.yOffset() + pScreen.heightSize() / 2 - 7;

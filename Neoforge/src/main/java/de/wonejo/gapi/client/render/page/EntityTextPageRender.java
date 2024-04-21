@@ -33,7 +33,7 @@ public class EntityTextPageRender implements IPageRender {
     }
 
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont) {
-        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get());
+        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get().getRGB());
 
         RenderUtils.renderTextInRange(
                 pGraphics,
@@ -42,7 +42,7 @@ public class EntityTextPageRender implements IPageRender {
                 pScreen.xOffset() + 10,
                 pScreen.yOffset() + pScreen.widthSize() / 2 + 30,
                 pScreen.widthSize() - 18,
-                ModConfigurations.CLIENT.textColor.get()
+                ModConfigurations.CLIENT.textColor.get().getRGB()
         );
 
         if ( this.entity != null ) {

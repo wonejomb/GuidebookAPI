@@ -35,15 +35,15 @@ public final class InformationGuideScreen extends GuideScreen {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
-        Color bookColor = new Color(ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get());
+        if (!this.getBook().useCustomPagesTexture()) {
+            float red = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getRed() / 255.0F;
+            float green = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getGreen() / 255.0F;
+            float blue = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getBlue() / 255.0F;
 
-        float red = bookColor.getRed() / 255.0F;
-        float green = bookColor.getGreen() / 255.0F;
-        float blue = bookColor.getBlue() / 255.0F;
+            pGuiGraphics.setColor(red, green, blue, 1.0F);
+            RenderUtils.renderImage(pGuiGraphics, this.topTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
+        }
 
-        pGuiGraphics.setColor(red, green, blue, 1.0F);
-        RenderUtils.renderImage(pGuiGraphics, this.topTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
-        pGuiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderUtils.renderImage(pGuiGraphics, this.pagesTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());
 
         pGuiGraphics.pose().pushPose();
@@ -52,18 +52,18 @@ public final class InformationGuideScreen extends GuideScreen {
                 this.xOffset() + this.widthSize() / 2, this.yOffset() - 10,
                 ChatFormatting.WHITE.getColor());
 
-        RenderUtils.renderTextInRange(pGuiGraphics, this.font, this.bookInformation.description(), this.xOffset() + 9, this.yOffset() + 8, 266, ModConfigurations.CLIENT.textColor.get());
+        RenderUtils.renderTextInRange(pGuiGraphics, this.font, this.bookInformation.description(), this.xOffset() + 9, this.yOffset() + 8, 266, ModConfigurations.CLIENT.textColor.get().getRGB());
 
         String modNameComponent = ComponentUtils.parseEffect("text.gapi.information.modName", this.bookInformation.modName().getString());
 
         pGuiGraphics.drawString(this.font, modNameComponent,
-                this.xOffset() + 8, this.yOffset() + this.heightSize() - 28, ModConfigurations.CLIENT.textColor.get(), false);
+                this.xOffset() + 8, this.yOffset() + this.heightSize() - 28, ModConfigurations.CLIENT.textColor.get().getRGB(), false);
 
         String creditsText = ComponentUtils.parseEffect("text.gapi.information.credits", this.bookInformation.credits().getString());
 
         pGuiGraphics.drawString(this.font, creditsText,
                 this.xOffset() + 8, this.yOffset() + this.heightSize() - 16,
-                ModConfigurations.CLIENT.textColor.get(),
+                ModConfigurations.CLIENT.textColor.get().getRGB(),
                 false);
 
         ((IScreenRenderablesAccessor) (Screen) this).getAllRenderables().forEach(it -> it.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick));

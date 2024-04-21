@@ -109,11 +109,9 @@ public final class CategoryGuideScreen extends GuideScreen {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         if (!this.getBook().useCustomPagesTexture()) {
-            Color bookColor = new Color(ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get());
-
-            float red = bookColor.getRed() / 255.0F;
-            float green = bookColor.getGreen() / 255.0F;
-            float blue = bookColor.getBlue() / 255.0F;
+            float red = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getRed() / 255.0F;
+            float green = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getGreen() / 255.0F;
+            float blue = ModConfigurations.CLIENT.pageBookColors.get(this.getBook()).get().getBlue() / 255.0F;
 
             pGuiGraphics.setColor(red, green, blue, 1.0F);
             RenderUtils.renderImage(pGuiGraphics, this.topTexture(), this.xOffset(), this.yOffset(), this.widthSize(), this.heightSize());

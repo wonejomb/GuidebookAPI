@@ -39,7 +39,7 @@ public class FurnaceRecipeRender extends AbstractRecipeRender<AbstractCookingRec
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont, ItemRotation pRotation) {
         pRotation.tick(Minecraft.getInstance());
 
-        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get());
+        RenderUtils.drawCenteredStringWithoutShadow(pGraphics, pFont, this.title, pScreen.xOffset() + pScreen.widthSize() / 2, pScreen.yOffset() + 10, ModConfigurations.CLIENT.textColor.get().getRGB());
         RenderUtils.renderImage(pGraphics, FURNACE_GRID, pScreen.xOffset() + pScreen.widthSize() / 2 - 57, pScreen.yOffset() + pScreen.heightSize() / 2 - 63,  57, 63);
 
         int x = pScreen.xOffset() + pScreen.widthSize() / 2 - 52;
