@@ -41,7 +41,7 @@ public class ExampleBook implements IGuidebook {
                 .subHeader(Component.literal("-- Example SubHeader --"))
                 .itemName(Component.literal("Example Book"))
                 .author(Component.literal("WonejoMB"))
-                .bookColor(new Color(228, 18, 120))
+                .bookColor(new Color(140, 18, 32))
                 .contentProvider(this::contentProvider);
     }
 
