@@ -1,17 +1,14 @@
 # 2.2.6
 
-2.2.6 is an update made for the mod configurations.
+2.2.6 es una actualización realizada para el sistema de configuración de mods.
 
-Now the Configuration section in the API has serializers, this makes it easier to load configuration and define some settings (like colors)
+El sistema de configuración del mod ahora permite serializadores, esto permite una carga más fácil de configuraciones y permite definir otros tipos de configuraciones más fácilmente. Ejemplo: colores
 
-Colors can now be RGB.
+Ahora la carga de color del mod es más fácil de entender, quedando ahora: RGB (rojo, verde, azul) como valor de la configuración de color.
 
-To define these colors you need to put this as a value: rgb(red, green, blue) and that's it.
+Ahora, para que el mod cargue las configuraciones del cliente que son principalmente de color, puede eliminarlas en el archivo o eliminar el archivo (GuidebookApi-Client.properties) y permitir que el mod cree un nuevo archivo con la serialización actual.
 
-Now, this update also involves having to delete the current configuration files that are in the mod ( GuidebookApi-client.properties and GuidebookApi-common.properties ) so that the mod rewrites these files with the current serialization.
-
-Also fixes the previous attempt to add configurations that are not in the file automatically
-
+También se solucionó un error al intentar agregar una nueva configuración automáticamente, ya que el mod previamente recreó el archivo con los valores predeterminados y no guardó los que ya tenía.
 
 # 2.1.5:
 
