@@ -1,3 +1,18 @@
+# 2.2.6
+
+2.2.6 is a specialized update to the Configuration API.
+
+Now the Configuration section in the API has serializers, this makes it easier to load configuration and define some settings (like colors)
+
+Colors can now be RGB.
+
+To define these colors you need to put this as a value: rgb(red, green, blue) and that's it.
+
+Now, this update also involves having to delete the current configuration files that are in the mod ( GuidebookApi-client.properties and GuidebookApi-common.properties ) so that the mod rewrites these files with the current serialization.
+
+Also fixes the previous attempt to add configurations that are not in the file automatically
+
+
 # 2.1.5:
 
 This update fix the check in ClientProxy when a guide use custom textures.
