@@ -16,15 +16,20 @@ public interface IBookBuilder {
     IBookBuilder pagesColor ( Color pPagesColor );
 
     IBookBuilder spawnWithBook ();
+
     IBookBuilder header ( Component pHeader );
     IBookBuilder subHeader ( Component pHeader );
     IBookBuilder itemName ( Component pItemName );
+    IBookBuilder author ( Component pAuthor );
+
     IBookBuilder bookTextures ( GuideTexture pBookTextures );
     IBookBuilder infoTextures ( GuideTexture pInfoTextures );
     IBookBuilder pagesTexture ( GuideTexture pPageTextures );
+
     IBookBuilder model ( ResourceLocation pModelLocation );
-    IBookBuilder author ( Component pAuthor );
+
     IBookBuilder information ( IBookInformation pInformation );
+
     IBookBuilder contentProvider (Consumer<List<IBookCategory>> pContentProvider);
 
 

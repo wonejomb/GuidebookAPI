@@ -28,7 +28,6 @@ public final class BookBuilder implements IBookBuilder {
     private IBookInformation bookInformation = BookInformationBuilder.of().build();
 
     private Consumer<List<IBookCategory>> contentProvider;
-    private Component title;
     private Component header;
     private Component subHeader;
     private Component itemName;
@@ -40,7 +39,7 @@ public final class BookBuilder implements IBookBuilder {
     private boolean useCustomInfoPagesTexture = false;
 
     private Color bookColor = new Color(255, 128, 26);
-    private Color pagesColor = bookColor;
+    private Color pagesColor;
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
@@ -115,13 +114,16 @@ public final class BookBuilder implements IBookBuilder {
     }
 
     public IBook build() {
-        this.title = this.bookInformation.title();
+        Component title = this.bookInformation.title();
+
+        if ( this.pagesColor == null )
+            this.pagesColor = this.bookColor;
 
         if ( this.header == null )
-            this.header = this.title;
+            this.header = title;
 
         if (this.itemName == null)
-            this.itemName = this.title;
+            this.itemName = title;
 
         if ( this.author == null )
             this.author = Component.translatable("text.gapi.author.unknown").withColor(ChatFormatting.AQUA.getColor());
@@ -130,7 +132,7 @@ public final class BookBuilder implements IBookBuilder {
             throw new IllegalStateException("Content provider can't be null");
 
         return new Book(id, this.contentProvider, this.bookInformation,
-                this.title, this.header, this.subHeader, this.itemName, this.author,
+                title, this.header, this.subHeader, this.itemName, this.author,
                 this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation,
                 this.bookColor, this.pagesColor,
                 this.shouldSpawnWithBook, this.useCustomBookTexture, this.useCustomPagesTexture, this.useCustomInfoPagesTexture);
