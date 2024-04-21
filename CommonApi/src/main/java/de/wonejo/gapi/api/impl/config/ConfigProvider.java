@@ -3,6 +3,7 @@ package de.wonejo.gapi.api.impl.config;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
+import de.wonejo.gapi.api.config.serializer.IConfigValueSerializer;
 
 import java.util.Map;
 
@@ -10,9 +11,8 @@ public abstract class ConfigProvider implements IConfigProvider {
 
     private final Map<String, IConfigValue<?>> configurations = Maps.newHashMap();
 
-    @SuppressWarnings("unchecked")
-    public <T> IConfigValue<T> createConfig(String pKey, String pComment, T pValue) {
-        IConfigValue<T> value = (IConfigValue<T>) ConfigValueBuilder.of(pKey).comment(pComment).defaultValue(pValue).build();
+    public <T> IConfigValue<T> createConfig(IConfigValueSerializer<T> pSerializer, String pKey, String pComment, T pValue) {
+        IConfigValue<T> value = ConfigValueBuilder.of(pKey, pSerializer).comment(pComment).defaultValue(pValue).build();
         this.configurations.put(pKey, value);
         return value;
     }

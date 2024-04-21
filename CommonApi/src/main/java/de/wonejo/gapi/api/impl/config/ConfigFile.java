@@ -1,8 +1,10 @@
 package de.wonejo.gapi.api.impl.config;
 
+import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.config.IConfigFile;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
+import de.wonejo.gapi.api.config.serializer.IConfigValueSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,15 +58,6 @@ public class ConfigFile implements IConfigFile {
             try {
                 LOGGER.debug("Loading configurations from: {}", this.configFile);
 
-                Map<String, IConfigValue<?>> fileConfigurations = getFileConfigurations();
-                Set<String> providedConfigKeys = this.provider.configurations().keySet();
-
-                if (!fileConfigurations.keySet().containsAll(providedConfigKeys))
-                    rewrite();
-
-                this.provider.configurations().clear();
-                fileConfigurations.clear();
-
                 this.load();
             } catch (IOException pException) {
                 LOGGER.error("Error loading config in: {}", this.fileName);
@@ -76,70 +69,34 @@ public class ConfigFile implements IConfigFile {
 
     public void load() throws IOException {
         Scanner reader = new Scanner(this.configFile);
+        Map<String, IConfigValue<?>> configurations = new HashMap<>(this.provider.configurations());
+        this.provider.configurations().clear();
 
-        while ( reader.hasNextLine() ) {
+        while (reader.hasNextLine()) {
             String line = reader.nextLine();
 
             if (line.isEmpty() || line.startsWith("#")) continue;
 
             String[] configParts = line.split("=", 2);
+            if (configParts.length != 2) continue;
+
             String key = configParts[0];
             String value = configParts[1];
+            IConfigValue<?> config = configurations.get(key);
 
-            Object configValue = parseConfigValue(value);
+            if (config != null) {
+                IConfigValueSerializer<?> serializer = config.serializer();
+                Object configValue = serializer.deserialize(value);
 
-            if ( configValue != null )  {
-                this.provider.configurations().put(key, new ConfigValue<>(key, "", configValue));
+                if (configValue != null) {
+                    this.provider.configurations().put(key, new ConfigValue<>(key, "", configValue));
+                }
             }
         }
 
         this.provider.defineConfigurations();
-        this.provider.configurations().clear();
-    }
 
-    private void rewrite ( ) {
-        LOGGER.warn("Config file rewrite required. ( All actual configuration will stay there )");
-
-        try (BufferedReader reader = Files.newBufferedReader(this.configFile.toPath());
-             BufferedWriter writer = Files.newBufferedWriter(this.configFile.toPath())) {
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.contains("=")) {
-                    writer.write(line);
-                    writer.newLine();
-                } else {
-                    String comment = line.trim();
-                    String key = comment.substring(1, comment.indexOf("||") - 1).trim();
-                    IConfigValue<?> configValue = this.provider.configurations().get(key);
-
-                    writer.write(comment);
-                    writer.newLine();
-
-                    if (configValue != null) {
-                        String value = configValue.get().toString();
-                        writer.write(key + "=" + value);
-                        writer.newLine();
-                    }
-                }
-            }
-
-            for (Map.Entry<String, IConfigValue<?>> entry : this.provider.configurations().entrySet()) {
-                String key = entry.getKey();
-                if (!isKeyPresent(key, this.configFile)) {
-                    String comment = "#" + entry.getValue().comment() + " || DEFAULT: " + entry.getValue().defaultValue();
-                    String value = entry.getValue().get().toString();
-                    writer.write(comment);
-                    writer.newLine();
-                    writer.write(key + "=" + value);
-                    writer.newLine();
-                }
-            }
-
-        } catch (IOException e) {
-            LOGGER.error("Error in rewrite of file");
-            throw new IllegalStateException(e);
-        }
+        reader.close();
     }
 
     public void save() {
@@ -153,7 +110,7 @@ public class ConfigFile implements IConfigFile {
         writer.close();
     }
 
-    private String getFileContent () {
+    private String getFileContent() {
         StringBuilder builder = new StringBuilder();
 
         for (Map.Entry<String, IConfigValue<?>> configEntry : this.provider.configurations().entrySet()) {
@@ -162,69 +119,16 @@ public class ConfigFile implements IConfigFile {
             IConfigValue<?> value = configEntry.getValue();
 
             builder.append("#").append(comment).append("  ||  DEFAULT: ").append(value.defaultValue()).append("\n");
-            builder.append(key).append("=").append(value.get()).append("\n");
+            builder.append(key).append("=").append(serializeValue(value)).append("\n");
         }
 
         return builder.toString();
     }
 
-    private Map<String, IConfigValue<?>> getFileConfigurations () throws IOException {
-        Map<String, IConfigValue<?>> fileConfigurations = new HashMap<>();
-
-        try ( BufferedReader reader = Files.newBufferedReader(this.configFile.toPath()) ) {
-            String line;
-
-            while((line = reader.readLine()) != null) {
-                line = line.trim();
-
-                if (!line.isEmpty()) {
-                    String comment = "";
-
-                    if (line.startsWith("#")) {
-                        comment = line;
-                    }
-
-                    String[] parts = line.split("=", 2);
-
-                    if (parts.length == 2) {
-                        String key = parts[0].trim();
-                        String value = parts[1].trim();
-
-                        Object configValue = parseConfigValue(value);
-                        fileConfigurations.put(key, new ConfigValue<>(key, comment, configValue));
-                    }
-                }
-            }
-        }
-
-        return fileConfigurations;
-    }
-
-    private boolean isKeyPresent(String key, File configFile) throws IOException {
-        try (BufferedReader reader = Files.newBufferedReader(configFile.toPath())) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                if (line.startsWith("#") && line.contains(key)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private Object parseConfigValue (String pValue) {
-        if ( pValue.equalsIgnoreCase("true") || pValue.equalsIgnoreCase("false") )
-            return Boolean.parseBoolean(pValue);
-
-        try {
-            return Integer.parseInt(pValue);
-        } catch (NumberFormatException pEx) {
-            try {
-                return Double.parseDouble(pValue);
-            } catch (NumberFormatException pEx2 ) {
-                return pValue;
-            }
-        }
+    private <T> String serializeValue(IConfigValue<T> value) {
+        IConfigValueSerializer<T> serializer = value.serializer();
+        T actualValue = value.get();
+        return serializer.serialize(actualValue);
     }
 
     public ConfigFile provider (IConfigProvider pProvider )  {

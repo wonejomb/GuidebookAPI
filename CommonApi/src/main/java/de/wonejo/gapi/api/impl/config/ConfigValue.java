@@ -1,8 +1,11 @@
 package de.wonejo.gapi.api.impl.config;
 
 import de.wonejo.gapi.api.config.IConfigValue;
+import de.wonejo.gapi.api.config.serializer.IConfigValueSerializer;
 
 public class ConfigValue<T> implements IConfigValue<T> {
+
+    private final IConfigValueSerializer<T> serializer;
 
     private final String key;
     private final String comment;
@@ -10,6 +13,14 @@ public class ConfigValue<T> implements IConfigValue<T> {
     protected T value;
 
     protected ConfigValue ( String pKey, String pComment, T pDefaultValue ) {
+        this.key = pKey;
+        this.comment = pComment;
+        this.defaultValue = pDefaultValue;
+        this.serializer = null;
+    }
+
+    protected ConfigValue ( IConfigValueSerializer<T> pSerializer, String pKey, String pComment, T pDefaultValue ) {
+        this.serializer = pSerializer;
         this.key = pKey;
         this.comment = pComment;
         this.defaultValue = pDefaultValue;
@@ -22,6 +33,10 @@ public class ConfigValue<T> implements IConfigValue<T> {
 
     public String comment() {
         return this.comment;
+    }
+
+    public IConfigValueSerializer<T> serializer() {
+        return this.serializer;
     }
 
     public T get() {

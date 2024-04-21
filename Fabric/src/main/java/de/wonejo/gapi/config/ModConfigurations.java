@@ -5,6 +5,8 @@ import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.config.IConfigValue;
 import de.wonejo.gapi.api.impl.config.ConfigFile;
 import de.wonejo.gapi.api.impl.config.ConfigProvider;
+import de.wonejo.gapi.api.impl.config.serializer.ColorValueSerializer;
+import de.wonejo.gapi.api.impl.config.serializer.ConfigValueSerializers;
 import de.wonejo.gapi.registry.BookRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -30,44 +32,51 @@ public class ModConfigurations {
 
     public static final class ClientConfigurations extends ConfigProvider {
 
-        public IConfigValue<Integer> textColor;
-        public IConfigValue<Integer> entryColor;
-        public IConfigValue<Integer> entryBetweenColor;
+        public IConfigValue<Color> textColor;
+        public IConfigValue<Color> entryColor;
+        public IConfigValue<Color> entryBetweenColor;
 
-        public Map<IBook, IConfigValue<Integer>> pageBookColors = Maps.newHashMap();
-        public Map<IBook, IConfigValue<Integer>> bookColors = Maps.newHashMap();
+        public Map<IBook, IConfigValue<Color>> pageBookColors = Maps.newHashMap();
+        public Map<IBook, IConfigValue<Color>> bookColors = Maps.newHashMap();
 
         public void buildConfigurations() {
 
             this.entryColor = this.createConfig(
+                    ConfigValueSerializers.createColorSerializer(ColorValueSerializer.ColorFormat.RGB),
                     "textColor",
                     "Define the color of all the texts in the books",
-                    new Color(164, 135, 125).getRGB());
+                    new Color(164, 135, 125)
+            );
 
             this.entryColor =  this.createConfig(
+                    ConfigValueSerializers.createColorSerializer(ColorValueSerializer.ColorFormat.RGB),
                     "entryColor",
                     "Define the color of the entries when the mouse isn't between this.",
-                    new Color(75, 61, 54).getRGB());
+                    new Color(75, 61, 54));
 
             this.entryBetweenColor = this.createConfig(
+                    ConfigValueSerializers.createColorSerializer(ColorValueSerializer.ColorFormat.RGB),
                     "entryBetweenColor",
                     "Define the color of the entries when the mouse is between this.",
-                    new Color(39, 26, 23).getRGB()
+                    new Color(39, 26, 23)
             );
 
             for ( IBook book : BookRegistry.getLoadedBooks() ) {
                 this.bookColors.put(book,
                         this.createConfig(
+                                ConfigValueSerializers.createColorSerializer(ColorValueSerializer.ColorFormat.RGB),
                                 "bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
                                 "Define the color of the book: %s".formatted(book.id().getPath()),
-                                book.bookColor().getRGB()
+                                book.bookColor()
                         )
                 );
 
                 this.pageBookColors .put(book,
-                        this.createConfig("bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                        this.createConfig(
+                                ConfigValueSerializers.createColorSerializer(ColorValueSerializer.ColorFormat.RGB),
+                                "bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
                                 "Define the color of the pages of the book: %s".formatted(book.id().getPath()),
-                                book.pagesColor().getRGB()));
+                                book.pagesColor()));
             }
         }
 
@@ -92,6 +101,7 @@ public class ModConfigurations {
 
         public void buildConfigurations() {
             this.shouldSpawnWithBook = createConfig(
+                    ConfigValueSerializers.createBooleanSerializer(),
                     "shouldSpawnWithBook",
                     "Define if the player should spawn with books. This configurations is for general use and encapsulate all the books",
                     true);
@@ -99,6 +109,7 @@ public class ModConfigurations {
             for ( IBook book : BookRegistry.getLoadedBooks() )
                 this.spawnBooks.put(book,
                         this.createConfig(
+                                ConfigValueSerializers.createBooleanSerializer(),
                                 "spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
                                 "Define if player should spawn with book: %s. This config apply only to that book. (%s)".formatted(book.id().getPath(), book.id().getPath()),
                                 book.shouldSpawnWithBook()
