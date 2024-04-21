@@ -8,7 +8,7 @@ Now the color loading of the mod is easier to understand, now remaining: RGB (re
 
 Now to have the mod load the client settings that are primarily color you can delete them in the file or delete the file(GuidebookApi-Client.properties) and allow the mod to create a new file with the current serialization.
 
-Also fixed a bug when trying to add a new setting automatically, as the mod previously recreated the file with the default values ​​and did not save the ones it already had.
+Also fixed a bug when trying to add a new setting automatically, as the mod previously recreated the file with the default values and did not save the ones it already had.
 # 2.1.5:
 
 This update fix the check in ClientProxy when a guide use custom textures.
