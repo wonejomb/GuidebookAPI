@@ -32,24 +32,30 @@ public final class Book implements IBook {
     private final Component author;
 
     private final boolean shouldSpawnWithBook;
+    private final boolean useCustomBookTexture;
+    private final boolean useCustomPagesTexture;
+    private final boolean useCustomInfoPagesTexture;
+
     private final Color bookColor;
     private final Color pagesColor;
 
     private final Consumer<List<IBookCategory>> contentProvider;
     private final List<IBookCategory> categories = Lists.newArrayList();
 
-    public Book ( ResourceLocation pId,
-                  Color pBookColor, Color pPagesColor,
+    public Book ( ResourceLocation pId, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation,
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
                   GuideTexture pBookTextures, GuideTexture pInfoTextures, GuideTexture pPagesTexture, ResourceLocation pModelLocation,
-                  boolean pShouldSpawnWithBook, Consumer<List<IBookCategory>> pContentProvider, IBookInformation pInformation ) {
+                  Color pBookColor, Color pPagesColor,
+                  boolean pShouldSpawnWithBook, boolean pUseCustomBookTexture, boolean pUseCustomPagesTexture, boolean pUseCustomInfoPagesTexture) {
+
+        this.id = pId;
+        this.contentProvider = pContentProvider;
+        this.bookInformation = pInformation;
 
         this.bookTextures = pBookTextures;
         this.infoTextures = pInfoTextures;
         this.pageTextures = pPagesTexture;
         this.modelLocation = pModelLocation;
-
-        this.id = pId;
 
         this.bookColor = pBookColor;
         this.pagesColor = pPagesColor;
@@ -59,9 +65,11 @@ public final class Book implements IBook {
         this.subHeader = pSubHeader;
         this.itemName = pItemName;
         this.author = pAuthor;
+
         this.shouldSpawnWithBook = pShouldSpawnWithBook;
-        this.contentProvider = pContentProvider;
-        this.bookInformation = pInformation;
+        this.useCustomBookTexture = pUseCustomBookTexture;
+        this.useCustomPagesTexture = pUseCustomPagesTexture;
+        this.useCustomInfoPagesTexture = pUseCustomInfoPagesTexture;
     }
 
     public void initializeContent() {
@@ -118,6 +126,18 @@ public final class Book implements IBook {
 
     public boolean shouldSpawnWithBook() {
         return this.shouldSpawnWithBook;
+    }
+
+    public boolean useCustomBookTextures() {
+        return this.useCustomBookTexture;
+    }
+
+    public boolean useCustomPagesTexture() {
+        return this.useCustomPagesTexture;
+    }
+
+    public boolean useCustomInfoPagesTexture() {
+        return this.useCustomInfoPagesTexture;
     }
 
     public IBookInformation information() {

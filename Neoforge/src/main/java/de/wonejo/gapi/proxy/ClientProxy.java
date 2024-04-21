@@ -24,7 +24,7 @@ public class ClientProxy implements IProxy {
             Minecraft.getInstance().getItemColors().register((stack, tint) -> {
                 IBookItem item = (IBookItem) bookStack.get().getItem();
 
-                if ( item.get() != null && !checkIfBookTextureIsCustom(item.get()) && tint == 0 )
+                if ( item.get() != null && !item.get().useCustomBookTextures() && tint == 0 )
                     return ModConfigurations.CLIENT.bookColors.get(item.get()).get();
 
                 return -1;
@@ -38,11 +38,6 @@ public class ClientProxy implements IProxy {
             pBook.initializeContent();
 
         Minecraft.getInstance().setScreen(new HomeGuideScreen(pBook));
-    }
-
-    private static boolean checkIfBookTextureIsCustom ( IBook pBook ) {
-        if (!pBook.topTexture().getTopTexture().equals(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png"))) return true;
-        return !pBook.topTexture().getPagesTexture().equals(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png"));
     }
 
 }

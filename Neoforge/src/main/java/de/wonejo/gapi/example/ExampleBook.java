@@ -6,25 +6,19 @@ import de.wonejo.gapi.api.book.IBookBuilder;
 import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.book.components.IBookPage;
 import de.wonejo.gapi.api.impl.book.BookBuilder;
-import de.wonejo.gapi.api.impl.book.BookInformation;
 import de.wonejo.gapi.api.impl.book.BookInformationBuilder;
+import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.book.BookCategory;
 import de.wonejo.gapi.book.BookEntry;
-import de.wonejo.gapi.api.util.Constants;
-import de.wonejo.gapi.api.util.GuideTexture;
 import de.wonejo.gapi.book.BookPage;
-import de.wonejo.gapi.client.render.category.ImageCategoryRender;
 import de.wonejo.gapi.client.render.category.ItemCategoryRender;
-import de.wonejo.gapi.client.render.entry.ImageEntryRender;
 import de.wonejo.gapi.client.render.entry.ItemEntryRender;
 import de.wonejo.gapi.client.render.page.*;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.*;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -47,7 +41,7 @@ public class ExampleBook implements IGuidebook {
                 .subHeader(Component.literal("-- Example SubHeader --"))
                 .itemName(Component.literal("Example Book"))
                 .author(Component.literal("WonejoMB"))
-                .color(new Color(228, 18, 120))
+                .bookColor(new Color(140, 18, 32))
                 .contentProvider(this::contentProvider);
     }
 

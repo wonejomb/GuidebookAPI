@@ -33,9 +33,14 @@ public final class BookBuilder implements IBookBuilder {
     private Component subHeader;
     private Component itemName;
     private Component author;
+
     private boolean shouldSpawnWithBook = false;
+    private boolean useCustomBookTexture = false;
+    private boolean useCustomPagesTexture = false;
+    private boolean useCustomInfoPagesTexture = false;
+
     private Color bookColor = new Color(255, 128, 26);
-    private Color pagesColor = new Color(255, 128, 26);
+    private Color pagesColor = bookColor;
 
     private BookBuilder (ResourceLocation pId) {
         this.id = pId;
@@ -48,16 +53,19 @@ public final class BookBuilder implements IBookBuilder {
 
     public IBookBuilder infoTextures(GuideTexture pInfoTextures) {
         this.infoTextures = pInfoTextures;
+        this.useCustomInfoPagesTexture = true;
         return this;
     }
 
     public IBookBuilder pagesTexture(GuideTexture pPageTextures) {
         this.pagesTexture = pPageTextures;
+        this.useCustomPagesTexture = true;
         return this;
     }
 
     public IBookBuilder bookTextures(GuideTexture pBookTextures) {
         this.bookTextures = pBookTextures;
+        this.useCustomBookTexture = true;
         return this;
     }
 
@@ -121,10 +129,10 @@ public final class BookBuilder implements IBookBuilder {
         if ( this.contentProvider == null )
             throw new IllegalStateException("Content provider can't be null");
 
-        return new Book(id,
-                this.bookColor, this.pagesColor,
+        return new Book(id, this.contentProvider, this.bookInformation,
                 this.title, this.header, this.subHeader, this.itemName, this.author,
-                this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation
-                ,this.shouldSpawnWithBook, this.contentProvider, this.bookInformation);
+                this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation,
+                this.bookColor, this.pagesColor,
+                this.shouldSpawnWithBook, this.useCustomBookTexture, this.useCustomPagesTexture, this.useCustomInfoPagesTexture);
     }
 }

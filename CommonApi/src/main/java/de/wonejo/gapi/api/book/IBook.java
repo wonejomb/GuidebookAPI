@@ -13,6 +13,9 @@ public interface IBook {
     void initializeContent ();
 
     boolean shouldSpawnWithBook ();
+    boolean useCustomBookTextures ();
+    boolean useCustomPagesTexture ();
+    boolean useCustomInfoPagesTexture ();
 
     ResourceLocation id ();
 
