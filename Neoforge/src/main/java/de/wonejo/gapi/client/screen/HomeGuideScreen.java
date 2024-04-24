@@ -161,4 +161,9 @@ public final class HomeGuideScreen extends GuideScreen {
             this.categoryPage--;
     }
 
+    public HomeGuideScreen withInitialPage ( int pPage ) {
+        this.categoryPage = pPage;
+        return this;
+    }
+
 }

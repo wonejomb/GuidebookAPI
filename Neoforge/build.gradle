@@ -1,7 +1,7 @@
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.102' apply false
-    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
-    id 'net.neoforged.gradle.userdev' version '7.0.102'
+    id 'net.neoforged.gradle.vanilla' version '7.0.107' apply false
+    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.107'
 
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version '2.+'

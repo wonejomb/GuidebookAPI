@@ -1,7 +1,6 @@
 package de.wonejo.gapi.api.proxy;
 
 import de.wonejo.gapi.api.book.IBook;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;

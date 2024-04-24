@@ -9,11 +9,11 @@ import de.wonejo.gapi.registry.BookRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.jetbrains.annotations.NotNull;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, modid = Constants.MOD_ID)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME, modid = Constants.MOD_ID)
 public class WorldEventHandler {
 
     @SubscribeEvent

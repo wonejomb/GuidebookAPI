@@ -16,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -35,12 +34,11 @@ public final class BookItem extends Item implements IBookItem {
 
     }
 
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
-        if ( this.book.author() != null ) {
-            pTooltipComponents.add(this.book.author());
-            if ( pIsAdvanced == TooltipFlag.ADVANCED ) {
-                pTooltipComponents.add(Component.literal(this.book.id().toString()));
-            }
+    public void appendHoverText(ItemStack pStack, TooltipContext pCtx, List<Component> pComponents, TooltipFlag pFlag) {
+        if (this.book.author() != null) {
+            pComponents.add(this.book.author());
+            if (pFlag == TooltipFlag.ADVANCED)
+                pComponents.add(Component.literal(this.book.id().toString()));
         }
     }
 

@@ -1,15 +1,16 @@
 package de.wonejo.gapi.proxy;
 
 import de.wonejo.gapi.api.book.IBook;
+import de.wonejo.gapi.api.book.components.IBookCategory;
+import de.wonejo.gapi.api.book.components.IBookEntry;
 import de.wonejo.gapi.api.book.item.IBookItem;
 import de.wonejo.gapi.api.proxy.IProxy;
-import de.wonejo.gapi.api.util.Constants;
+import de.wonejo.gapi.client.screen.EntryGuideScreen;
 import de.wonejo.gapi.registry.BookRegistry;
 import de.wonejo.gapi.client.screen.HomeGuideScreen;
 import de.wonejo.gapi.config.ModConfigurations;
 import de.wonejo.gapi.item.BookItem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -39,5 +40,4 @@ public class ClientProxy implements IProxy {
 
         Minecraft.getInstance().setScreen(new HomeGuideScreen(pBook));
     }
-
 }

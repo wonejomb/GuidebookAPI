@@ -23,9 +23,9 @@ public class ShapedRecipeRender extends AbstractCraftingRecipeRender<ShapedRecip
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont, ItemRotation pRotation) {
         super.render(pGraphics, pAccess, pMouseX, pMouseY, pScreen, pFont, pRotation);
 
-        for ( int y =  0; y < this.recipe.getRecipeHeight(); y++ ) {
-            for ( int x = 0; x < this.recipe.getRecipeWidth(); x++ ) {
-                int i = y * this.recipe.getRecipeWidth() + x;
+        for ( int y =  0; y < this.recipe.getWidth(); y++ ) {
+            for ( int x = 0; x < this.recipe.getHeight(); x++ ) {
+                int i = y * this.recipe.getWidth() + x;
 
                 int stackX = x * 24 + pScreen.xOffset() + pScreen.widthSize() / 2 - 59 + x;
                 int stackY = y * 24 + pScreen.yOffset() + pScreen.heightSize() / 2 - 32 + y;

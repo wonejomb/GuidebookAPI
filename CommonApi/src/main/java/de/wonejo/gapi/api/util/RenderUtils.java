@@ -1,10 +1,7 @@
 package de.wonejo.gapi.api.util;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -17,6 +14,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.joml.Vector3f;
@@ -127,14 +125,14 @@ public final class RenderUtils {
 
     public static List<Component> getTooltips (ItemStack pStack) {
         Minecraft mc = Minecraft.getInstance();
-        List<Component> list = pStack.getTooltipLines(mc.player, mc.options.advancedItemTooltips ? TooltipFlag.ADVANCED : TooltipFlag.NORMAL);
+        List<Component> list = pStack.getTooltipLines(Item.TooltipContext.of(mc.level), mc.player, mc.options.advancedItemTooltips ? TooltipFlag.ADVANCED : TooltipFlag.NORMAL);
 
         for ( int i =0; i < list.size(); i++ ) {
             Component c = list.get(i);
 
             if ( c instanceof MutableComponent mutable ) {
                 if ( i == 0 )
-                    mutable.withStyle(pStack.getRarity().color);
+                    mutable.withStyle(pStack.getRarity().color());
                 else
                     mutable.withStyle(Style.EMPTY);
             }
