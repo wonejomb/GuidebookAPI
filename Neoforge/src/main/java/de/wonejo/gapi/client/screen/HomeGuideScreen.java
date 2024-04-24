@@ -15,7 +15,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
+
 
 public final class HomeGuideScreen extends GuideScreen {
 
@@ -159,11 +159,6 @@ public final class HomeGuideScreen extends GuideScreen {
     private void previousPage () {
         if ( this.categoryPage != 0 )
             this.categoryPage--;
-    }
-
-    public HomeGuideScreen withInitialPage ( int pPage ) {
-        this.categoryPage = pPage;
-        return this;
     }
 
 }

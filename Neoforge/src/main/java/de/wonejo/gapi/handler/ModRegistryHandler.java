@@ -1,9 +1,9 @@
 package de.wonejo.gapi.handler;
 
 import de.wonejo.gapi.api.book.IBook;
-import de.wonejo.gapi.registry.BookRegistry;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.item.BookItem;
+import de.wonejo.gapi.registry.BookRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

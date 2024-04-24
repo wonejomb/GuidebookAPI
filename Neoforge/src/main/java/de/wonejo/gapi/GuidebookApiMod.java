@@ -10,7 +10,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +20,6 @@ public class GuidebookApiMod {
 
 
     public GuidebookApiMod (@NotNull IEventBus pBus) {
-
         pBus.addListener(this::onCommonSetup);
         pBus.addListener(this::onClientSetup);
 
@@ -34,5 +32,4 @@ public class GuidebookApiMod {
     private void onClientSetup (final FMLClientSetupEvent pEvent) {
         PROXY.registerColors();
     }
-
 }

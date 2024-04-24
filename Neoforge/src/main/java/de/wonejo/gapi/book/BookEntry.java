@@ -7,8 +7,6 @@ import de.wonejo.gapi.api.book.components.IBookPage;
 import de.wonejo.gapi.api.client.render.IEntryRender;
 import de.wonejo.gapi.client.screen.EntryGuideScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Arrays;
@@ -57,5 +55,4 @@ public class BookEntry implements IBookEntry {
     public IEntryRender render() {
         return this.render;
     }
-
 }

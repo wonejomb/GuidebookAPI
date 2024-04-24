@@ -8,7 +8,6 @@ import de.wonejo.gapi.api.client.render.ICategoryRender;
 import de.wonejo.gapi.api.util.ClickType;
 import de.wonejo.gapi.client.screen.CategoryGuideScreen;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;

@@ -1,7 +1,6 @@
 package de.wonejo.gapi.client.render.entry;
 
 import de.wonejo.gapi.api.book.components.IBookEntry;
-import de.wonejo.gapi.api.client.IExtraRender;
 import de.wonejo.gapi.api.client.IModScreen;
 import de.wonejo.gapi.api.client.render.IEntryRender;
 import de.wonejo.gapi.api.util.ComponentUtils;

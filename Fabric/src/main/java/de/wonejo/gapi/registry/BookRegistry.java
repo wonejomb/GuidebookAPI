@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;

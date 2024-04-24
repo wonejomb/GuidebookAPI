@@ -4,7 +4,6 @@ import de.wonejo.gapi.api.book.components.IBookCategory;
 import de.wonejo.gapi.api.client.IModScreen;
 import de.wonejo.gapi.api.client.render.ICategoryRender;
 import de.wonejo.gapi.api.util.RenderUtils;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;

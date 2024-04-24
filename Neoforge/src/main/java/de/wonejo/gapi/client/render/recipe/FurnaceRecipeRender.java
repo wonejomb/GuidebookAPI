@@ -1,7 +1,6 @@
 package de.wonejo.gapi.client.render.recipe;
 
 import de.wonejo.gapi.api.client.IModScreen;
-import de.wonejo.gapi.api.util.ComponentUtils;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.api.util.ItemRotation;
 import de.wonejo.gapi.api.util.RenderUtils;
@@ -16,10 +15,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.neoforge.common.CommonHooks;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class FurnaceRecipeRender extends AbstractRecipeRender<AbstractCookingRecipe> {
 

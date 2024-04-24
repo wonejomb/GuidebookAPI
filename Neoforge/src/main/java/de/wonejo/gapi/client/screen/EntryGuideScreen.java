@@ -16,14 +16,13 @@ import net.minecraft.util.Mth;
 import org.apache.commons.compress.utils.Lists;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.List;
 
 public final class EntryGuideScreen extends GuideScreen {
 
     private final List<PageWrapper> pages = Lists.newArrayList();
     private final IBookCategory category;
-    private final IBookEntry entry;
+    private IBookEntry entry;
     private int pageId;
 
     public EntryGuideScreen(@NotNull IBook pBook, IBookCategory pCategory, IBookEntry pEntry) {

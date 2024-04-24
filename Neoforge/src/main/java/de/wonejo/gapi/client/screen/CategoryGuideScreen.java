@@ -15,8 +15,6 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-
 public final class CategoryGuideScreen extends GuideScreen {
 
     private final IBookCategory category;
@@ -127,6 +125,7 @@ public final class CategoryGuideScreen extends GuideScreen {
         for (Renderable renderable : this.renderables)
             renderable.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
     }
+
 
     private void nextPage () {
         if ( this.entryPage >= this.entries.asMap().size() )

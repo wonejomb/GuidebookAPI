@@ -1,6 +1,5 @@
 package de.wonejo.gapi.item;
 
-import de.wonejo.gapi.GuidebookApiMod;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.item.IBookItem;
 import de.wonejo.gapi.api.util.Constants;

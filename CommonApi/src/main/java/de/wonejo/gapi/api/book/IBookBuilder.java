@@ -6,7 +6,7 @@ import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.List;
 import java.util.function.Consumer;
 

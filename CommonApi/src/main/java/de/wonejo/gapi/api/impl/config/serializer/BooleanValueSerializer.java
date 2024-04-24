@@ -2,8 +2,6 @@ package de.wonejo.gapi.api.impl.config.serializer;
 
 import de.wonejo.gapi.api.config.serializer.IConfigValueSerializer;
 
-import java.util.Optional;
-
 public class BooleanValueSerializer implements IConfigValueSerializer<Boolean> {
 
     protected BooleanValueSerializer () {}

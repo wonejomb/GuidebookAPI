@@ -2,7 +2,6 @@ package de.wonejo.gapi.api.client.render;
 
 import de.wonejo.gapi.api.client.IModScreen;
 import de.wonejo.gapi.api.util.CanView;
-import de.wonejo.gapi.api.util.Clickable;
 import de.wonejo.gapi.api.util.ITick;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

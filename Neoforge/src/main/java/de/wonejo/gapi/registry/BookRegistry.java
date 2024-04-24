@@ -1,13 +1,11 @@
 package de.wonejo.gapi.registry;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.GuidebookAPI;
 import de.wonejo.gapi.api.IGuidebook;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.util.Constants;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
@@ -20,7 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class BookRegistry {

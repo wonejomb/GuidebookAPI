@@ -1,20 +1,16 @@
 package de.wonejo.gapi.config;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.config.IConfigValue;
 import de.wonejo.gapi.api.impl.config.ConfigFile;
 import de.wonejo.gapi.api.impl.config.ConfigProvider;
-import de.wonejo.gapi.api.impl.config.ConfigValue;
 import de.wonejo.gapi.api.impl.config.serializer.ColorValueSerializer;
 import de.wonejo.gapi.api.impl.config.serializer.ConfigValueSerializers;
 import de.wonejo.gapi.registry.BookRegistry;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.loading.FMLPaths;
 
 import java.awt.*;
-import java.util.List;
 import java.util.Map;
 
 public class ModConfigurations {

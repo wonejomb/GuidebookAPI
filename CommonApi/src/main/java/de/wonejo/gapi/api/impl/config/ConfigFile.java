@@ -1,6 +1,5 @@
 package de.wonejo.gapi.api.impl.config;
 
-import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.config.IConfigFile;
 import de.wonejo.gapi.api.config.IConfigProvider;
 import de.wonejo.gapi.api.config.IConfigValue;
@@ -8,7 +7,10 @@ import de.wonejo.gapi.api.config.serializer.IConfigValueSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;

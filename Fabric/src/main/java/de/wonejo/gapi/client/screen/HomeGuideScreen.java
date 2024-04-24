@@ -9,15 +9,12 @@ import de.wonejo.gapi.client.button.GuideButton;
 import de.wonejo.gapi.config.ModConfigurations;
 import de.wonejo.gapi.ext.IScreenRenderablesAccessor;
 import de.wonejo.gapi.wrapper.CategoryWrapper;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public final class HomeGuideScreen extends GuideScreen {
 

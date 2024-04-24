@@ -6,8 +6,6 @@ import de.wonejo.gapi.api.util.GuideScreenType;
 import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class GuideScreen extends Screen implements IModScreen {

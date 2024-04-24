@@ -10,7 +10,6 @@ import de.wonejo.gapi.api.impl.config.serializer.ConfigValueSerializers;
 import de.wonejo.gapi.registry.BookRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 
-
 import java.awt.*;
 import java.util.Map;
 

@@ -31,7 +31,6 @@ public final class BookItem extends Item implements IBookItem {
 
         this.book = pBook;
         this.setTranslationKey("%s.book.%s".formatted(Constants.MOD_ID, pBook.id().getPath()));
-
     }
 
     public void appendHoverText(ItemStack pStack, TooltipContext pCtx, List<Component> pComponents, TooltipFlag pFlag) {
