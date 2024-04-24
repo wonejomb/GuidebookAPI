@@ -1,3 +1,7 @@
+# 2.2.7
+
+The 2.2.7 change some things like the minecraft version of the mod and fix a error with rename function in recipes.
+
 # 2.2.6
 
 2.2.6 is an update made for the mod configuration system.
