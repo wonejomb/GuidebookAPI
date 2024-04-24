@@ -53,7 +53,7 @@ public class ExampleBook implements IGuidebook {
     }
 
     private BookEntry exampleEntry ()  {
-        BookEntry entry = new BookEntry(new ResourceLocation("test_id"), new ItemEntryRender(Component.literal("Example Entry"), new ItemStack(Items.CARROT)));
+        BookEntry entry = new BookEntry(new ItemEntryRender(Component.literal("Example Entry"), new ItemStack(Items.CARROT)));
 
         entry.addPages(this.exampleEntryPages());
 
