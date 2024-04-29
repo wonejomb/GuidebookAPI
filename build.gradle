@@ -14,7 +14,7 @@ subprojects.forEach {
     it.plugins.apply 'java-library'
 
     it.group = "${project.group}"
-    it.version = "${project.version}-${it.name}"
+    it.version = "${project.mc_version}-${project.version}-${it.name}"
     it.base.archivesName = "GuidebookApi-${it.name}"
 
     it.java {
