@@ -32,6 +32,7 @@ public final class Book implements IBook {
     private final Component author;
 
     private final boolean shouldSpawnWithBook;
+    private final boolean useCustomBookModel;
     private final boolean useCustomBookTexture;
     private final boolean useCustomPagesTexture;
     private final boolean useCustomInfoPagesTexture;
@@ -46,7 +47,7 @@ public final class Book implements IBook {
                   Component pTitle, Component pHeader, Component pSubHeader, Component pItemName, Component pAuthor,
                   GuideTexture pBookTextures, GuideTexture pInfoTextures, GuideTexture pPagesTexture, ResourceLocation pModelLocation,
                   Color pBookColor, Color pPagesColor,
-                  boolean pShouldSpawnWithBook, boolean pUseCustomBookTexture, boolean pUseCustomPagesTexture, boolean pUseCustomInfoPagesTexture) {
+                  boolean pShouldSpawnWithBook, boolean pUseCustomBookModel,boolean pUseCustomBookTexture, boolean pUseCustomPagesTexture, boolean pUseCustomInfoPagesTexture) {
 
         this.id = pId;
         this.contentProvider = pContentProvider;
@@ -67,6 +68,7 @@ public final class Book implements IBook {
         this.author = pAuthor;
 
         this.shouldSpawnWithBook = pShouldSpawnWithBook;
+        this.useCustomBookModel = pUseCustomBookModel;
         this.useCustomBookTexture = pUseCustomBookTexture;
         this.useCustomPagesTexture = pUseCustomPagesTexture;
         this.useCustomInfoPagesTexture = pUseCustomInfoPagesTexture;
@@ -138,6 +140,10 @@ public final class Book implements IBook {
 
     public boolean useCustomInfoPagesTexture() {
         return this.useCustomInfoPagesTexture;
+    }
+
+    public boolean useCustomBookModel () {
+        return this.useCustomBookModel;
     }
 
     public IBookInformation information() {

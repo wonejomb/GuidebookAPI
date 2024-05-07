@@ -13,6 +13,7 @@ public interface IBook {
     void initializeContent ();
 
     boolean shouldSpawnWithBook ();
+    boolean useCustomBookModel ();
     boolean useCustomBookTextures ();
     boolean useCustomPagesTexture ();
     boolean useCustomInfoPagesTexture ();

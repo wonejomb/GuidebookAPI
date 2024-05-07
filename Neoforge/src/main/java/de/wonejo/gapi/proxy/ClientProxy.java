@@ -22,7 +22,7 @@ public class ClientProxy implements IProxy {
             Minecraft.getInstance().getItemColors().register((stack, tint) -> {
                 IBookItem item = (IBookItem) bookStack.get().getItem();
 
-                if ( item.get() != null && !item.get().useCustomBookTextures() && tint == 0 )
+                if ( item.get() != null && !item.get().useCustomBookModel() && tint == 0 )
                     return ModConfigurations.CLIENT.bookColors.get(item.get()).get().getRGB();
 
                 return -1;

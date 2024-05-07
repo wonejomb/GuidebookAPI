@@ -35,6 +35,7 @@ public final class BookBuilder implements IBookBuilder {
 
     private boolean shouldSpawnWithBook = false;
     private boolean useCustomBookTexture = false;
+    private boolean useCustomBookModel = false;
     private boolean useCustomPagesTexture = false;
     private boolean useCustomInfoPagesTexture = false;
 
@@ -70,6 +71,7 @@ public final class BookBuilder implements IBookBuilder {
 
     public IBookBuilder model(ResourceLocation pModelLocation) {
         this.modelLocation = pModelLocation;
+        this.useCustomBookModel = true;
         return this;
     }
 
@@ -135,6 +137,6 @@ public final class BookBuilder implements IBookBuilder {
                 title, this.header, this.subHeader, this.itemName, this.author,
                 this.bookTextures, this.infoTextures, this.pagesTexture, this.modelLocation,
                 this.bookColor, this.pagesColor,
-                this.shouldSpawnWithBook, this.useCustomBookTexture, this.useCustomPagesTexture, this.useCustomInfoPagesTexture);
+                this.shouldSpawnWithBook, this.useCustomBookModel, this.useCustomBookTexture, this.useCustomPagesTexture, this.useCustomInfoPagesTexture);
     }
 }
