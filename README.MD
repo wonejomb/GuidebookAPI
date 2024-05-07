@@ -6,15 +6,13 @@ GuidebookAPI is a mod that allows the ease creation of guides in minecraft!
 
 The mod allow create guides mostly in java code instead of external files (Like Json, XML, or other file extension)
 
-### 2.0.0 Changes:
+## Changelog
 
-There is a lot of changes on the mod, so see the changelog to stay updated about the mod.
-
-The changelog is: [here](https://github.com/JoulsMB/GuidebookAPI/blob/1.20.x-2.0.0/changelog/CHANGELOG.MD)
+The changelog is: [here](https://github.com/JoulsMB/GuidebookAPI/blob/1.20.x/changelog/CHANGELOG.MD)
 
 ### Developer Information.
 
-The wiki isn't complete for this momment, you can see the [ExampleBook](https://github.com/JoulsMB/GuidebookAPI/blob/1.20.x-2.0.0/Neoforge/src/main/java/de/wonejo/gapi/example/ExampleBook.java) for the momment, sorry :(
+There is a little [wiki][https://github.com/wonejomb/GuidebookAPI/wiki] that may can help you with the basics, anyways there is the [ExampleBook][https://github.com/wonejomb/GuidebookAPI/blob/1.20.x/Neoforge/src/main/java/de/wonejo/gapi/example/ExampleBook.java] that have better examples of how add content to the book.
 
 ### License
 
