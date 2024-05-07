@@ -12,7 +12,7 @@ The changelog is: [here](https://github.com/JoulsMB/GuidebookAPI/blob/1.20.x/cha
 
 ### Developer Information.
 
-There is a little [wiki][https://github.com/wonejomb/GuidebookAPI/wiki] that may can help you with the basics, anyways there is the [ExampleBook][https://github.com/wonejomb/GuidebookAPI/blob/1.20.x/Neoforge/src/main/java/de/wonejo/gapi/example/ExampleBook.java] that have better examples of how add content to the book.
+There is a little [wiki](https://github.com/wonejomb/GuidebookAPI/wiki) that may can help you with the basics, anyways there is the [ExampleBook](https://github.com/wonejomb/GuidebookAPI/blob/1.20.x/Neoforge/src/main/java/de/wonejo/gapi/example/ExampleBook.java) that have better examples of how add content to the book.
 
 ### License
 
