@@ -1,62 +1,40 @@
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.107' apply false
-    id 'net.neoforged.gradle.userdev' version '7.0.107' apply false
     id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.120' apply false
+    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply false
 
-    id 'java-library'
-    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.7'
+    id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.8'
 }
 
-group = "${mod_group}"
-version = "${mc_version}.${mod_version}"
+group = "de.wonejo.gapi"
+version = "${mc_version}-${mod_version}"
 
 subprojects.forEach {
-    it.plugins.apply 'java-library'
 
-    it.group = "${project.group}"
-    it.version = "${project.mc_version}-${project.version}-${it.name}"
-    it.base.archivesName = "GuidebookApi-${it.name}"
+    it.group = "${rootProject.group}"
+    it.version = "${rootProject.version}"
 
-    it.java {
-        withSourcesJar ()
-
-        toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+    it.tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release.set(JavaLanguageVersion.of(21).asInt())
     }
 
     it.tasks.withType(ProcessResources).configureEach {
-        var replaceProperties = [
-                neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_version_range,
-
-                mc_version: mc_version, mc_version_range: mc_version_range,
-                mod_id: mod_id, mod_name: mod_name, mod_license: mod_license,
-                mod_version: mod_version, mod_authors: mod_authors, mod_description: mod_description, pack_format: pack_format_version,
-
-                fabric_loader_range:  fabric_loader_version, fabric_version: fabric_version
+        def replacedProperties = [
+                mc_version: mc_version, pack_format: pack_format_version,
+                mod_id: mod_id, mod_version: mod_version, mod_name: mod_name, mod_authors: mod_authors, mod_description: mod_description, mod_license: mod_license,
+                fabric_loader_range: fabric_loader_version, fabric_api_version: fabric_version,
+                neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_version_range
         ]
-        inputs.properties replaceProperties
+        inputs.properties replacedProperties
 
-        filesMatching(["META-INF/neoforge.mods.toml", "pack.mcmeta", "fabric.mod.json"]) {
-            expand replaceProperties + [project: project]
+        filesMatching(["pack.mcmeta", "META-INF/neoforge.mods.toml", "fabric.mods.json"]) {
+            expand replacedProperties + [project: project]
         }
     }
 
-    it.tasks.withType(JavaCompile).configureEach {
-        it.options.release = 21
-        it.options.encoding = 'UTF-8'
-    }
-
-    it.tasks.withType(Jar).tap {
-        configureEach {
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-            from project(":CommonApi").sourceSets.main.output
-
-            from("LICENSE") {
-                rename { "${it}_${project.base.archivesName.get()}"}
-            }
-        }
+    it.tasks.withType(AbstractArchiveTask).configureEach {
+        setPreserveFileTimestamps(false)
+        setReproducibleFileOrder(true)
     }
 }

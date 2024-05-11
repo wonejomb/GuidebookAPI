@@ -5,8 +5,6 @@ import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.config.ModConfigurations;
 import de.wonejo.gapi.proxy.ClientProxy;
 import de.wonejo.gapi.proxy.CommonProxy;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.renderer.entity.layers.PlayerItemInHandLayer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
@@ -19,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 public class GuidebookApiMod {
 
     public static final IProxy PROXY = FMLEnvironment.dist == Dist.CLIENT ? new ClientProxy() : new CommonProxy();
-
 
     public GuidebookApiMod (@NotNull IEventBus pBus) {
         pBus.addListener(this::onCommonSetup);

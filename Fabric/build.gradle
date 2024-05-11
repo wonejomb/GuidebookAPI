@@ -1,67 +1,78 @@
-plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.107' apply false
-    id 'net.neoforged.gradle.userdev' version '7.0.107' apply false
-    id 'fabric-loom' version '1.6-SNAPSHOT'
+import net.darkhax.curseforgegradle.Constants
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
+plugins {
+    id 'org.spongepowered.gradle.vanilla' version '0.2.1-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.120' apply false
+
+    id 'java-library'
+    id 'idea'
+    id 'eclipse'
+    id 'net.darkhax.curseforgegradle' version '1.0.8'
     id 'com.modrinth.minotaur' version '2.+'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+}
+
+base.archivesName = "${mod_id}-${mc_version}-${mod_version}-fabric"
+
+project.evaluationDependsOn(":CommonApi")
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar ()
 }
 
 repositories {
-    maven { url = 'https://maven.parchmentmc.org' }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${mc_version}"
-    mappings loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
-    }
-
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-
-    implementation project(":CommonApi")
-}
-
-loom.runs {
-    named("client") {
-        client()
-        configName = "FabricClient"
-        ideConfigGenerated(true)
-        runDir("run/client")
-    }
-}
-
-curseforge {
-    apiKey = "${curseforgeApiToken}"
-    project {
-        id = "${curseProjectId}"
-        changelog = ""
-        releaseType = "release"
-        addGameVersion "${mc_version}"
-
-        mainArtifact(remapJar) {
-            displayName = "GuidebookApi-Fabric-${mod_version}"
-
-            relations {
-                requiredDependency "fabric-api"
-            }
+    maven {
+        url "https://maven.parchmentmc.org"
+        content {
+            includeGroupByRegex("org\\.parchmentmc.*")
         }
     }
 }
 
 
-modrinth {
-    token = "${modrinthToken}"
-    projectId = "${modrinthProjectId}"
-    versionName = "GuidebookAPI-Fabric"
-    versionNumber = "${mod_version}"
-    uploadFile = remapJar
-    gameVersions = ["${mc_version}"] as Iterable
-    loaders = ['fabric']
-
-    dependencies {
-        required.project 'fabric-api'
+dependencies {
+    minecraft "com.mojang:minecraft:${mc_version}"
+    mappings loom.layered {
+        officialMojangMappings ()
+        parchment ("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchmentVersion}@zip")
     }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+
+    runtimeOnly project(":CommonApi")
+}
+
+loom {
+    runs {
+        named("client") {
+            client ()
+            configName = "Fabric Client"
+            ideConfigGenerated true
+            runDir ("run/client")
+        }
+        named('server') {
+            server ()
+            configName = "Fabric Server"
+            ideConfigGenerated = true
+            runDir ("run/server")
+            vmArgs ("--nogui")
+        }
+    }
+}
+
+tasks.register("publishCurseforge", TaskPublishCurseForge) {
+    dependsOn(tasks.remapJar)
+
+    apiToken = project.findProperty("curseforgeApiToken") ?: "0"
+
+    var mainFile = upload(curseProjectId, tasks.jar.get().archiveFile)
+    mainFile.changelogType = Constants.CHANGELOG_MARKDOWN
+    mainFile.changelog = file("../changelog/CHANGELOG.MD")
+    mainFile.releaseType = Constants.RELEASE_TYPE_RELEASE
+    mainFile.addJavaVerson("Java 21")
+    mainFile.addGameVersion("${mc_version}")
+    mainFile.addModLoader("Fabric")
+    mainFile.addRequirement("fabric-api")
 }

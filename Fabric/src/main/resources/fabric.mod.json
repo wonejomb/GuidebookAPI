@@ -5,8 +5,7 @@
   "name": "${mod_name}",
   "description": "${mod_description}",
   "authors": [
-    "Tehnut",
-    "JoulsMB/WonejoMB"
+    "WonejoMB"
   ],
   "contact": {
     "sources": "https://github.com/JoulsMB/GuidebookAPI"
@@ -26,14 +25,11 @@
     ],
     "client": [
       "de.wonejo.gapi.client.GapiClientMod"
-    ],
-    "guidebookapi": [
-      "de.wonejo.gapi.example.ExampleBook"
     ]
   },
   "depends": {
     "fabricloader": ">=${fabric_loader_range}",
-    "fabric-api": ">=0.97.6+1.20.5",
+    "fabric-api": ">=${fabric_api_version}",
     "minecraft": "${mc_version}"
   }
 }
