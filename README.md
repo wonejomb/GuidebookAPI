@@ -6,7 +6,7 @@ GuidebookApi allows the ease creation of guides in minecraft for mods with no ha
 
 There is the changelog ( of [NeoForge](https://neoforged.net) and [Fabric](https://fabricmc.net) )
 
-Changelog: [here](https://github.com/wonejomb/GuidebookAPI/1.20.x-3.0.0/changelog/NEOFORGE_CHANGELOG.MD)
+Changelog: [here](https://github.com/wonejomb/GuidebookAPI/1.20.x-3.0.0/changelog/CHANGELOG.MD)
 
 ### Developer Information:
 There is a little wiki that may can help you with something in the dev of guides. [Here](https://github.com/wonejomb/GuidebookAPI/wiki)
