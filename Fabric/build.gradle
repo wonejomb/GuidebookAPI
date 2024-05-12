@@ -68,6 +68,7 @@ tasks.register('publishCurseforgeFabric', TaskPublishCurseForge) {
     mainFile.releaseType = 'release'
     mainFile.addJavaVersion("Java 21")
     mainFile.addModLoader('fabric')
+    mainFile.addRequirement("fabric-api")
     mainFile.displayName = "[${mc_version}] GuidebookApi v${mod_version} (Fabric)"
     mainFile.addGameVersion("${mc_version}")
 }
