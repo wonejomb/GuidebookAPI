@@ -1,0 +1,19 @@
+staleLabel: Stale
+unmarkComment: false
+limitPerRun: 1
+exemptAssignees:
+  - Assigned
+
+pulls:
+  daysUntilStale: 60
+  daysUntilClose: 14
+  markComment: >
+    This pull request has been automatically marked as stale because it has not had recent activity, and will be closed if no further activity occurs. If this pull request was overlooked, forgotter, or should remain open for anyotherreason, please reply here to call attention to it and remove the stale status.
+  closeComment: >
+    This pull request has been automatically closed because it has not had recent activity
+issues:
+  daysUntilStale: 180
+  daysUntilClose: 14
+  markComment: This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs.
+  closeComment: >
+    This issue has been automatically closed because it has not had activity in a long time.

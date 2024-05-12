@@ -1,0 +1,38 @@
+plugins {
+    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.120' apply false
+
+    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+}
+
+subprojects.forEach {
+    it.tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+        options.release = 21
+    }
+
+    it.tasks.withType(ProcessResources).configureEach {
+        def replacedProperties = [
+                mc_version: mc_version, pack_format: pack_format,
+                mod_id: mod_id, mod_name: mod_name, mod_authors: mod_authors, mod_description: mod_description, mod_license: mod_license, mod_version: mod_version,
+
+                fabric_loader_range: fabric_loader_version, fabric_api_version: fabric_api_version,
+
+                neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_range,
+
+                forge_version: forge_version, forge_version_range: forge_version_range, forge_loader_range: forge_loader_range,
+
+                quilt_loader_version: quilt_loader_version, quilted_fabric_api: quilted_fabric_api
+        ]
+        inputs.properties replacedProperties
+
+        filesMatching(["META-INF/neoforge.mods.toml", "pack.mcmeta", "fabric.mod.json"]) {
+            expand replacedProperties
+        }
+    }
+
+    it.tasks.withType(AbstractArchiveTask).configureEach {
+        setPreserveFileTimestamps(false)
+        setReproducibleFileOrder(true)
+    }
+}

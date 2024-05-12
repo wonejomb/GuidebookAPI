@@ -1,0 +1,31 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.120' apply true
+    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+
+    id 'java-library'
+    id 'net.neoforged.gradle.vanilla' version '7.0.120'
+}
+
+group = 'de.wonejo.gapi.api'
+version = "${mc_version}-${common_mod_version}-common"
+base.archivesName = "${mod_id}-${mc_version}-${common_mod_version}-common"
+
+java {
+    withSourcesJar()
+
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
+dependencies {
+    implementation "net.minecraft:client:${mc_version}"
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+}
+
+subsystems {
+    parchment {
+        minecraftVersion = "${parchment_mc_version}"
+        mappingsVersion = "${parchment_version}"
+    }
+}

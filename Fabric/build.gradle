@@ -1,0 +1,73 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+plugins {
+    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
+    id 'net.neoforged.gradle.userdev' version '7.0.120' apply true
+
+    id 'java-library'
+    id 'fabric-loom' version '1.6-SNAPSHOT'
+    id 'net.darkhax.curseforgegradle' version "1.1.15"
+}
+
+group = 'de.wonejo.gapi'
+version = "${mc_version}-${mod_version}-fabric"
+base.archivesName = "${mod_id}-${mc_version}-${mod_version}-fabric"
+
+java {
+    withSourcesJar()
+
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
+sourceSets {
+    main {
+        resources.srcDirs += project(":Common").sourceSets.main.resources.srcDirs
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mc_version}"
+    mappings loom.officialMojangMappings ()
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+
+    compileOnly project(":Common")
+}
+
+loom.runs {
+    named("client") {
+        client()
+        configName = "FabricClient"
+        ideConfigGenerated = true
+        runDir("run/client")
+    }
+    named("server") {
+        server ()
+        configName = "FabricServer"
+        ideConfigGenerated = true
+        runDir("run/server")
+        vmArgs("--nogui")
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    source(project(":Common").sourceSets.main.allSource)
+}
+
+tasks.register('publishCurseforgeFabric', TaskPublishCurseForge) {
+    dependsOn(tasks.remapJar)
+    apiToken = project.findProperty("curseforge_api_key")
+
+    debugMode = false
+
+    def mainFile = upload(curse_project_id, tasks.jar.archiveFile)
+    mainFile.changelogType = 'markdown'
+    mainFile.changelog = file("../changelog/CHANGELOG.MD").exists() ? file("../changelog/CHANGELOG.MD") : "No changelog provided"
+    mainFile.releaseType = 'release'
+    mainFile.addJavaVersion("Java 21")
+    mainFile.addModLoader('fabric')
+    mainFile.displayName = "[${mc_version}] GuidebookApi v${mod_version} (Fabric)"
+    mainFile.addGameVersion("${mc_version}")
+}

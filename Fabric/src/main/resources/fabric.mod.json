@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contact": {
+    "sources": "https://github.com/wonejomb/GuidebookAPI"
+  },
+  "license": "${mod_license}",
+  "icon": "logo.png",
+  "environment": "*",
+  "mixins": [
+    {
+      "config": "gapi.mixins.json",
+      "environment": "*"
+    }
+  ],
+  "entrypoints": {
+    "main": [
+      "de.wonejo.gapi.GapiFabricMod"
+    ],
+    "guidebook": [
+      "de.wonejo.gapi.example.ExampleBook"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${fabric_loader_range}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "${mc_version}"
+  }
+}

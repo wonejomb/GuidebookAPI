@@ -1,0 +1,68 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
+plugins {
+    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
+    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.0.120'
+    id 'net.darkhax.curseforgegradle' version "1.1.15"
+}
+
+group = 'de.wonejo.gapi'
+version = "${mc_version}-${mod_version}-neoforge"
+base.archivesName = "${mod_id}-${mc_version}-x${mod_version}-neoforge"
+
+java {
+    withSourcesJar()
+
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
+}
+
+Spec<Task> notNeoTask = { Task it -> !it.name.startsWithIgnoreCase("neo") } as Spec<Task>
+
+tasks.withType(JavaCompile).matching (notNeoTask).configureEach {
+    source(project(":Common").sourceSets.main.allSource)
+}
+
+sourceSets {
+    main {
+        resources.srcDirs += project(":Common").sourceSets.main.resources.srcDirs
+    }
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${neo_version}"
+    compileOnly project(":Common")
+}
+
+runs {
+    configureEach {
+        modSource project.sourceSets.main
+    }
+    client {
+        systemProperty 'neoforge.enableGameTestNamespaces', mod_id
+    }
+    server {
+        systemProperty 'neoforge.enableGameTestNamespaces', mod_id
+        programArgument '--nogui'
+    }
+}
+
+tasks.register('publishCurseForgeNeoForge', TaskPublishCurseForge) {
+    dependsOn(tasks.jar)
+    apiToken = project.findProperty("curseforge_api_key")
+
+    debugMode = false
+
+    def mainFile = upload(curse_project_id, tasks.jar.archiveFile)
+    mainFile.changelogType = 'markdown'
+    mainFile.changelog = file("../changelog/CHANGELOG.MD").exists() ? file("../changelog/CHANGELOG.MD") : "No changelog provided"
+    mainFile.releaseType = 'release'
+    mainFile.addJavaVersion("Java 21")
+    mainFile.addModLoader('neoforge')
+    mainFile.displayName = "[${mc_version}] GuidebookApi v${mod_version} (NeoForge)"
+    mainFile.addGameVersion("${mc_version}")
+}
