@@ -1,5 +1,5 @@
 # GuidebookApi
-[![](https://cf.way2muchnoise.eu/large_949923_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/guidebookapi/) ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) [![Discord Server](https://img.shields.io/discord/1144776748987322368)](https://discord.gg/peNvSDMqBJ)
+[![](https://cf.way2muchnoise.eu/large_949923_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/guidebookapi/) [![](https://img.shields.io/modrinth/dt/STb5IL4E?label=Modrinth)](https://modrinth.com/mod/guidebookapi) ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg) [![Discord Server](https://img.shields.io/discord/1144776748987322368)](https://discord.gg/peNvSDMqBJ)
 
 ### Description:
 GuidebookApi allows the ease creation of guides in minecraft for mods with no hard-dependency.
