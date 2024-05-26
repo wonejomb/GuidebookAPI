@@ -1,8 +1,5 @@
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
-    id 'net.neoforged.gradle.userdev' version '7.0.120' apply false
-
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.8"
 }
 
 subprojects.forEach {
@@ -26,7 +23,7 @@ subprojects.forEach {
         ]
         inputs.properties replacedProperties
 
-        filesMatching(["META-INF/neoforge.mods.toml", "pack.mcmeta", "fabric.mod.json"]) {
+        filesMatching(["META-INF/neoforge.mods.toml", "META-INF/mods.toml", "fabric.mod.json", "quilt.mod.json", "pack.mcmeta"]) {
             expand replacedProperties
         }
     }

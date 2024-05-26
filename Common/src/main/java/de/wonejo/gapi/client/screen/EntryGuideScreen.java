@@ -131,5 +131,7 @@ public final class EntryGuideScreen extends GuideScreen {
             this.pageId--;
     }
 
-
+    public void setPageId(int pageId) {
+        this.pageId = pageId;
+    }
 }

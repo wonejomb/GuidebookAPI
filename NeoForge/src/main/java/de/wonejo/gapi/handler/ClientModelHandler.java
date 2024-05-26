@@ -1,6 +1,7 @@
 package de.wonejo.gapi.handler;
 
 import de.wonejo.gapi.api.book.IBook;
+import de.wonejo.gapi.api.client.color.ItemColorHandler;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.impl.service.Services;
 import net.minecraft.client.resources.model.BakedModel;
@@ -12,6 +13,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModelHandler {
@@ -40,6 +43,11 @@ public class ClientModelHandler {
                 pEvent.getModels().put(oldModel, model);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void registerItemColors (RegisterColorHandlersEvent.@NotNull Item pEvent) {
+        ItemColorHandler.submitItems(pEvent::register);
     }
 
 }

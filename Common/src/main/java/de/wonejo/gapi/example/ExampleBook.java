@@ -9,12 +9,15 @@ import de.wonejo.gapi.api.book.components.IPage;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.client.render.category.ItemCategoryRender;
 import de.wonejo.gapi.client.render.entry.ItemEntryRender;
+import de.wonejo.gapi.client.render.holder.HolderColorRender;
 import de.wonejo.gapi.client.render.page.*;
 import de.wonejo.gapi.impl.book.builder.BookBuilder;
 import de.wonejo.gapi.impl.book.builder.BookInformationBuilder;
 import de.wonejo.gapi.impl.book.component.Category;
 import de.wonejo.gapi.impl.book.component.Entry;
+import de.wonejo.gapi.impl.book.component.Holder;
 import de.wonejo.gapi.impl.book.component.Page;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -28,6 +31,7 @@ import java.util.Map;
 
 @GuidebookAPI
 public class ExampleBook implements IGuidebook {
+
     public IBookBuilder builder() {
         return BookBuilder.newBuilder(new ResourceLocation(Constants.MOD_ID, "example_book"))
                 .information(BookInformationBuilder.of()
@@ -45,15 +49,17 @@ public class ExampleBook implements IGuidebook {
     private void contentProvider(List<ICategory> pBookCategories) {
         Category category = new Category(new ItemCategoryRender(Component.literal("Example category"), new ItemStack(Items.POTATO)));
         category.addEntries(Map.of(new ResourceLocation("test"), this.exampleEntry()));
+        category.addHolder(new Holder(category.getEntry(new ResourceLocation("test")), 1, new HolderColorRender(
+                Component.literal("Test of a Holder ( i think this is a large holder ? )"),
+                new Color(255, 255, 255)
+        )));
 
         pBookCategories.add(category);
     }
 
     private IEntry exampleEntry ()  {
         Entry entry = new Entry(new ItemEntryRender(Component.literal("Example Entry"), new ItemStack(Items.CARROT)));
-
         entry.addPages(this.exampleEntryPages());
-
         return entry;
     }
 

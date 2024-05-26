@@ -40,6 +40,14 @@ public class EntryWrapper implements IWrapper<IEntry> {
         return RenderUtils.isMouseBetween(pMouseX, pMouseY, this.x, this.y, 121, 12);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public IEntry get() {
         return this.entry;
     }

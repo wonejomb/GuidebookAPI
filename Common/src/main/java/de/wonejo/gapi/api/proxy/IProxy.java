@@ -7,8 +7,6 @@ import net.minecraft.world.level.Level;
 
 public interface IProxy {
 
-    void tintBooks ();
-
     void openGuide (Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack);
 
 }

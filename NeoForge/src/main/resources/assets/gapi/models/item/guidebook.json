@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "gapi:item/book_borders",
-    "layer1": "gapi:item/book_pages"
-  }
-}

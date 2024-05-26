@@ -1,12 +1,8 @@
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
-
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
-    id 'net.neoforged.gradle.userdev' version '7.0.120' apply true
-
     id 'java-library'
     id 'fabric-loom' version '1.6-SNAPSHOT'
-    id 'net.darkhax.curseforgegradle' version "1.1.15"
+
+     id "com.modrinth.minotaur" version "2.+"
 }
 
 group = 'de.wonejo.gapi'
@@ -56,19 +52,13 @@ tasks.withType(JavaCompile).configureEach {
     source(project(":Common").sourceSets.main.allSource)
 }
 
-tasks.register('publishCurseforgeFabric', TaskPublishCurseForge) {
-    dependsOn(tasks.remapJar)
-    apiToken = project.findProperty("curseforge_api_key")
-
-    debugMode = false
-
-    def mainFile = upload(curse_project_id, tasks.jar.archiveFile)
-    mainFile.changelogType = 'markdown'
-    mainFile.changelog = file("../changelog/CHANGELOG.MD").exists() ? file("../changelog/CHANGELOG.MD") : "No changelog provided"
-    mainFile.releaseType = 'release'
-    mainFile.addJavaVersion("Java 21")
-    mainFile.addModLoader('fabric')
-    mainFile.addRequirement("fabric-api")
-    mainFile.displayName = "[${mc_version}] GuidebookApi v${mod_version} (Fabric)"
-    mainFile.addGameVersion("${mc_version}")
+modrinth {
+    token = project.findProperty("modrinth_token")
+    projectId = project.findProperty("modrinth_project_id")
+    uploadFile = remapJar
+    gameVersions = ["1.20.6"]
+    loaders = ['fabric']
+    dependencies {
+        required.project 'fabric-api'
+    }
 }

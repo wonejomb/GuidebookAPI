@@ -8,10 +8,6 @@ import net.minecraft.world.level.Level;
 
 public class CommonProxy implements IProxy {
 
-    public void tintBooks() {
-
-    }
-
     public void openGuide(Player pPlayer, Level pLevel, IBook pBook, ItemStack pStack) {
 
     }

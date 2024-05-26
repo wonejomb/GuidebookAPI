@@ -149,8 +149,14 @@ public final class ModConfigurations {
 
     public static final class DebugConfigurations extends ConfigProvider {
         private IConfigValue<Boolean> enableDebugOutput;
+        private IConfigValue<Boolean> experimentalHolders;
 
         public void buildConfigurations() {
+            this.experimentalHolders = this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
+                    "experimental.holders",
+                    "If enabled in the categories who have holders in mod should render.",
+                    false);
+
             this.enableDebugOutput = this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
                     "enableDebugOutput",
                     "If enabled the debug logger of the mod will be enable.",
@@ -159,7 +165,10 @@ public final class ModConfigurations {
 
         public void defineConfigurations() {
             this.enableDebugOutput = this.getConfigById("enableDebugOutput");
+            this.experimentalHolders = this.getConfigById("experimental.holders");
         }
+
+        public boolean experimentalHolders () { return this.experimentalHolders.get(); }
 
         public boolean enableDebugOutput () {
             return this.enableDebugOutput.get();

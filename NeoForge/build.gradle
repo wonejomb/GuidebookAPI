@@ -1,12 +1,10 @@
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
-
 plugins {
-    id 'net.neoforged.gradle.vanilla' version '7.0.120' apply false
     id 'fabric-loom' version '1.6-SNAPSHOT' apply false
+    id 'net.neoforged.gradle.vanilla' version '7.0.135'
 
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.120'
-    id 'net.darkhax.curseforgegradle' version "1.1.15"
+    id 'net.neoforged.gradle.userdev' version '7.0.135'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 group = 'de.wonejo.gapi'
@@ -51,18 +49,11 @@ runs {
     }
 }
 
-tasks.register('publishCurseForgeNeoForge', TaskPublishCurseForge) {
-    dependsOn(tasks.jar)
-    apiToken = project.findProperty("curseforge_api_key")
 
-    debugMode = false
-
-    def mainFile = upload(curse_project_id, tasks.jar.archiveFile)
-    mainFile.changelogType = 'markdown'
-    mainFile.changelog = file("../changelog/CHANGELOG.MD").exists() ? file("../changelog/CHANGELOG.MD") : "No changelog provided"
-    mainFile.releaseType = 'release'
-    mainFile.addJavaVersion("Java 21")
-    mainFile.addModLoader('neoforge')
-    mainFile.displayName = "[${mc_version}] GuidebookApi v${mod_version} (NeoForge)"
-    mainFile.addGameVersion("${mc_version}")
+modrinth {
+    token = project.findProperty("modrinth_token")
+    projectId = project.findProperty("modrinth_project_id")
+    uploadFile = jar
+    gameVersions = ["1.20.6"]
+    loaders = ['neoforge']
 }

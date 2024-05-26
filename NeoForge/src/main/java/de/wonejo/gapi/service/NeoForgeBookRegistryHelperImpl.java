@@ -22,7 +22,6 @@ import java.util.function.Supplier;
 public final class NeoForgeBookRegistryHelperImpl implements IBookRegistryHelper {
     private static final List<IBook> BOOKS = Lists.newArrayList();
     private static final Map<IBook, Supplier<ItemStack>> BOOK_TO_STACK = Maps.newHashMap();
-
     private static final Type GUIDEBOOKAPI = Type.getType(GuidebookAPI.class);
 
     public void gatherBooks() {

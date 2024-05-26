@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -26,25 +27,15 @@ public class GuideModel implements BakedModel {
     private final BakedModel original;
     private final ItemOverrides handler;
 
-    @SuppressWarnings("deprecation")
-
     public GuideModel (IBook pBook, BakedModel pOriginal, ModelBakery pLoader ) {
         this.original = pOriginal;
 
         this.handler = new ItemOverrides(new ModelBaker() {
-            public UnbakedModel getModel(ResourceLocation location) {
+            public @NotNull UnbakedModel getModel(ResourceLocation location) {
                 return null;
             }
 
             public BakedModel bake(ResourceLocation location, ModelState transform) {
-                return null;
-            }
-
-            public @Nullable BakedModel bake(ResourceLocation resourceLocation, ModelState modelState, Function<Material, TextureAtlasSprite> function) {
-                return null;
-            }
-
-            public Function<Material, TextureAtlasSprite> getModelTextureGetter() {
                 return null;
             }
 
@@ -65,11 +56,11 @@ public class GuideModel implements BakedModel {
         };
     }
 
-    public ItemOverrides getOverrides() {
+    public @NotNull ItemOverrides getOverrides() {
         return this.handler;
     }
 
-    public List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource random) {
+    public @NotNull List<BakedQuad> getQuads(BlockState state, Direction direction, RandomSource random) {
         return this.original.getQuads(state, direction, random);
     }
 
@@ -89,11 +80,11 @@ public class GuideModel implements BakedModel {
         return this.original.isCustomRenderer();
     }
 
-    public TextureAtlasSprite getParticleIcon() {
+    public @NotNull TextureAtlasSprite getParticleIcon() {
         return this.original.getParticleIcon();
     }
 
-    public ItemTransforms getTransforms() {
+    public @NotNull ItemTransforms getTransforms() {
         return this.original.getTransforms();
     }
 }

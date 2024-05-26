@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.IGuidebook;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.service.IBookRegistryHelper;
+import de.wonejo.gapi.api.util.DebugLogger;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.minecraft.world.item.ItemStack;
@@ -19,11 +20,16 @@ public final class FabricBookRegistryHelperImpl implements IBookRegistryHelper {
     private static final Map<IBook, Supplier<ItemStack>> BOOK_TO_STACK = Maps.newHashMap();
 
     public void gatherBooks() {
+        securityCheck();
+
         List<EntrypointContainer<IGuidebook>> entrypointContainers = FabricLoader.getInstance().getEntrypointContainers("guidebook", IGuidebook.class);
 
         for ( EntrypointContainer<IGuidebook> guidebook : entrypointContainers ) {
             IBook book = guidebook.getEntrypoint().builder().build();
-            if (book == null) continue;
+            if (book == null){
+                DebugLogger.debug("There is an guide with null builder. Mod Provider: %s".formatted(guidebook.getProvider().getMetadata().getName()));
+                continue;
+            }
             BOOKS.add(book);
         }
     }
