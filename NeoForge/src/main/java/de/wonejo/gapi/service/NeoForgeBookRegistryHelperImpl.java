@@ -5,7 +5,7 @@ import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.GuidebookAPI;
 import de.wonejo.gapi.api.IGuidebook;
 import de.wonejo.gapi.api.book.IBook;
-import de.wonejo.gapi.api.service.IBookRegistryHelper;
+import de.wonejo.gapi.api.service.BookRegistryHelper;
 import de.wonejo.gapi.api.util.DebugLogger;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public final class NeoForgeBookRegistryHelperImpl implements IBookRegistryHelper {
+public final class NeoForgeBookRegistryHelperImpl extends BookRegistryHelper {
     private static final List<IBook> BOOKS = Lists.newArrayList();
     private static final Map<IBook, Supplier<ItemStack>> BOOK_TO_STACK = Maps.newHashMap();
     private static final Type GUIDEBOOKAPI = Type.getType(GuidebookAPI.class);

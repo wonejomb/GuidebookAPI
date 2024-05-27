@@ -6,8 +6,10 @@ import de.wonejo.gapi.handler.GapiClientHandler;
 import de.wonejo.gapi.handler.GapiRegistryHelper;
 import de.wonejo.gapi.impl.service.Services;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
@@ -20,6 +22,11 @@ public class GapiFabricMod implements ModInitializer {
         GapiRegistryHelper.registerGuides();
 
         ModelLoadingPlugin.register(new GapiClientHandler());
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(this::finalizeLoad);
+    }
+
+    private void finalizeLoad (Minecraft pMc) {
 
         for (Supplier<ItemStack> bookStack : Services.BOOK_REGISTRY.getBookToStacks().values() ) {
 

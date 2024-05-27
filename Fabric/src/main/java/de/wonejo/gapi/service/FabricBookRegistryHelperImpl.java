@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import de.wonejo.gapi.api.IGuidebook;
 import de.wonejo.gapi.api.book.IBook;
-import de.wonejo.gapi.api.service.IBookRegistryHelper;
+import de.wonejo.gapi.api.service.BookRegistryHelper;
 import de.wonejo.gapi.api.util.DebugLogger;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public final class FabricBookRegistryHelperImpl implements IBookRegistryHelper {
+public final class FabricBookRegistryHelperImpl extends BookRegistryHelper {
+
     private final List<IBook> BOOKS = new ArrayList<>();
     private static final Map<IBook, Supplier<ItemStack>> BOOK_TO_STACK = Maps.newHashMap();
 
     public void gatherBooks() {
-        securityCheck();
+        this.securityCheck();
 
         List<EntrypointContainer<IGuidebook>> entrypointContainers = FabricLoader.getInstance().getEntrypointContainers("guidebook", IGuidebook.class);
 

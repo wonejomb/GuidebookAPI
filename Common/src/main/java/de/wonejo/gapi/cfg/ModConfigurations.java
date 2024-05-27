@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.cfg.IConfigFile;
 import de.wonejo.gapi.api.cfg.IConfigValue;
-import de.wonejo.gapi.api.service.IBookRegistryHelper;
 import de.wonejo.gapi.impl.cfg.ConfigProvider;
 import de.wonejo.gapi.impl.cfg.serializer.ConfigValueSerializers;
 import de.wonejo.gapi.impl.service.Services;

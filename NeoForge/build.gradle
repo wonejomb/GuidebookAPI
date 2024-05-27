@@ -51,9 +51,9 @@ runs {
 
 
 modrinth {
-    token = project.findProperty("modrinth_token")
-    projectId = project.findProperty("modrinth_project_id")
-    uploadFile = jar
-    gameVersions = ["1.20.6"]
-    loaders = ['neoforge']
+    token=project.findProperty("modrinth_token")
+    projectId=project.findProperty("modrinth_project_id")
+    uploadFile=jar
+    gameVersions=["1.20.6"]
+    loaders=['neoforge']
 }
