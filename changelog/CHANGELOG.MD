@@ -1,3 +1,9 @@
+# 3.1.0
+
+Now the player send a packet to server and saves the data of what page/category/entry was on.
+
+Also player spawns again with the books who haves the "spawn.{book namespace}.{book id}=true". configuration.
+
 # 3.0.0
 
 Now the CommonAPI is a Common mod that require only of services in the Fabric and NeoFoge mod loaders to use. The CommonAPI now have the most of the mod logic and Fabric and NeoForge only register and do the model manager. Also now can configurate the color of texts and entries for each guide.

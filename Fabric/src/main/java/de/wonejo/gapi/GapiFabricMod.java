@@ -2,6 +2,7 @@ package de.wonejo.gapi;
 
 import de.wonejo.gapi.core.ModDataComponents;
 import de.wonejo.gapi.handler.GapiRegistryHelper;
+import de.wonejo.gapi.handler.WorldJoinHandler;
 import de.wonejo.gapi.network.ReadingStatePayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -21,6 +22,8 @@ public class GapiFabricMod implements ModInitializer {
         ServerPlayNetworking.registerGlobalReceiver(ReadingStatePayload.TYPE, (payload, context) -> {
             ReadingStatePayload.handle(payload, context.player());
         });
+
+        WorldJoinHandler.onPlayerJoin();
     }
 
 
