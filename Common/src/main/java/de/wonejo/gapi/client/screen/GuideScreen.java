@@ -6,9 +6,11 @@ import de.wonejo.gapi.api.util.GuideScreenType;
 import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 
 public abstract class GuideScreen extends Screen implements IModScreen {
 
+    private final Player player;
     private final IBook book;
     private final GuideScreenType type;
 
@@ -19,8 +21,9 @@ public abstract class GuideScreen extends Screen implements IModScreen {
     private final int heightSize;
 
 
-    public GuideScreen ( IBook pBook, GuideScreenType pType ) {
+    public GuideScreen ( Player pPlayer, IBook pBook, GuideScreenType pType ) {
         super (pBook.header());
+        this.player = pPlayer;
         this.book = pBook;
         this.type = pType;
 
@@ -39,6 +42,9 @@ public abstract class GuideScreen extends Screen implements IModScreen {
         };
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 
     public boolean isPauseScreen() {
         return false;

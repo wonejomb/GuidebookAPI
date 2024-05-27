@@ -9,6 +9,7 @@ import de.wonejo.gapi.api.client.render.ICategoryRender;
 import de.wonejo.gapi.client.screen.CategoryGuideScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.Arrays;
@@ -58,9 +59,9 @@ public class Category implements ICategory {
         return this.render;
     }
 
-    public void onClick(IBook pBook, double pMouseX, double pMouseY, int pClickType) {
+    public void onClick(IBook pBook, Player pPlayer, double pMouseX, double pMouseY, int pClickType) {
         if ( pClickType == 0 )
-            Minecraft.getInstance().setScreen(new CategoryGuideScreen(pBook, this));
+            Minecraft.getInstance().setScreen(new CategoryGuideScreen(pPlayer, pBook, this));
     }
 
     public Map<ResourceLocation, IEntry> entries() {

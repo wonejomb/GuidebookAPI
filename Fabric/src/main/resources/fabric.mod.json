@@ -23,6 +23,9 @@
     "main": [
       "de.wonejo.gapi.GapiFabricMod"
     ],
+    "client": [
+      "de.wonejo.gapi.client.GapiFabricClientMod"
+    ],
     "guidebook": [
       "de.wonejo.gapi.example.ExampleBook"
     ]

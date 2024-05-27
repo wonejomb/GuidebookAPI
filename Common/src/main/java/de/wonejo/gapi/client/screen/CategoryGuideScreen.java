@@ -11,25 +11,29 @@ import de.wonejo.gapi.api.util.RenderUtils;
 import de.wonejo.gapi.cfg.ModConfigurations;
 import de.wonejo.gapi.client.button.GuideButton;
 import de.wonejo.gapi.ext.IScreenRenderablesAccessor;
+import de.wonejo.gapi.impl.service.Services;
+import de.wonejo.gapi.network.ReadingStatePayload;
 import de.wonejo.gapi.wrapper.EntryWrapper;
 import de.wonejo.gapi.wrapper.HolderWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
+import java.util.Optional;
 
 public final class CategoryGuideScreen extends GuideScreen {
 
     private final ICategory category;
     private final HashMultimap<Integer, EntryWrapper> entries = HashMultimap.create();
     private final List<HolderWrapper> holders = Lists.newArrayList();
-    private int entryPage;
+    public int entryPage;
 
-    public CategoryGuideScreen(IBook pBook, ICategory pCategory) {
-        super(pBook, GuideScreenType.NORMAL);
+    public CategoryGuideScreen(Player pPlayer, IBook pBook, ICategory pCategory) {
+        super(pPlayer, pBook, GuideScreenType.NORMAL);
         this.category = pCategory;
         this.entryPage = 0;
     }
@@ -47,13 +51,13 @@ public final class CategoryGuideScreen extends GuideScreen {
         this.addRenderableWidget(new GuideButton(
                 this.xOffset() + 24, this.yOffset() + this.screenHeight() - 20,
                 GuideButton.ButtonType.HOME, (button) -> {
-            Minecraft.getInstance().setScreen(new HomeGuideScreen(this.getBook()));
+            Minecraft.getInstance().setScreen(new HomeGuideScreen(this.getPlayer(), this.getBook()));
         }));
 
         this.addRenderableWidget(new GuideButton(
                 this.xOffset() + this.screenWidth() - 36, this.yOffset() + this.screenHeight() - 20,
                 GuideButton.ButtonType.INFORMATION, (button) -> {
-            Minecraft.getInstance().setScreen(new InformationGuideScreen(this.getBook()));
+            Minecraft.getInstance().setScreen(new InformationGuideScreen(this.getPlayer(), this.getBook()));
         }
         ));
 
@@ -118,18 +122,23 @@ public final class CategoryGuideScreen extends GuideScreen {
         }
     }
 
+    public void onClose() {
+        super.onClose();
+        Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(entryPage, Optional.of(this.getBook().categories().indexOf(this.category)), Optional.empty()));
+    }
+
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
         if (!super.mouseClicked(pMouseX, pMouseY, pButton)) {
             for (EntryWrapper wrapper : this.entries.get(this.entryPage)) {
                 if ( wrapper.isMouseOnWrapper(pMouseX, pMouseY) ) {
-                    wrapper.get().getRender().onClick(this.getBook(), pMouseX, pMouseY, pButton);
-                    wrapper.get().onClick(this.getBook(), this.category, pMouseX, pMouseY, pButton);
+                    wrapper.get().getRender().onClick(this.getBook(), this.getPlayer(), pMouseX, pMouseY, pButton);
+                    wrapper.get().onClick(this.getBook(), this.getPlayer(), this.category, pMouseX, pMouseY, pButton);
                     return true;
                 }
             }
             for ( HolderWrapper wrapper : this.holders )  {
                 if ( wrapper.isMouseOnWrapper(pMouseX, pMouseY) ) {
-                    wrapper.onClick(this.getBook(), this.category, pMouseX, pMouseY, pButton);
+                    wrapper.onClick(this.getBook(), this.getPlayer(), this.category, pMouseX, pMouseY, pButton);
                     return true;
                 }
             }

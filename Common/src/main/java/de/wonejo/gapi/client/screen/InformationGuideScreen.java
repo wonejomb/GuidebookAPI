@@ -11,13 +11,14 @@ import de.wonejo.gapi.mixin.ScreenRenderablesAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.entity.player.Player;
 
 public final class InformationGuideScreen extends GuideScreen {
 
     private final IBookInformation bookInformation;
 
-    public InformationGuideScreen(IBook pBook) {
-        super(pBook, GuideScreenType.INFO);
+    public InformationGuideScreen(Player pPlayer, IBook pBook) {
+        super(pPlayer, pBook, GuideScreenType.INFO);
 
         this.bookInformation = pBook.information();
     }
@@ -25,7 +26,7 @@ public final class InformationGuideScreen extends GuideScreen {
     protected void init() {
         this.addRenderableWidget(new GuideButton(this.xOffset() + this.screenWidth() - 20,
                 this.yOffset() + this.screenHeight() - 20,
-                GuideButton.ButtonType.HOME, (button) -> this.minecraft.setScreen(new HomeGuideScreen(this.getBook()))));
+                GuideButton.ButtonType.HOME, (button) -> this.minecraft.setScreen(new HomeGuideScreen(this.getPlayer(), this.getBook()))));
     }
 
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {

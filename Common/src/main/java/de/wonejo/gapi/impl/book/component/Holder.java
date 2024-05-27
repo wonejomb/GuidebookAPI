@@ -7,6 +7,7 @@ import de.wonejo.gapi.api.book.components.IHolder;
 import de.wonejo.gapi.api.client.render.IHolderRender;
 import de.wonejo.gapi.client.screen.EntryGuideScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 
 public class Holder implements IHolder {
 
@@ -20,10 +21,10 @@ public class Holder implements IHolder {
         this.render = pRender;
     }
 
-    public void onClick(IBook pBook, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
-        IHolder.super.onClick(pBook, pMouseX, pMouseY, pClickType);
+    public void onClick(IBook pBook, Player pPlayer, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
+        IHolder.super.onClick(pBook, pPlayer, pMouseX, pMouseY, pClickType);
 
-        EntryGuideScreen screen = new EntryGuideScreen(pBook, pCategory, this.entryReference);
+        EntryGuideScreen screen = new EntryGuideScreen(pPlayer, pBook, pCategory, this.entryReference);
         screen.setPageId(pageIndex);
         Minecraft.getInstance().setScreen(screen);
     }

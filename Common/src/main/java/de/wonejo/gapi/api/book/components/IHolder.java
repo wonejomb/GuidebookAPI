@@ -4,6 +4,7 @@ import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.client.IModScreen;
 import de.wonejo.gapi.api.client.render.IHolderRender;
 import de.wonejo.gapi.api.util.Clickable;
+import net.minecraft.world.entity.player.Player;
 
 public interface IHolder extends Clickable {
 
@@ -12,5 +13,5 @@ public interface IHolder extends Clickable {
 
     IHolderRender getRender ();
 
-    void onClick (IBook pBook, ICategory pCategory, double pMouseX, double pMouseY, int pClickType);
+    void onClick (IBook pBook, Player pPlayer, ICategory pCategory, double pMouseX, double pMouseY, int pClickType);
 }

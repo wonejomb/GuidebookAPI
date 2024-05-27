@@ -38,13 +38,14 @@ loom.runs {
         configName = "FabricClient"
         ideConfigGenerated = true
         runDir("run/client")
+        programArg '--username=Dev'
     }
     named("server") {
         server ()
         configName = "FabricServer"
         ideConfigGenerated = true
         runDir("run/server")
-        vmArgs("--nogui")
+        programArg '--nogui'
     }
 }
 

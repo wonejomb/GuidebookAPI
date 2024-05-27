@@ -7,6 +7,8 @@ public interface IPlatformHelper {
     String getPlatformName ();
     String getActiveNamespace();
     Path getConfigPath ();
+
     boolean isDevelopmentEnvironment ();
+    boolean isClient ();
 
 }

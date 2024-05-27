@@ -10,6 +10,7 @@ import de.wonejo.gapi.api.wrapper.IWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.entity.player.Player;
 
 public class HolderWrapper implements IWrapper<IHolder> {
 
@@ -34,10 +35,10 @@ public class HolderWrapper implements IWrapper<IHolder> {
             extra.renderExtras(pGraphics, pMouseX, pMouseY, pScreen, Minecraft.getInstance().font);
     }
 
-    public void onClick(IBook pBook, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
-        IWrapper.super.onClick(pBook, pMouseX, pMouseY, pClickType);
+    public void onClick(IBook pBook, Player pPlayer, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
+        IWrapper.super.onClick(pBook, pPlayer, pMouseX, pMouseY, pClickType);
 
-        this.holder.onClick(pBook, pCategory, pMouseX, pMouseY, pClickType);
+        this.holder.onClick(pBook, pPlayer, pCategory, pMouseX, pMouseY, pClickType);
     }
 
     public boolean isMouseOnWrapper(double pMouseX, double pMouseY) {

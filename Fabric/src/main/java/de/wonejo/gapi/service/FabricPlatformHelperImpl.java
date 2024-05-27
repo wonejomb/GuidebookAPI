@@ -1,6 +1,7 @@
 package de.wonejo.gapi.service;
 
 import de.wonejo.gapi.api.service.IPlatformHelper;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
@@ -20,5 +21,10 @@ public final class FabricPlatformHelperImpl implements IPlatformHelper {
 
     public boolean isDevelopmentEnvironment() {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
+
+    @Override
+    public boolean isClient() {
+        return FabricLoader.getInstance().getEnvironmentType().equals(EnvType.CLIENT);
     }
 }

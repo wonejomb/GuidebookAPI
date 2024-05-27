@@ -28,39 +28,10 @@ public abstract class AbstractHolderRender implements IHolderRender, IExtraRende
     }
 
     public void render(GuiGraphics pGraphics, RegistryAccess pAccess, int pHolderX, int pHolderY, int pHolderIndex, int pMouseX, int pMouseY, IHolder pHolder, IBook pBook, IModScreen pScreen, Font pFont) {
-        FormattedText text = FormattedText.of(this.text.getString());
 
-        int strWidth = pFont.width(text);
-        int ellipsisWidth = pFont.width("...");
+    }
 
-        if ( pHolderIndex <= 6 ) {
-            if (strWidth > pScreen.xOffset() - 79 && strWidth > ellipsisWidth) {
-                text = pFont.substrByWidth(text, pScreen.screenWidth() / 2 - 25 - ellipsisWidth);
-                text = FormattedText.composite(text, FormattedText.of("..."));
-            }
-
-            FormattedCharSequence sequence = Language.getInstance().getVisualOrder(text);
-            pGraphics.drawString(pFont, sequence, pHolderX - pFont.width(text) / 2, pHolderY, ModConfigurations.CLIENT_PROVIDER.getBookTextColors().get(pBook).get().getRGB(), false);
-        }
-
-        if ( pHolderIndex > 6){
-            if ( strWidth > pScreen.xOffset() + pScreen.screenWidth() + 79 && strWidth > ellipsisWidth ) {
-                text = pFont.substrByWidth(text, pScreen.xOffset() + pScreen.screenWidth() + 75 - ellipsisWidth);
-                text = FormattedText.composite(text, FormattedText.of("..."));
-            }
-
-            FormattedCharSequence sequence = Language.getInstance().getVisualOrder(text);
-            pGraphics.drawString(pFont, sequence, pHolderX - pFont.width(text) / 2, pHolderY, ModConfigurations.CLIENT_PROVIDER.getBookTextColors().get(pBook).get().getRGB(), false);
-
-        }
-
-        if ( !RenderUtils.isMouseBetween(pMouseX, pMouseY, pHolderX, pHolderY, 79, 9) ) {
-
-        }
-
-        boolean cutString = strWidth > pScreen.screenWidth() + 79 + strWidth && strWidth > ellipsisWidth;
-        if (RenderUtils.isMouseBetween(pMouseX, pMouseY, pHolderX, pHolderY, 79 + strWidth, 9) && cutString)
-            pGraphics.renderTooltip(pFont, this.text, pMouseX, pMouseY);
+    public void renderExtras(GuiGraphics pGraphics, int pMouseX, int pMouseY, IModScreen pScreen, Font pFont) {
 
     }
 

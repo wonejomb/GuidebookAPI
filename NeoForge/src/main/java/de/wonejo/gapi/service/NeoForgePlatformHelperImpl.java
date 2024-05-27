@@ -2,6 +2,7 @@ package de.wonejo.gapi.service;
 
 import de.wonejo.gapi.api.service.IPlatformHelper;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.fml.loading.FMLPaths;
 
@@ -22,5 +23,9 @@ public final class NeoForgePlatformHelperImpl implements IPlatformHelper {
 
     public boolean isDevelopmentEnvironment() {
         return FMLLoader.isProduction();
+    }
+
+    public boolean isClient() {
+        return FMLEnvironment.dist.isClient();
     }
 }

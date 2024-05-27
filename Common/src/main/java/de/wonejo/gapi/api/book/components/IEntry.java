@@ -6,6 +6,7 @@ import de.wonejo.gapi.api.util.Accessible;
 import de.wonejo.gapi.api.util.Clickable;
 import de.wonejo.gapi.client.screen.EntryGuideScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public interface IEntry extends Accessible, Clickable {
 
     IPage getPageById ( int pIndex );
 
-    default void onClick(IBook pBook, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
-        Clickable.super.onClick(pBook, pMouseX, pMouseY, pClickType);
-        Minecraft.getInstance().setScreen(new EntryGuideScreen(pBook, pCategory, this));
+    default void onClick(IBook pBook, Player pPlayer, ICategory pCategory, double pMouseX, double pMouseY, int pClickType) {
+        Clickable.super.onClick(pBook, pPlayer, pMouseX, pMouseY, pClickType);
+        Minecraft.getInstance().setScreen(new EntryGuideScreen(pPlayer, pBook, pCategory, this));
     }
 }

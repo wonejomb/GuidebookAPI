@@ -1,9 +1,9 @@
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT' apply false
-    id 'net.neoforged.gradle.vanilla' version '7.0.135'
+    id 'net.neoforged.gradle.vanilla' version '7.0.136' apply false
 
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.135'
+    id 'net.neoforged.gradle.userdev' version '7.0.136'
     id "com.modrinth.minotaur" version "2.+"
 }
 

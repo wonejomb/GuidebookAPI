@@ -4,6 +4,7 @@ import de.wonejo.gapi.CommonGapiMod;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.item.IBookItem;
 import de.wonejo.gapi.api.util.Constants;
+import de.wonejo.gapi.impl.service.Services;
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -51,7 +53,7 @@ public final class GuideItem extends Item implements IBookItem {
         return InteractionResultHolder.success(heldStack);
     }
 
-    protected String getOrCreateDescriptionId() {
+    protected @NotNull String getOrCreateDescriptionId() {
         if ( this.translationKey == null )
             this.translationKey = Util.makeDescriptionId("item", BuiltInRegistries.ITEM.getKey(this));
 
