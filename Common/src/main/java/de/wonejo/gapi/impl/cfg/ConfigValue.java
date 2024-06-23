@@ -3,6 +3,8 @@ package de.wonejo.gapi.impl.cfg;
 import de.wonejo.gapi.api.cfg.IConfigValue;
 import de.wonejo.gapi.api.cfg.serializer.IConfigValueSerializer;
 
+import java.util.Optional;
+
 public class ConfigValue<T> implements IConfigValue<T> {
 
     private final IConfigValueSerializer<T> serializer;
@@ -31,8 +33,8 @@ public class ConfigValue<T> implements IConfigValue<T> {
         return this.key;
     }
 
-    public String comment() {
-        return this.comment;
+    public Optional<String> comment() {
+        return Optional.of(this.comment);
     }
 
     public IConfigValueSerializer<T> serializer() {

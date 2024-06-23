@@ -1,17 +1,21 @@
 package de.wonejo.gapi.client.button;
 
+import de.wonejo.gapi.CommonGapiMod;
 import de.wonejo.gapi.api.util.Accessible;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.api.util.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import org.jetbrains.annotations.NotNull;
 
 public class GuideButton extends Button implements Accessible {
 
-    protected static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation(Constants.MOD_ID, "textures/gui/widgets.png");
+    protected static final ResourceLocation WIDGETS_LOCATION = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/widgets.png");
     private final ButtonType type;
 
     public GuideButton(int pX, int pY, ButtonType pType, OnPress pOnPress) {
@@ -19,7 +23,7 @@ public class GuideButton extends Button implements Accessible {
         this.type = pType;
     }
 
-    protected void renderWidget( GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    protected void renderWidget(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
 
         if ( this.visible ) {
 
@@ -37,6 +41,10 @@ public class GuideButton extends Button implements Accessible {
 
         }
 
+    }
+
+    public void playDownSound(@NotNull SoundManager $$0) {
+        CommonGapiMod.CLIENT_PROXY.playSound(SoundEvents.BOOK_PAGE_TURN);
     }
 
     public enum ButtonType {

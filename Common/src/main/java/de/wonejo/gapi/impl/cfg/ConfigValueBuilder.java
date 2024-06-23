@@ -2,10 +2,12 @@ package de.wonejo.gapi.impl.cfg;
 
 import de.wonejo.gapi.api.cfg.IConfigValueBuilder;
 import de.wonejo.gapi.api.cfg.serializer.IConfigValueSerializer;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 public final class ConfigValueBuilder<T> implements IConfigValueBuilder<T> {
 
-    public static<B> IConfigValueBuilder<B> of ( String pKey, IConfigValueSerializer<B> pSerializer ) {
+    public static<B> @NotNull IConfigValueBuilder<B> of (String pKey, IConfigValueSerializer<B> pSerializer ) {
         return new ConfigValueBuilder<>(pKey, pSerializer);
     }
 

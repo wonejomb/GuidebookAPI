@@ -1,15 +1,15 @@
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT' apply false
-    id 'net.neoforged.gradle.vanilla' version '7.0.136' apply false
+    id 'net.neoforged.gradle.vanilla' version '7.0.142' apply false
 
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.136'
+    id 'net.neoforged.gradle.userdev' version '7.0.142'
     id "com.modrinth.minotaur" version "2.+"
 }
 
 group = 'de.wonejo.gapi'
 version = "${mc_version}-${mod_version}-neoforge"
-base.archivesName = "${mod_id}-${mc_version}-x${mod_version}-neoforge"
+base.archivesName = "${mod_id}-${mc_version}-${mod_version}-neoforge"
 
 java {
     withSourcesJar()

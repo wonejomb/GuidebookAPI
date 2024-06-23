@@ -1,5 +1,6 @@
 package de.wonejo.gapi.client.screen;
 
+import de.wonejo.gapi.CommonGapiMod;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.components.ICategory;
 import de.wonejo.gapi.api.book.components.IEntry;
@@ -20,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import org.apache.commons.compress.utils.Lists;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -80,13 +82,15 @@ public final class EntryGuideScreen extends GuideScreen {
     @Override
     public void onClose() {
         super.onClose();
-        ResourceLocation key = null;
-        for (Map.Entry<ResourceLocation, IEntry> entryEntry : category.entries().entrySet())
-            if ( entryEntry.getValue().equals(this.entry) )
-                key = entryEntry.getKey();
+        if (!CommonGapiMod.isRunningOnForge()) {
+            ResourceLocation key = null;
+            for (Map.Entry<ResourceLocation, IEntry> entryEntry : category.entries().entrySet())
+                if ( entryEntry.getValue().equals(this.entry) )
+                    key = entryEntry.getKey();
 
-        if ( key != null )
-            Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(this.pageId, Optional.of(getBook().categories().indexOf(this.category)), Optional.of(key)));
+            if ( key != null )
+                Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(this.pageId, Optional.of(getBook().categories().indexOf(this.category)), Optional.of(key)));
+        }
     }
 
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
@@ -112,7 +116,7 @@ public final class EntryGuideScreen extends GuideScreen {
                 this.pages.get(this.pageId).tick();
     }
 
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         this.renderBackground(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         if (!this.getBook().useCustomPagesTexture()) {

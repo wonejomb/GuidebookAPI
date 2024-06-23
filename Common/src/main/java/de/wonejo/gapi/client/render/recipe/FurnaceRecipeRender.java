@@ -19,7 +19,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public class FurnaceRecipeRender extends AbstractRecipeRender<AbstractCookingRecipe> {
 
-    private static final ResourceLocation FURNACE_GRID = new ResourceLocation(Constants.MOD_ID, "textures/gui/recipe/furnace_grid.png");
+    private static final ResourceLocation FURNACE_GRID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/recipe/furnace_grid.png");
 
     private final Component title;
 

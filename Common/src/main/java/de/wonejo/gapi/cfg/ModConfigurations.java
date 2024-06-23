@@ -38,13 +38,13 @@ public final class ModConfigurations {
         public void buildConfigurations() {
             this.shouldSpawnWithBook = this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
                     "shouldSpawnWithBooks",
-                    "This overrides all the other configurations of the spawn, if disable, the player spawns with any book.",
+                    "If enabled, the player should spawn with all the books with the spawn configuration enabled..",
                     true);
 
             for ( IBook book : Services.BOOK_REGISTRY.getLoadedBooks() ) {
                 this.spawnBooks.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
                         "spawn.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "This config define if the player can spawn with the book: %s".formatted(book.id()),
+                        "If disabled, the player cannot spawn with this book even if 'shouldSpawnWithBooks' is enabled. ",
                         book.shouldSpawnWithBook()));
             }
         }
@@ -77,34 +77,29 @@ public final class ModConfigurations {
         public void buildConfigurations() {
             for (IBook book : Services.BOOK_REGISTRY.getLoadedBooks()) {
                 this.bookColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "Define the color of the book: %s".formatted(book.id().getPath()),
+                        "bookColor.%s".formatted(book.id().toString().replace(":", ".")),
+                        "If you want to change the default color of the book: %s, you can change here with: rgba(r,g,b,a), rgb(r,g,b) or color(int)".formatted(book.id().getPath()),
                         book.bookColor())
                 );
 
                 this.pageBookColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "Define the color of the pages of the book: %s".formatted(book.id().getPath()),
+                        "bookColor.pages.%s".formatted(book.id().toString().replace(":", ".")),
+                        "You can change the color of the screens of the guide: %s here. You can change it with: rgba(r,g,b,a), rgb(r,g,b) or color(int)".formatted(book.id().getPath()),
                         book.pagesColor()));
 
                 this.bookTextColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.text.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "Define the color of the text in the book screens.",
+                        "bookColor.text.%s".formatted(book.id().toString().replace(":", ".")),
+                        "The color of the texts of the screens of the guide: %s can be change with: rgba(r,g,b,a), rgb(r,g,b) or color(int)".formatted(book.id()),
                         book.textColor()));
 
                 this.entryColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.entry.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "The color of the entries of the screens in the book: %s:%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        book.entryColor()));
-
-                this.entryColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.entry.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "The color of the entries of the screens in the book: %s:%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                        "bookColor.entry.%s".formatted(book.id().toString().replace(":", ".")),
+                        "This color is for the entries of: '%s' when the mouse isn't above these.".formatted(book.id()),
                         book.entryColor()));
 
                 this.entryAboveColors.putIfAbsent(book, this.createConfig(ConfigValueSerializers.createColorSerializer(),
-                        "bookColor.entry.above.%s.%s".formatted(book.id().getNamespace(), book.id().getPath()),
-                        "The color of the entry of the screens in the book when the mouse is above this. Book: %s:%s".formatted(book.id().getNamespace(), book.id().getPath()),
+                        "bookColor.entry.above.%s".formatted(book.id().toString().replace(":", ".")),
+                        "This color is for the entries of: '%s' when the mouse is above these.".formatted(book.id()),
                         book.entryAboveColor()));
             }
         }
@@ -117,11 +112,11 @@ public final class ModConfigurations {
             this.entryAboveColors.clear();
 
             for ( IBook book : Services.BOOK_REGISTRY.getLoadedBooks()) {
-                this.bookColors.putIfAbsent(book, this.getConfigById("bookColor.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
-                this.pageBookColors.putIfAbsent(book, this.getConfigById("bookColor.pages.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
-                this.bookTextColors.putIfAbsent(book, this.getConfigById("bookColor.text.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
-                this.entryColors.putIfAbsent(book, this.getConfigById("bookColor.entry.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
-                this.entryAboveColors.putIfAbsent(book, this.getConfigById("bookColor.entry.above.%s.%s".formatted(book.id().getNamespace(), book.id().getPath())));
+                this.bookColors.putIfAbsent(book, this.getConfigById("bookColor.%s".formatted(book.id().toString().replace(":", "."))));
+                this.pageBookColors.putIfAbsent(book, this.getConfigById("bookColor.pages.%s".formatted(book.id().toString().replace(":", "."))));
+                this.bookTextColors.putIfAbsent(book, this.getConfigById("bookColor.text.%s".formatted(book.id().toString().replace(":", "."))));
+                this.entryColors.putIfAbsent(book, this.getConfigById("bookColor.entry.%s".formatted(book.id().toString().replace(":", "."))));
+                this.entryAboveColors.putIfAbsent(book, this.getConfigById("bookColor.entry.above.%s".formatted(book.id().toString().replace(":", "."))));
             }
         }
 
@@ -148,26 +143,18 @@ public final class ModConfigurations {
 
     public static final class DebugConfigurations extends ConfigProvider {
         private IConfigValue<Boolean> enableDebugOutput;
-        private IConfigValue<Boolean> experimentalHolders;
 
         public void buildConfigurations() {
-            this.experimentalHolders = this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
-                    "experimental.holders",
-                    "If enabled in the categories who have holders in mod should render.",
-                    false);
-
             this.enableDebugOutput = this.createConfig(ConfigValueSerializers.createBooleanSerializer(),
                     "enableDebugOutput",
-                    "If enabled the debug logger of the mod will be enable.",
+                    "When enable the console will print more debugging info.",
                     false);
         }
 
         public void defineConfigurations() {
             this.enableDebugOutput = this.getConfigById("enableDebugOutput");
-            this.experimentalHolders = this.getConfigById("experimental.holders");
         }
 
-        public boolean experimentalHolders () { return this.experimentalHolders.get(); }
 
         public boolean enableDebugOutput () {
             return this.enableDebugOutput.get();

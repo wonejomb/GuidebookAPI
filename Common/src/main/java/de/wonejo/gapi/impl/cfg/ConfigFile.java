@@ -4,6 +4,7 @@ import de.wonejo.gapi.api.cfg.IConfigFile;
 import de.wonejo.gapi.api.cfg.IConfigProvider;
 import de.wonejo.gapi.api.cfg.IConfigValue;
 import de.wonejo.gapi.api.cfg.serializer.IConfigValueSerializer;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,40 +13,41 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ConfigFile implements IConfigFile {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Config");
+    private static final Logger LOGGER = LoggerFactory.getLogger("GuidebookAPI/Configuration");
 
     public static ConfigFile of (Path pConfigPath, String pFilename ) {
-        File configFile = new File(pConfigPath.toFile(), pFilename + ".properties");
+        Path configFile = Paths.get(pConfigPath.toString(), pFilename + ".properties");
         return new ConfigFile(configFile, pFilename);
     }
 
-    private final File configFile;
+    private final Path configFile;
     private final String fileName;
 
     private IConfigProvider provider;
     private boolean broken = false;
 
-    private ConfigFile ( File pConfigFile, String pFileName ) {
+    private ConfigFile ( Path pConfigFile, String pFileName ) {
         this.configFile = pConfigFile;
         this.fileName = pFileName;
     }
 
     public void init() {
-        this.save();
+        this.provider.buildConfigurations();
 
-        String content = this.getFileContent();
-
-        if (!this.configFile.exists()) {
+        if (!Files.exists(this.configFile)) {
             try {
-                LOGGER.warn("Creating configuration file: {}", this.fileName);
+                LOGGER.warn("GuidebookAPI/Configuration detect configuration files but there isn't any, creating configuration file: {}", this.fileName);
+                String content = this.getFileContent();
                 this.createFile(content);
             } catch (IOException pException) {
-                LOGGER.warn("Fail creating {} configuration file", this.fileName);
+                LOGGER.warn("An error occurred while creating the configuration file '{}'", this.fileName);
                 LOGGER.trace(pException.toString());
                 this.broken = true;
             }
@@ -53,20 +55,17 @@ public class ConfigFile implements IConfigFile {
 
         if ( !this.isBroken() ) {
             try {
-                this.updateFileWithMissingKeys();
-
-                LOGGER.debug("Loading configurations from: {}", this.configFile);
-
-                this.load();
+                this.updateFileConfigurationsIfNeeded();
+                this.loadConfigurations();
             } catch (IOException pException) {
-                LOGGER.error("Error loading config in: {}", this.fileName);
+                LOGGER.error("Error loading configurations in: {}", this.fileName);
                 LOGGER.trace(pException.toString());
                 this.broken = true;
             }
         }
     }
 
-    public void load() throws IOException {
+    public void loadConfigurations () throws IOException {
         Scanner reader = new Scanner(this.configFile);
         Map<String, IConfigValue<?>> configurations = new HashMap<>(this.provider.configurations());
         this.provider.configurations().clear();
@@ -94,63 +93,61 @@ public class ConfigFile implements IConfigFile {
         }
 
         this.provider.defineConfigurations();
-
         reader.close();
     }
 
-    public void save() {
-        if ( !this.isBroken() )
-            this.provider.buildConfigurations();
-    }
-
     private void createFile (String pConfigContent) throws IOException {
-        FileWriter writer = new FileWriter(this.configFile, StandardCharsets.UTF_8);
+        FileWriter writer = new FileWriter(this.configFile.toFile(), StandardCharsets.UTF_8);
         writer.write(pConfigContent);
         writer.close();
     }
 
-    private String getFileContent() {
+    private @NotNull String getFileContent() {
         StringBuilder builder = new StringBuilder();
 
         for (Map.Entry<String, IConfigValue<?>> configEntry : this.provider.configurations().entrySet()) {
-            String comment = configEntry.getValue().comment();
+            Optional<String> comment = configEntry.getValue().comment();
             String key = configEntry.getKey();
             IConfigValue<?> value = configEntry.getValue();
 
-            builder.append("#").append(comment).append("  ||  DEFAULT: ").append(value.defaultValue()).append("\n");
+            comment.ifPresent(s -> builder.append("# ").append(s).append(" || DEFAULT: ").append(value.defaultValue()).append("\n"));
             builder.append(key).append("=").append(serializeValue(value)).append("\n");
         }
 
         return builder.toString();
     }
 
-    private <T> String serializeValue(IConfigValue<T> value) {
+    private <T> String serializeValue(@NotNull IConfigValue<T> value) {
         IConfigValueSerializer<T> serializer = value.serializer();
         T actualValue = value.get();
         return serializer.serialize(actualValue);
     }
 
-    private void updateFileWithMissingKeys () throws IOException {
-        LOGGER.warn("Config file needs update the configurations");
+    private void updateFileConfigurationsIfNeeded () throws IOException {
         Set<String> existingKeys = readExistingKeys();
         Set<String> providerKeys = this.provider.configurations().keySet();
 
-        try ( BufferedWriter writer = new BufferedWriter(new FileWriter(this.configFile, true)) )  {
-            for ( String key : providerKeys ) {
-                if (!existingKeys.contains(key)) {
-                    IConfigValue<?> config = this.provider.configurations().get(key);
-                    String comment = config.comment();
-                    Object value = config.get();
-                    writer.write("#" + comment + "  ||  DEFAULT: " + config.defaultValue());
-                    writer.newLine();
-                    writer.write(key + "=" + serializeValue(config));
-                    writer.newLine();
+        if (!existingKeys.containsAll(providerKeys)) {
+            LOGGER.warn("Configuration file '%s' have missing keys, applying all the keys.".formatted(this.configFile.getFileName()));
+
+            try ( BufferedWriter writer = new BufferedWriter(new FileWriter(this.configFile.toFile(), true)) )  {
+                for ( String key : providerKeys ) {
+                    if (!existingKeys.contains(key)) {
+                        IConfigValue<?> config = this.provider.configurations().get(key);
+                        Optional<String> comment = config.comment();
+                        if ( comment.isPresent() )
+                            writer.write("# " + comment.get() + " || DEFAULT: " + config.defaultValue());
+
+                        writer.newLine();
+                        writer.write(key + "=" + serializeValue(config));
+                        writer.newLine();
+                    }
                 }
             }
         }
     }
 
-    private Set<String> readExistingKeys() throws IOException {
+    private @NotNull Set<String> readExistingKeys() throws IOException {
         Set<String> existingKeys = new HashSet<>();
 
         try (Scanner scanner = new Scanner(configFile)) {

@@ -9,15 +9,12 @@ import de.wonejo.gapi.api.book.components.IPage;
 import de.wonejo.gapi.api.util.Constants;
 import de.wonejo.gapi.client.render.category.ItemCategoryRender;
 import de.wonejo.gapi.client.render.entry.ItemEntryRender;
-import de.wonejo.gapi.client.render.holder.HolderColorRender;
 import de.wonejo.gapi.client.render.page.*;
 import de.wonejo.gapi.impl.book.builder.BookBuilder;
 import de.wonejo.gapi.impl.book.builder.BookInformationBuilder;
 import de.wonejo.gapi.impl.book.component.Category;
 import de.wonejo.gapi.impl.book.component.Entry;
-import de.wonejo.gapi.impl.book.component.Holder;
 import de.wonejo.gapi.impl.book.component.Page;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -33,7 +30,7 @@ import java.util.Map;
 public class ExampleBook implements IGuidebook {
 
     public IBookBuilder builder() {
-        return BookBuilder.newBuilder(new ResourceLocation(Constants.MOD_ID, "example_book"))
+        return BookBuilder.newBuilder(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "example_book"))
                 .information(BookInformationBuilder.of()
                         .title(Component.literal("Example Information Title"))
                         .description(Component.literal("Just a example information description example."))
@@ -48,11 +45,7 @@ public class ExampleBook implements IGuidebook {
 
     private void contentProvider(List<ICategory> pBookCategories) {
         Category category = new Category(new ItemCategoryRender(Component.literal("Example category"), new ItemStack(Items.POTATO)));
-        category.addEntries(Map.of(new ResourceLocation("test"), this.exampleEntry()));
-        category.addHolder(new Holder(category.getEntry(new ResourceLocation("test")), 1, new HolderColorRender(
-                Component.literal("Test of a Holder ( i think this is a large holder ? )"),
-                new Color(255, 255, 255)
-        )));
+        category.addEntries(Map.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "test"), this.exampleEntry()));
 
         pBookCategories.add(category);
     }
@@ -67,11 +60,11 @@ public class ExampleBook implements IGuidebook {
         List<IPage> pages = new ArrayList<>();
 
         pages.add(new Page(new TextPageRender(Component.literal("This is an example text page."))));
-        pages.add(new Page(new ImagePageRender(new ResourceLocation("textures/block/amethyst_block.png"), 16, 16)));
-        pages.add(new Page(new TextImagePageRender(Component.literal("Just an example image page render with text"), new ResourceLocation("textures/block/amethyst_block.png"), 16, 16)));
+        pages.add(new Page(new ImagePageRender(ResourceLocation.withDefaultNamespace("textures/block/amethyst_block.png"), 16, 16)));
+        pages.add(new Page(new TextImagePageRender(Component.literal("Just an example image page render with text"), ResourceLocation.withDefaultNamespace("textures/block/amethyst_block.png"), 16, 16)));
         pages.add(new Page(new EntityPageRender(EntityType.ZOMBIE::create)));
         pages.add(new Page(new EntityTextPageRender(EntityType.ZOMBIE::create, Component.literal("This is the example of a entity page with text."))));
-        pages.add(new Page(new JsonRecipePageRender(new ResourceLocation("iron_block"))));
+        pages.add(new Page(new JsonRecipePageRender(ResourceLocation.withDefaultNamespace("iron_block"))));
 
         return pages;
     }

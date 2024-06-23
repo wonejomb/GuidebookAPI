@@ -22,10 +22,7 @@ public class ClientModelHandler {
     @SubscribeEvent
     public static void onRegisterModel (ModelEvent.RegisterAdditional pEvent) {
         for ( IBook book : Services.BOOK_REGISTRY.getLoadedBooks() ) {
-            ResourceLocation id = book.modelLocation();
-
-            if ( id != null )
-                pEvent.register(new ModelResourceLocation(id, "inventory"));
+            pEvent.register(new ModelResourceLocation(book.modelLocation(), ModelResourceLocation.INVENTORY_VARIANT));
         }
     }
 
@@ -34,14 +31,12 @@ public class ClientModelHandler {
         for  ( IBook book : Services.BOOK_REGISTRY.getLoadedBooks() ) {
             ResourceLocation id = book.modelLocation();
 
-            if (id != null) {
-                ModelResourceLocation newModel = new ModelResourceLocation(id, "inventory");
-                Item item = Services.BOOK_REGISTRY.getBookItem(book).getItem();
-                ModelResourceLocation oldModel = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), "inventory");
-                BakedModel model = pEvent.getModels().get(newModel);
+            ModelResourceLocation newModel = new ModelResourceLocation(id, ModelResourceLocation.INVENTORY_VARIANT);
+            Item item = Services.BOOK_REGISTRY.getBookItem(book).getItem();
+            ModelResourceLocation oldModel = new ModelResourceLocation(BuiltInRegistries.ITEM.getKey(item), ModelResourceLocation.INVENTORY_VARIANT);
+            BakedModel model = pEvent.getModels().get(newModel);
 
-                pEvent.getModels().put(oldModel, model);
-            }
+            pEvent.getModels().put(oldModel, model);
         }
     }
 

@@ -7,9 +7,12 @@ import de.wonejo.gapi.api.proxy.IProxy;
 import de.wonejo.gapi.client.screen.CategoryGuideScreen;
 import de.wonejo.gapi.client.screen.EntryGuideScreen;
 import de.wonejo.gapi.client.screen.HomeGuideScreen;
+import de.wonejo.gapi.core.ModDataComponents;
 import de.wonejo.gapi.impl.service.Services;
 import de.wonejo.gapi.item.GuideItem;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -21,20 +24,20 @@ public class ClientProxy implements IProxy {
             pBook.initializeContent();
 
         try {
-            if ( pStack.has(Services.DATA_COMPONENTS.getEntryDataComponent()) && pStack.has(Services.DATA_COMPONENTS.getCategoryDataComponent()) ) {
+            if ( pStack.has(ModDataComponents.ENTRY) && pStack.has(ModDataComponents.CATEGORY) ) {
 
-                ICategory category = pBook.categories().get(pStack.get(Services.DATA_COMPONENTS.getCategoryDataComponent()));
-                IEntry entry = category.getEntry(pStack.get(Services.DATA_COMPONENTS.getEntryDataComponent()));
-                int pageNumber = pStack.getOrDefault(Services.DATA_COMPONENTS.getPageDataComponent(), 0);
+                ICategory category = pBook.categories().get(pStack.get(ModDataComponents.CATEGORY));
+                IEntry entry = category.getEntry(pStack.get(ModDataComponents.ENTRY));
+                int pageNumber = pStack.getOrDefault(ModDataComponents.PAGE, 0);
                 EntryGuideScreen entryGuideScreen = new EntryGuideScreen(pPlayer, pBook, category, entry);
                 entryGuideScreen.pageId = pageNumber;
                 Minecraft.getInstance().setScreen(entryGuideScreen);
                 return;
 
-            } else if ( pStack.has(Services.DATA_COMPONENTS.getCategoryDataComponent()) ) {
+            } else if ( pStack.has(ModDataComponents.CATEGORY) ) {
 
-                ICategory category = pBook.categories().get(pStack.get(Services.DATA_COMPONENTS.getCategoryDataComponent()));
-                int entryPage  = pStack.getOrDefault(Services.DATA_COMPONENTS.getPageDataComponent(), 0);
+                ICategory category = pBook.categories().get(pStack.get(ModDataComponents.CATEGORY));
+                int entryPage  = pStack.getOrDefault(ModDataComponents.PAGE, 0);
                 CategoryGuideScreen categoryGuideScreen = new CategoryGuideScreen(pPlayer, pBook, category);
                 categoryGuideScreen.entryPage = entryPage;
                 Minecraft.getInstance().setScreen(categoryGuideScreen);
@@ -42,7 +45,7 @@ public class ClientProxy implements IProxy {
 
             } else {
 
-                int categoryNumber = pStack.getOrDefault(Services.DATA_COMPONENTS.getPageDataComponent(), 0);
+                int categoryNumber = pStack.getOrDefault(ModDataComponents.PAGE, 0);
                 HomeGuideScreen homeGuideScreen = new HomeGuideScreen(pPlayer, pBook);
                 homeGuideScreen.categoryPage = categoryNumber;
                 Minecraft.getInstance().setScreen(homeGuideScreen);
@@ -54,4 +57,7 @@ public class ClientProxy implements IProxy {
         Minecraft.getInstance().setScreen(new HomeGuideScreen( pPlayer, pBook));
     }
 
+    public void playSound(SoundEvent pEvent) {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(pEvent, 1.0F));
+    }
 }

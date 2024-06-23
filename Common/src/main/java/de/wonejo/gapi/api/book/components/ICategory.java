@@ -11,16 +11,10 @@ import java.util.Map;
 public interface ICategory extends Accessible, Clickable {
     ICategoryRender getRender ();
 
-    List<IHolder> holders ();
     Map<ResourceLocation, IEntry> entries ();
-
-    void addHolder ( IHolder pHolder );
-    void addHolders ( List<IHolder> pHolders );
-    void addHolders ( IHolder... pHolders );
 
     void addEntry ( ResourceLocation pId, IEntry pEntry );
     void addEntries ( Map<ResourceLocation, IEntry> pEntries );
 
-    IHolder getHolder (int pIndex);
     IEntry getEntry ( ResourceLocation pId );
 }

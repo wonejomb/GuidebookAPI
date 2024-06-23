@@ -11,6 +11,8 @@ public class CommonGapiMod {
 
     public static final IProxy CLIENT_PROXY = Services.PLATFORM.isClient() ? new ClientProxy() : new CommonProxy();
 
+    private static boolean isForge;
+
     public static void init () {
         ModConfigurations.setupDebugCfg();
         if ( ModConfigurations.DEBUG_PROVIDER.enableDebugOutput() || Services.PLATFORM.isDevelopmentEnvironment() ) {
@@ -18,9 +20,14 @@ public class CommonGapiMod {
             DebugLogger.debug("DEBUG LOGGER IS ENABLE!");
         }
 
+        CommonGapiMod.isForge = Services.PLATFORM.getPlatformName().equals("Forge");
+
         Services.BOOK_REGISTRY.gatherBooks();
 
         ModConfigurations.setupCfg();
     }
 
+    public static boolean isRunningOnForge () {
+        return isForge;
+    }
 }

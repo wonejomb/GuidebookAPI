@@ -7,7 +7,6 @@ import de.wonejo.gapi.item.GuideItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -21,7 +20,7 @@ public class GapiRegistryEvent {
         if (!pEvent.getRegistryKey().equals(Registries.ITEM)) return;
 
         for (IBook book : Services.BOOK_REGISTRY.getLoadedBooks()) {
-            ResourceLocation id = new ResourceLocation(Constants.MOD_ID, book.id().toString().replace(":", "."));
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, book.id().toString().replace(":", "."));
             pEvent.register(Registries.ITEM, id, () -> new GuideItem(book));
             Services.BOOK_REGISTRY.getBookToStacks().put(book, () -> new ItemStack(BuiltInRegistries.ITEM.get(id)));
         }

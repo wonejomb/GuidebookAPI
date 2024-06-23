@@ -14,7 +14,7 @@ public class GapiRegistryHelper {
 
     public static void registerGuides () {
         for (IBook book : Services.BOOK_REGISTRY.getLoadedBooks()) {
-            ResourceLocation id = new ResourceLocation(Constants.MOD_ID, book.id().toString().replace(":", "."));
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, book.id().toString().replace(":", "."));
             Registry.<Item, Item>register(BuiltInRegistries.ITEM, id, new GuideItem(book));
             Services.BOOK_REGISTRY.getBookToStacks().put(book, () -> new ItemStack(BuiltInRegistries.ITEM.get(id)));
         }

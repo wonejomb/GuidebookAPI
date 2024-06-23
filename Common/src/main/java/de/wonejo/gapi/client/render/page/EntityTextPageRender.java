@@ -70,7 +70,7 @@ public class EntityTextPageRender implements IPageRender {
             stack.mulPose(Axis.YP.rotationDegrees(((float) Util.getMillis() / 15) % 360));
             stack.mulPose(Axis.XP.rotationDegrees(180));
             Minecraft.getInstance().getEntityRenderDispatcher().render(this.entity, 0, 0, 0, 0.0F,
-                    Minecraft.getInstance().getFrameTime(), stack, pGraphics.bufferSource(), 15728880);
+                    Minecraft.getInstance().getTimer().getGameTimeDeltaTicks(), stack, pGraphics.bufferSource(), 15728880);
             stack.popPose();
         }
     }

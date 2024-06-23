@@ -20,3 +20,4 @@ rootProject.name = "GuidebookApi"
 include 'Common'
 include 'NeoForge'
 include 'Fabric'
+

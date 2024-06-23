@@ -4,10 +4,12 @@ import de.wonejo.gapi.api.book.IBookInformation;
 import de.wonejo.gapi.api.book.IBookInformationBuilder;
 import de.wonejo.gapi.impl.book.BookInformation;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 
 
 public final class BookInformationBuilder implements IBookInformationBuilder {
 
+    @NotNull
     public static BookInformationBuilder of () {
         return new BookInformationBuilder();
     }

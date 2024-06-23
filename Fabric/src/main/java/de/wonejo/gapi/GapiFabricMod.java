@@ -7,6 +7,12 @@ import de.wonejo.gapi.network.ReadingStatePayload;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.BiConsumer;
 
 public class GapiFabricMod implements ModInitializer {
 
@@ -14,7 +20,7 @@ public class GapiFabricMod implements ModInitializer {
         CommonGapiMod.init();
 
         GapiRegistryHelper.registerGuides();
-        ModDataComponents.registerDataComponents();
+        ModDataComponents.registerComponents(bind(BuiltInRegistries.DATA_COMPONENT_TYPE));
 
         PayloadTypeRegistry.playC2S().register(ReadingStatePayload.TYPE, ReadingStatePayload.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(ReadingStatePayload.TYPE, ReadingStatePayload.STREAM_CODEC);
@@ -26,7 +32,9 @@ public class GapiFabricMod implements ModInitializer {
         WorldJoinHandler.onPlayerJoin();
     }
 
-
+    private static <T> @NotNull BiConsumer<T, ResourceLocation> bind (Registry<? super T> pRegistry) {
+        return (t, id) -> Registry.register(pRegistry, id, t);
+    }
 
 
 }

@@ -32,20 +32,22 @@ dependencies {
     compileOnly project(":Common")
 }
 
-loom.runs {
-    named("client") {
-        client()
-        configName = "FabricClient"
-        ideConfigGenerated = true
-        runDir("run/client")
-        programArg '--username=Dev'
-    }
-    named("server") {
-        server ()
-        configName = "FabricServer"
-        ideConfigGenerated = true
-        runDir("run/server")
-        programArg '--nogui'
+loom {
+    runs {
+        named("client") {
+            client()
+            configName = "FabricClient"
+            ideConfigGenerated = true
+            runDir("run/client")
+            programArg '--username=Dev'
+        }
+        named("server") {
+            server()
+            configName = "FabricServer"
+            ideConfigGenerated = true
+            runDir("run/server")
+            programArg '--nogui'
+        }
     }
 }
 

@@ -25,10 +25,6 @@ public abstract class EntryRender implements IEntryRender {
         this.name = pName;
     }
 
-    public void init() {
-
-    }
-
     public void render (GuiGraphics pGraphics, RegistryAccess pAccess, int pEntryX, int pEntryY, int pMouseX, int pMouseY, IEntry pEntry, IModScreen pScreen, IBook pBook, Font pFont) {
         FormattedText name = FormattedText.of(this.name.getString());
 

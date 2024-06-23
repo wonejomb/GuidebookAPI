@@ -1,11 +1,10 @@
 package de.wonejo.gapi.client.screen;
 
 import com.google.common.collect.HashMultimap;
+import de.wonejo.gapi.CommonGapiMod;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.components.ICategory;
 import de.wonejo.gapi.api.book.components.IEntry;
-import de.wonejo.gapi.api.book.components.IHolder;
-import de.wonejo.gapi.api.util.DebugLogger;
 import de.wonejo.gapi.api.util.GuideScreenType;
 import de.wonejo.gapi.api.util.RenderUtils;
 import de.wonejo.gapi.cfg.ModConfigurations;
@@ -14,13 +13,11 @@ import de.wonejo.gapi.ext.IScreenRenderablesAccessor;
 import de.wonejo.gapi.impl.service.Services;
 import de.wonejo.gapi.network.ReadingStatePayload;
 import de.wonejo.gapi.wrapper.EntryWrapper;
-import de.wonejo.gapi.wrapper.HolderWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +26,6 @@ public final class CategoryGuideScreen extends GuideScreen {
 
     private final ICategory category;
     private final HashMultimap<Integer, EntryWrapper> entries = HashMultimap.create();
-    private final List<HolderWrapper> holders = Lists.newArrayList();
     public int entryPage;
 
     public CategoryGuideScreen(Player pPlayer, IBook pBook, ICategory pCategory) {
@@ -96,35 +92,12 @@ public final class CategoryGuideScreen extends GuideScreen {
                 entryIndex++;
             }
         }
-
-        if ( ModConfigurations.DEBUG_PROVIDER.experimentalHolders() ) {
-            if (!this.category.holders().isEmpty()) {
-                int holderX = this.xOffset() - 79;
-                int holderY = this.yOffset() + 12;
-                int holderIndex = 0;
-
-                for ( IHolder holder : this.category.holders() ) {
-                    this.holders.add(new HolderWrapper(this.getBook(), holder, holderIndex, holderX, holderY));
-                    holderY += 11;
-
-                    if ( holderIndex == 6 ) {
-                        holderX  = this.xOffset() + this.screenWidth() + 79;
-                        holderY = this.yOffset() + 12;
-                    }
-
-                    if ( holderIndex >= 12 ) {
-                        DebugLogger.debug("There can't be more than 12 holders per category. Srry.");
-                    }
-
-                    holderIndex++;
-                }
-            }
-        }
     }
 
     public void onClose() {
         super.onClose();
-        Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(entryPage, Optional.of(this.getBook().categories().indexOf(this.category)), Optional.empty()));
+        if (!CommonGapiMod.isRunningOnForge())
+            Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(entryPage, Optional.of(this.getBook().categories().indexOf(this.category)), Optional.empty()));
     }
 
     public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
@@ -133,12 +106,6 @@ public final class CategoryGuideScreen extends GuideScreen {
                 if ( wrapper.isMouseOnWrapper(pMouseX, pMouseY) ) {
                     wrapper.get().getRender().onClick(this.getBook(), this.getPlayer(), pMouseX, pMouseY, pButton);
                     wrapper.get().onClick(this.getBook(), this.getPlayer(), this.category, pMouseX, pMouseY, pButton);
-                    return true;
-                }
-            }
-            for ( HolderWrapper wrapper : this.holders )  {
-                if ( wrapper.isMouseOnWrapper(pMouseX, pMouseY) ) {
-                    wrapper.onClick(this.getBook(), this.getPlayer(), this.category, pMouseX, pMouseY, pButton);
                     return true;
                 }
             }
@@ -171,8 +138,6 @@ public final class CategoryGuideScreen extends GuideScreen {
         this.entryPage = Mth.clamp(entryPage, 0, this.entries.size() - 1);
         for ( EntryWrapper wrapper : this.entries.get(entryPage) )
             if (wrapper.canView()) wrapper.render(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, this);
-        for ( HolderWrapper wrapper : this.holders )
-            if ( wrapper.canView() ) wrapper.render(pGuiGraphics, Minecraft.getInstance().level.registryAccess(), pMouseX, pMouseY, this);
 
         ((IScreenRenderablesAccessor) (Screen) this).getAllRenderables().forEach(it -> it.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick));
     }

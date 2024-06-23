@@ -23,11 +23,11 @@ public final class BookBuilder implements IBookBuilder {
 
     private final ResourceLocation id;
 
-    private ResourceLocation modelLocation = new ResourceLocation(Constants.MOD_ID, "guidebook");
+    private ResourceLocation modelLocation = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "models/item/guidebook");
 
-    private GuideTexture topTextures = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/book_pages.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/book_top.png"));
-    private GuideTexture infoTextures = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/info_page.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/info_top.png"));
-    private GuideTexture pagesTexture = GuideTexture.of(new ResourceLocation(Constants.MOD_ID, "textures/gui/page.png"), new ResourceLocation(Constants.MOD_ID, "textures/gui/page_top.png"));
+    private GuideTexture topTextures = GuideTexture.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/book_pages.png"), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/book_top.png"));
+    private GuideTexture infoTextures = GuideTexture.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/info_page.png"), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/info_top.png"));
+    private GuideTexture pagesTexture = GuideTexture.of(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/page.png"), ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/page_top.png"));
 
     private IBookInformation information = BookInformationBuilder.of().build();
 

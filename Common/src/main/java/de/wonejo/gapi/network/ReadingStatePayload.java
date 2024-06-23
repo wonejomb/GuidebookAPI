@@ -2,6 +2,7 @@ package de.wonejo.gapi.network;
 
 import de.wonejo.gapi.api.book.item.IBookItem;
 import de.wonejo.gapi.api.util.Constants;
+import de.wonejo.gapi.core.ModDataComponents;
 import de.wonejo.gapi.impl.service.Services;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -10,12 +11,13 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.Optional;
 
 public record ReadingStatePayload(int page, Optional<Integer> category, Optional<ResourceLocation> entry) implements CustomPacketPayload {
-    public static final Type<ReadingStatePayload> TYPE = new Type<>(new ResourceLocation(Constants.MOD_ID, "reading_state"));
+    public static final Type<ReadingStatePayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "reading_state"));
 
     public static final StreamCodec<ByteBuf, ReadingStatePayload> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VAR_INT, ReadingStatePayload::page,
@@ -30,13 +32,13 @@ public record ReadingStatePayload(int page, Optional<Integer> category, Optional
         if ( book.isEmpty() || !(book.getItem() instanceof IBookItem) ) book = pPlayer.getMainHandItem();
         if ( !book.isEmpty() && (book.getItem() instanceof IBookItem) ) {
             ItemStack finalBook = book;
-            finalBook.set(Services.DATA_COMPONENTS.getPageDataComponent(), pMsg.page);
-            pMsg.category.ifPresentOrElse((c) -> finalBook.set(Services.DATA_COMPONENTS.getCategoryDataComponent(), c), () -> finalBook.remove(Services.DATA_COMPONENTS.getCategoryDataComponent()));
-            pMsg.entry.ifPresentOrElse((c) -> finalBook.set(Services.DATA_COMPONENTS.getEntryDataComponent(), c), () -> finalBook.remove(Services.DATA_COMPONENTS.getEntryDataComponent()));
+            finalBook.set(ModDataComponents.PAGE, pMsg.page);
+            pMsg.category.ifPresentOrElse((c) -> finalBook.set(ModDataComponents.CATEGORY, c), () -> finalBook.remove(ModDataComponents.CATEGORY));
+            pMsg.entry.ifPresentOrElse((c) -> finalBook.set(ModDataComponents.ENTRY, c), () -> finalBook.remove(ModDataComponents.ENTRY));
         }
     }
 
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 }

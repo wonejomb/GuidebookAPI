@@ -1,6 +1,7 @@
 package de.wonejo.gapi.client.screen;
 
 import com.google.common.collect.HashMultimap;
+import de.wonejo.gapi.CommonGapiMod;
 import de.wonejo.gapi.api.book.IBook;
 import de.wonejo.gapi.api.book.components.ICategory;
 import de.wonejo.gapi.api.util.GuideScreenType;
@@ -113,7 +114,8 @@ public final class HomeGuideScreen extends GuideScreen {
     @Override
     public void onClose() {
         super.onClose();
-        Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(this.categoryPage, Optional.empty(), Optional.empty()));
+        if (!CommonGapiMod.isRunningOnForge())
+            Services.NETWORK.sendToServer(this.getPlayer(), new ReadingStatePayload(this.categoryPage, Optional.empty(), Optional.empty()));
     }
 
     public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {

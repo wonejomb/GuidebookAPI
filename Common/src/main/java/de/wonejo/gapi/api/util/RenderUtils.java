@@ -97,7 +97,7 @@ public final class RenderUtils {
         pPoseStack.translate(pX, pY, 50.0F);
         pPoseStack.scale((float) entityScale, (float) entityScale, (float) entityScale);
         pPoseStack.mulPose(Axis.XP.rotationDegrees(180));
-        Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F, Minecraft.getInstance().getFrameTime(), pPoseStack, pSource, 15728880);
+        Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F, Minecraft.getInstance().getTimer().getGameTimeDeltaTicks(), pPoseStack, pSource, 15728880);
         pPoseStack.popPose();
     }
 
@@ -119,7 +119,7 @@ public final class RenderUtils {
         pPoseStack.scale((float) entityScale, (float) entityScale, (float) entityScale);
         pPoseStack.mulPose(Axis.YP.rotationDegrees(((float) Util.getMillis() / 20) % 360));
         pPoseStack.mulPose(Axis.XP.rotationDegrees(180));
-        Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F, Minecraft.getInstance().getFrameTime(), pPoseStack, pSource, 15728880);
+        Minecraft.getInstance().getEntityRenderDispatcher().render(pEntity, 0, 0, 0, 0.0F, Minecraft.getInstance().getTimer().getGameTimeDeltaTicks(), pPoseStack, pSource, 15728880);
         pPoseStack.popPose();
     }
 

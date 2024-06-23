@@ -1,8 +1,15 @@
+# 3.1.1
+
+This update make mostly internal changes like remove of holders and registry.
+
+Also add sounds when click on a button or open de guide.
+
 # 3.1.0
 
 Now the player send a packet to server and saves the data of what page/category/entry was on to use them later when player opens again the guide.
 
 Also player spawns again with the books who haves the "spawn.{book namespace}.{book id}=true" in the common configuration file.
+
 # 3.0.0
 
 Now the CommonAPI is a Common mod that require only of services in the Fabric and NeoFoge mod loaders to use. The CommonAPI now have the most of the mod logic and Fabric and NeoForge only register and do the model manager. Also now can configurate the color of texts and entries for each guide.

@@ -7,6 +7,7 @@ import de.wonejo.gapi.api.util.GuideTexture;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class GuideScreen extends Screen implements IModScreen {
 
@@ -21,7 +22,7 @@ public abstract class GuideScreen extends Screen implements IModScreen {
     private final int heightSize;
 
 
-    public GuideScreen ( Player pPlayer, IBook pBook, GuideScreenType pType ) {
+    public GuideScreen (Player pPlayer, @NotNull IBook pBook, GuideScreenType pType ) {
         super (pBook.header());
         this.player = pPlayer;
         this.book = pBook;
@@ -34,7 +35,7 @@ public abstract class GuideScreen extends Screen implements IModScreen {
         this.heightSize = pType.getTextureHeight();
     }
 
-    private GuideTexture getTextureByType (GuideScreenType pType ) {
+    private GuideTexture getTextureByType (@NotNull GuideScreenType pType ) {
         return switch (pType) {
             case INFO -> this.book.infoTexture();
             case PAGE -> this.book.pagesTexture();

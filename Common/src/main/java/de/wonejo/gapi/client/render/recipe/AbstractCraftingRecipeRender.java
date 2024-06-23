@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.Recipe;
 
 public abstract class AbstractCraftingRecipeRender<T extends Recipe<?>> extends AbstractRecipeRender<T> {
 
-    private static final ResourceLocation CRAFTING_GRID = new ResourceLocation(Constants.MOD_ID, "textures/gui/recipe/crafting_grid.png");
+    private static final ResourceLocation CRAFTING_GRID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/gui/recipe/crafting_grid.png");
 
     private final Component title;
 

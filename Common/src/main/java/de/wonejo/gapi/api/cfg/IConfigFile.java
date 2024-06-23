@@ -12,8 +12,6 @@ public interface IConfigFile {
     IConfigFile provider ( IConfigProvider pProvider );
 
     void init();
-    void load () throws IOException;
-    void save ();
 
     boolean isBroken ();
 
