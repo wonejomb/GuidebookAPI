@@ -1,30 +1,48 @@
 plugins {
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.142' apply false
-    id 'net.neoforged.gradle.vanilla' version '7.0.142'
+    id 'idea'
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '0.1.108'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.2'
 }
 
-group = 'de.wonejo.gapi.api'
-version = "${mod_version}"
-base.archivesName = "${mod_id}-${mc_version}-${mod_version}-common"
+group="de.wonejo.gapi"
+version="${mod_version}-common"
+base.archivesName="[${mc_version}]${mod_name}"
 
 java {
-    withSourcesJar()
+    toolchain {
+        languageVersion=JavaLanguageVersion.of(21)
+        vendor=JvmVendorSpec.MICROSOFT
+    }
 
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-    targetCompatibility = JavaVersion.VERSION_21
-    sourceCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+    sourceCompatibility=JavaVersion.VERSION_21
+    targetCompatibility=JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral ()
 }
 
 dependencies {
-    implementation "net.minecraft:client:${mc_version}"
     compileOnly 'org.jetbrains:annotations:24.1.0'
     compileOnly 'org.spongepowered:mixin:0.8.5'
 }
 
-subsystems {
+neoForge {
+    neoFormVersion="${mc_version}-${neoform_timestamp_version}"
+
     parchment {
-        minecraftVersion = "${parchment_mc_version}"
-        mappingsVersion = "${parchment_version}"
+        minecraftVersion="${parchment_mc_version}"
+        mappingsVersion="${parchment_version}"
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

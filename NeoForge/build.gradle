@@ -1,28 +1,27 @@
-plugins {
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
-    id 'net.neoforged.gradle.vanilla' version '7.0.142' apply false
+import me.modmuss50.mpp.ReleaseType
 
+plugins {
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.142'
-    id "com.modrinth.minotaur" version "2.+"
+    id 'idea'
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '0.1.108'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.2'
 }
 
-group = 'de.wonejo.gapi'
-version = "${mc_version}-${mod_version}-neoforge"
-base.archivesName = "${mod_id}-${mc_version}-${mod_version}-neoforge"
+group="de.wonejo.gapi"
+version="${mod_version}-neoforge"
+base.archivesName="[${mc_version}]${mod_name}"
 
 java {
+    toolchain {
+        languageVersion=JavaLanguageVersion.of(21)
+        vendor=JvmVendorSpec.MICROSOFT
+    }
+
     withSourcesJar()
-
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-    targetCompatibility = JavaVersion.VERSION_21
-    sourceCompatibility = JavaVersion.VERSION_21
-}
-
-Spec<Task> notNeoTask = { Task it -> !it.name.startsWithIgnoreCase("neo") } as Spec<Task>
-
-tasks.withType(JavaCompile).matching (notNeoTask).configureEach {
-    source(project(":Common").sourceSets.main.allSource)
+    withJavadocJar()
+    sourceCompatibility=JavaVersion.VERSION_21
+    targetCompatibility=JavaVersion.VERSION_21
 }
 
 sourceSets {
@@ -31,29 +30,73 @@ sourceSets {
     }
 }
 
+repositories {
+    mavenCentral ()
+}
+
 dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
     compileOnly project(":Common")
 }
 
-runs {
-    configureEach {
-        modSource project.sourceSets.main
+neoForge {
+    version = "${neo_version}"
+
+    parchment {
+        minecraftVersion="${parchment_mc_version}"
+        mappingsVersion="${parchment_version}"
     }
-    client {
-        systemProperty 'neoforge.enableGameTestNamespaces', mod_id
+
+    runs {
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+        client {
+            client()
+            gameDirectory = project.file('run/client')
+            environment = ["DevWorkspace": "true"]
+            ideName="NeoForge Client"
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${mod_id}"
+        }
+        server {
+            server()
+            gameDirectory = project.file('run/server')
+            environment = ['DevWorkspace': 'true']
+            ideName="NeoForge Server"
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', "${mod_id}"
+        }
     }
-    server {
-        systemProperty 'neoforge.enableGameTestNamespaces', mod_id
-        programArgument '--nogui'
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
     }
 }
 
+tasks.withType(JavaCompile).configureEach {
+    source(project(":Common").sourceSets.main.allSource)
+}
 
-modrinth {
-    token=project.findProperty("modrinth_token")
-    projectId=project.findProperty("modrinth_project_id")
-    uploadFile=jar
-    gameVersions=["1.20.6"]
-    loaders=['neoforge']
+publishMods {
+    type = ReleaseType.of(release_type)
+    file = jar.archiveFile.get()
+    modLoaders.add('neoforge')
+    version="${mc_version}-${mod_version}"
+    displayName="${mod_name} ${mc_version}-${mod_version}"
+
+    modrinth {
+        accessToken = findProperty("MODRINTH_API") ?: "DUMMY"
+        projectId = modrinth_id
+        minecraftVersions.add mc_version
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

@@ -1,52 +1,79 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     id 'java-library'
-    id 'fabric-loom' version '1.6-SNAPSHOT'
-
-     id "com.modrinth.minotaur" version "2.+"
+    id 'idea'
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'net.neoforged.moddev' version '0.1.108' apply false
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.2'
 }
 
-group = 'de.wonejo.gapi'
-version = "${mc_version}-${mod_version}-fabric"
-base.archivesName = "${mod_id}-${mc_version}-${mod_version}-fabric"
+group='de.wonejo.gapi'
+version="${mod_version}-fabric"
+base.archivesName="[${mc_version}]${mod_name}"
 
 java {
-    withSourcesJar()
+    toolchain {
+        languageVersion=JavaLanguageVersion.of(21)
+        vendor=JvmVendorSpec.MICROSOFT
+    }
 
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
-    targetCompatibility = JavaVersion.VERSION_21
-    sourceCompatibility = JavaVersion.VERSION_21
+    withSourcesJar()
+    withJavadocJar()
+    sourceCompatibility=JavaVersion.VERSION_21
+    targetCompatibility=JavaVersion.VERSION_21
 }
 
 sourceSets {
     main {
-        resources.srcDirs += project(":Common").sourceSets.main.resources.srcDirs
+        resources.srcDirs += ['src/generate/resources', project(":Common").sourceSets.main.resources.srcDirs ]
     }
+}
+
+repositories {
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+
+    mavenCentral ()
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${mc_version}"
-    mappings loom.officialMojangMappings ()
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    mappings loom.layered {
+        officialMojangMappings ()
+        parchment ("org.parchmentmc.data:parchment-${parchment_mc_version}:${parchment_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api}"
 
     compileOnly project(":Common")
 }
 
 loom {
     runs {
-        named("client") {
+        named('client') {
             client()
-            configName = "FabricClient"
-            ideConfigGenerated = true
-            runDir("run/client")
+            configName="Fabric Client"
+            ideConfigGenerated=true
+            runDir('run/client')
+            environmentVariable('DevWorkspace', 'client')
             programArg '--username=Dev'
         }
-        named("server") {
+        named('server') {
             server()
-            configName = "FabricServer"
-            ideConfigGenerated = true
-            runDir("run/server")
+            configName="Fabric Server"
+            ideConfigGenerated=true
+            runDir('run/server')
+            environmentVariable('DevWorkspace', 'client')
             programArg '--nogui'
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
         }
     }
 }
@@ -55,13 +82,23 @@ tasks.withType(JavaCompile).configureEach {
     source(project(":Common").sourceSets.main.allSource)
 }
 
-modrinth {
-    token = project.findProperty("modrinth_token")
-    projectId = project.findProperty("modrinth_project_id")
-    uploadFile = remapJar
-    gameVersions = ["1.20.6"]
-    loaders = ['fabric']
-    dependencies {
-        required.project 'fabric-api'
+publishMods {
+    type = ReleaseType.of(release_type)
+    file = jar.archiveFile.get()
+    modLoaders.add('fabric')
+    version="${mc_version}-${mod_version}"
+    displayName="${mod_name} ${mc_version}-${mod_version}"
+
+    modrinth {
+        accessToken = findProperty("MODRINTH_API") ?: "DUMMY"
+        projectId = modrinth_id
+        minecraftVersions.add mc_version
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

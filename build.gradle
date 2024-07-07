@@ -1,44 +1,52 @@
 plugins {
-    id 'net.neoforged.gradle.userdev' version '7.0.142' apply false
-    id 'net.neoforged.gradle.vanilla' version '7.0.142' apply false
-    id 'fabric-loom' version '1.6-SNAPSHOT' apply false
-    id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.8"
+    id 'com.diffplug.spotless' version '7.0.0.BETA1'
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '0.1.108' apply false
+}
+
+spotless {
+    java {
+        target "*/src/*/java/de/wonejo/gapi/**/*.java"
+
+        cleanthat()
+        endWithNewline()
+        trimTrailingWhitespace()
+        removeUnusedImports()
+        formatAnnotations()
+    }
 }
 
 subprojects.forEach {
-    it.tasks.withType(JavaCompile).configureEach {
-        options.encoding = 'UTF-8'
-        options.release = 21
+    it.tasks.withType(ProcessResources).configureEach {
+        var replaceProperties = [
+                mc_version:  mc_version, pack_format: pack_format,
+                neo_version: neo_version, neo_range: neo_version_range, neo_loader_range: neo_loader_range,
+                fabric_loader: fabric_loader, fabric_api: fabric_api,
+
+                mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_authors: mod_authors, mod_description: mod_description, mod_version: mod_version
+        ]
+        inputs.properties replaceProperties
+
+        filesMatching (["META-INF/neoforge.mods.toml", "fabric.mod.json", "pack.mcmeta"]) {
+            expand replaceProperties
+        }
     }
 
-    it.tasks.withType(ProcessResources).configureEach {
-        def replacedProperties = [
-                mc_version: mc_version, pack_format: pack_format,
-                mod_id: mod_id, mod_name: mod_name, mod_authors: mod_authors, mod_description: mod_description, mod_license: mod_license, mod_version: mod_version,
+    it.tasks.withType(GenerateModuleMetadata).configureEach {
+        enabled = false
+    }
 
-                fabric_loader_range: fabric_loader_version, fabric_api_version: fabric_api_version,
-
-                neo_version: neo_version, neo_version_range: neo_version_range, neo_loader_range: neo_loader_range,
-
-                forge_version: forge_version, forge_version_range: forge_version_range, forge_loader_range: forge_loader_range
-        ]
-        inputs.properties replacedProperties
-
-        filesMatching(["META-INF/neoforge.mods.toml", "META-INF/mods.toml", "fabric.mod.json", "quilt.mod.json", "pack.mcmeta"]) {
-            expand replacedProperties
-        }
+    it.tasks.withType(JavaCompile).configureEach {
+        options.encoding='UTF-8'
+        options.release=21
     }
 
     it.tasks.withType(AbstractArchiveTask).configureEach {
         setPreserveFileTimestamps(false)
         setReproducibleFileOrder(true)
     }
-
-    it.tasks.withType(GenerateModuleMetadata) {
-        enabled = false
-    }
 }
 
-tasks.withType(GenerateModuleMetadata) {
-    enabled = false
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
 }
