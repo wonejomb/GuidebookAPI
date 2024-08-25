@@ -1,0 +1,3 @@
+// If enabled, more information from the mod will appear in console.
+// Default Value: false
+debugLogging=bool(true)

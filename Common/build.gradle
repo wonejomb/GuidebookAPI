@@ -1,0 +1,48 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
+    id 'net.neoforged.moddev' version '2.0.6-beta'
+    id 'me.modmuss50.mod-publish-plugin' version '0.4.2'
+}
+
+group="de.wonejo.wuidebook"
+version="${mod_version}-common"
+base.archivesName="[${mc_version}]${mod_name}"
+
+java {
+    toolchain {
+        languageVersion=JavaLanguageVersion.of(21)
+        vendor=JvmVendorSpec.MICROSOFT
+    }
+
+    withSourcesJar()
+    withJavadocJar()
+    sourceCompatibility=JavaVersion.VERSION_21
+    targetCompatibility=JavaVersion.VERSION_21
+}
+
+repositories {
+    mavenCentral ()
+}
+
+dependencies {
+    compileOnly 'org.jetbrains:annotations:24.1.0'
+    compileOnly 'org.spongepowered:mixin:0.8.5'
+}
+
+neoForge {
+    neoFormVersion="${mc_version}-${neoform}"
+
+    parchment {
+        minecraftVersion="${parchment_mc}"
+        mappingsVersion="${parchment_version}"
+    }
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
