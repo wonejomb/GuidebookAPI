@@ -2,6 +2,7 @@ package de.wonejo.wuidebook.config;
 
 import de.wonejo.wuidebook.WuidebookCommon;
 import de.wonejo.wuidebook.api.book.BuiltBook;
+import de.wonejo.wuidebook.api.compat.WuidebookAbstraction;
 import de.wonejo.wuidebook.api.config.ConfigFile;
 import de.wonejo.wuidebook.api.config.ConfigSpec;
 import de.wonejo.wuidebook.api.config.ConfigurationBuilder;
@@ -34,12 +35,16 @@ public class WuidebookConfig {
         pBuilder.createColorConfig("default.modelColor", "If a book has no 'color.model.example.exampleGuide' config present, this color will appear instead.", new Color(158, 46, 59));
 
         for ( BuiltBook book : WuidebookCommon.get().getBookRegistry().getAllBuiltBooks() ) {
-            ResourceLocation bookId = book.getDefaultInformation().id();
+            ResourceLocation bookId = book.getInformation().id();
 
-            pBuilder.createColorConfig("color.model.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Define the model color applied by the mod. ( only apply it if there is no custom model )", book.getDefaultInformation().bookColor());
-            pBuilder.createColorConfig("color.text.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the texts in the GUI.", book.getDefaultInformation().textColor());
-            pBuilder.createColorConfig("color.entry.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the entries when the mouse is NOT above these.", book.getDefaultInformation().entryColor());
-            pBuilder.createColorConfig("color.entry.above.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the entries when the mouse is above these.",book.getDefaultInformation().entryAboveColor());
+            pBuilder.createColorConfig("color.model.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Define the model color applied by the mod. ( only apply it if there is no custom model )", book.getInformation().bookColor());
+            pBuilder.createColorConfig("color.text.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the texts in the GUI.", book.getInformation().textColor());
+            pBuilder.createColorConfig("color.entry.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the entries when the mouse is NOT above these.", book.getInformation().entryColor());
+            pBuilder.createColorConfig("color.entry.above.%s.%s".formatted(bookId.getNamespace(), bookId.getPath()), "Set the color of the entries when the mouse is above these.",book.getInformation().entryAboveColor());
+        }
+
+        for (WuidebookAbstraction abstraction : WuidebookCommon.get().getAbstraction().onGatherWuidebookAbstractions()) {
+            abstraction.registerCustomClientConfigurations(pBuilder);
         }
     }
 
@@ -48,9 +53,13 @@ public class WuidebookConfig {
         pBuilder.createBooleanConfig("general.spawnWithBooks", "If disabled, player can not spawn with the books who has the 'book.example.exampleGuide.shouldSpawnWithBook' enabled.", true);
 
         for ( BuiltBook book : WuidebookCommon.get().getBookRegistry().getAllBuiltBooks() ) {
-            ResourceLocation bookId = book.getDefaultInformation().id();
+            ResourceLocation bookId = book.getInformation().id();
 
-            pBuilder.createBooleanConfig("%s.%s.shouldSpawnWithBook".formatted(bookId.getNamespace(), bookId.getPath()), "If true the player is going to spawn with the guide.", book.getDefaultInformation().shouldSpawnWithBook());
+            pBuilder.createBooleanConfig("%s.%s.shouldSpawnWithBook".formatted(bookId.getNamespace(), bookId.getPath()), "If true the player is going to spawn with the guide.", book.getInformation().shouldSpawnWithBook());
+        }
+
+        for (WuidebookAbstraction abstraction : WuidebookCommon.get().getAbstraction().onGatherWuidebookAbstractions()) {
+            abstraction.registerCustomServerConfigurations(pBuilder);
         }
     }
 

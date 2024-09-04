@@ -1,0 +1,6 @@
+<START>
+
+    <Text properties=[x=5, y=5, component='wuidebookapi.exampleEntry.examplePage.header', underline=bool(true), bold=(true) ] />
+    <Text properties=[x=5, y=10, component='wuidebookapi.exampleEntry.examplePage.content.line0'] />
+
+<END>

@@ -1,0 +1,13 @@
+{
+  "pagesProvider": "wuidebookapi:guide/exampleGuide/provider/pages.json",
+  "entries": {
+    "wuidebookapi:exampleEntry": {
+      "displayName": "wuidebookapi.guides.exampleGuide.exampleEntry",
+      "logo": {
+        "type": "itemStack",
+        "icon": "minecraft:carrot"
+      },
+      "pagesProvider": "wuidebookapi:examplePages"
+    }
+  }
+}

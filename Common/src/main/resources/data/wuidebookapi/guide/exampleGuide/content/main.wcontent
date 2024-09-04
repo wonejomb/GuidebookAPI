@@ -1,0 +1,14 @@
+// Content Start
+<START>
+
+    <Comment text="Example text"/>
+    <Text properties:[x=5, y=5, component='wuidebookapi.exampleGuide.headerText'] />
+
+    <Comment text="Example image."/>
+    <Image properties: [ loc=modLoc('textures/guide/exampleMainPageImage.png'), pos=vec(20, 20), size=vec(20, 20) ] />
+
+    <Comment text="Example entity."/>
+    <Entity properties=[ entity="minecraft:zombie", pos=vec(40, 40) ] />
+
+<END>
+// Content end

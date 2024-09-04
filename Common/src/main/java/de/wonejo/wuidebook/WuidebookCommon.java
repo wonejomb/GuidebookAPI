@@ -36,6 +36,10 @@ public class WuidebookCommon {
 
         this.setupConfigurationAPI (gatheredCombats);
 
+        WuidebookConfig.setupConfig(this.configManager);
+
+        this.configManager.initialize();
+
         if ( WuidebookConfig.get().getValue(McEnvironment.SERVER, "debugLogging") ) {
             DebugLogger.initializeLogger();
            DebugLogger.log("Wuidebook Logger is enabled! More debug information will display on console.");
@@ -51,9 +55,6 @@ public class WuidebookCommon {
         this.serializerRegistry.registerSerializer(ColorConfigSerializer.ID, ColorConfigSerializer::new);
 
         pGatheredCompats.forEach((compat) -> compat.setupCustomSerializers(this.serializerRegistry));
-
-        WuidebookConfig.setupConfig(this.configManager);
-        this.configManager.initialize();
     }
 
     public ConfigSerializerRegistry getSerializerRegistry() {

@@ -28,12 +28,12 @@ public class BookRegistry {
         this.bookIds.add(pId);
     }
 
-    public void addBuildedBook (BuiltBook pBuiltBook) {
+    public void addBuiltBook (BuiltBook pBuiltBook) {
         if ( !WuidebookCommon.get().getAbstraction().getActiveNamespace().equals(WuidebookCommon.MOD_ID) )
             throw new IllegalStateException("Any other mod can register a builded book except WuidebookAPI!");
 
-        if ( this.books.putIfAbsent(pBuiltBook.getDefaultInformation().id(), pBuiltBook) != null )
-            throw new IllegalStateException("Can not add a built book to the registry because there is other book with the id: " + pBuiltBook.getDefaultInformation().id());
+        if ( this.books.putIfAbsent(pBuiltBook.getInformation().id(), pBuiltBook) != null )
+            throw new IllegalStateException("Can not add a built book to the registry because there is other book with the id: " + pBuiltBook.getInformation().id());
     }
 
     public BuiltBook getBookById (ResourceLocation pId ) {

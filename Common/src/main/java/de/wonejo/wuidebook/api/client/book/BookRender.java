@@ -1,7 +1,7 @@
 package de.wonejo.wuidebook.api.client.book;
 
 import de.wonejo.wuidebook.api.book.BookInformation;
-import de.wonejo.wuidebook.api.book.content.BookContent;
+import de.wonejo.wuidebook.api.book.BookContent;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.HolderLookup;

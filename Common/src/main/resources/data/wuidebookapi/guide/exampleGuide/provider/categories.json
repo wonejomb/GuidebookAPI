@@ -1,0 +1,14 @@
+{
+  "entriesProvider": "wuidebookapi:guide/exampleGuide/provider/entries.json",
+  "categories": {
+    "wuidebookapi:exampleCategory": {
+      "displayName": "wuidebookapi.guides.exampleGuide.exampleCategory",
+      "index": 0,
+      "logo": {
+        "type": "itemStack",
+        "icon": "minecraft:potato"
+      },
+      "entryProvider": "wuidebookapi:exampleEntry"
+    }
+  }
+}

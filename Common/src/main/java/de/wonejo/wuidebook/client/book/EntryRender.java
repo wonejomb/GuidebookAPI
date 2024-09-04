@@ -1,7 +1,7 @@
 package de.wonejo.wuidebook.client.book;
 
 import de.wonejo.wuidebook.api.book.BookInformation;
-import de.wonejo.wuidebook.api.book.content.BookContent;
+import de.wonejo.wuidebook.api.book.BookContent;
 import de.wonejo.wuidebook.api.client.book.BookIcon;
 import de.wonejo.wuidebook.api.client.book.BookRender;
 import de.wonejo.wuidebook.api.util.McEnvironment;

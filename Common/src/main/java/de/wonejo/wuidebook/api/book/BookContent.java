@@ -1,4 +1,4 @@
-package de.wonejo.wuidebook.api.book.content;
+package de.wonejo.wuidebook.api.book;
 
 import de.wonejo.wuidebook.wrapper.PositionedWrapper;
 import net.minecraft.network.chat.Component;

@@ -38,8 +38,8 @@ class RGBColorConfigSerializer implements ConfigSerializer<Color> {
     }
 
     public static RGBColorConfigSerializer get () {
-        if ( RGBColorConfigSerializer.INSTANCE == null ) return RGBColorConfigSerializer.get();
-        return RGBColorConfigSerializer.get();
+        if ( RGBColorConfigSerializer.INSTANCE == null ) return RGBColorConfigSerializer.INSTANCE = new RGBColorConfigSerializer();
+        return RGBColorConfigSerializer.INSTANCE;
     }
 
 }

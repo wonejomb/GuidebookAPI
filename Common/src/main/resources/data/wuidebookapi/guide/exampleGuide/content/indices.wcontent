@@ -1,0 +1,7 @@
+<START>
+
+    <Text properties=[ x=5, y=5, component='wuidebookapi.exampleGuide.exampleIndicesHeader' ] />
+
+    <Category properties=[ x=25, y=25, category='wuidebookapi:exampleCategory' ] />
+
+<END>

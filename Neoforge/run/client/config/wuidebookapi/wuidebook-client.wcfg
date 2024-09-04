@@ -1,0 +1,8 @@
+// If a book has no 'color.entry.example.exampleGuide' config present, this color will appear instead.// If a book has no 'color.entry.example.exampleGuide' config present, this color will appear instead.// If a book has no 'color.entry.example.exampleGuide' config present, this color will appear instead.// If a book has no 'color.entry.example.exampleGuide' config present, this color will appear instead.// Default Value: rgb(50,50,50)
+default.entryColor=rgb(50,50,50)
+// If a book has no 'color.text.example.exampleGuide' config present, this color will appear instead.// Default Value: rgb(20,20,20)
+default.textColor=rgb(20,20,20)
+// If a book has no 'color.entry.above.example.exampleGuide' config present, this color will appear instead.// Default Value: rgb(25,25,25)
+default.entryAboveColor=rgb(25,25,25)
+// If a book has no 'color.model.example.exampleGuide' config present, this color will appear instead.// Default Value: rgb(158,46,59)
+default.modelColor=rgb(158,46,59)

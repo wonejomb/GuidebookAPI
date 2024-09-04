@@ -1,0 +1,10 @@
+-[INFORMATION]:
+    information.bookColor=hex(0x4f2f8f);
+    information.textColor=hex(0x3f3736);
+    information.entryColor=hex(0x6f6863);
+    information.entryAboveColor=hex(0x6f6863);
+    information.shouldSpawnWithBook=bool(true);
+
+        -[CONTENT]:
+            content.mainPage=modLoc('guide/exampleGuide/content/main.wcontent');
+            content.indices=modLoc('guide/exampleGuide/content/indices.wcontent');

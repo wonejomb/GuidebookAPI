@@ -1,0 +1,8 @@
+{
+  "wuidebookapi:examplePages": [
+    {
+      "index": 0,
+      "file": "wuidebookapi:guides/exampleGuide/content/exampleEntry/examplePage.wcontent"
+    }
+  ]
+}
