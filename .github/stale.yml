@@ -1,0 +1,17 @@
+staleLabel: Stale
+unmarkComment: false
+limitPerRun: 1
+exemptAssignees:
+  - Assigned
+
+pulls:
+  daysUntilStale: 60
+  daysUntilClose: 14
+  markComment: This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.
+  closeComment: This pull request has been automatically closed because it has not had recent acvitity.
+
+issues:
+  daysUntilStale: 180
+  daysUntilClose: 14
+  markComment: This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs. Thank you for your contributions.
+  closeComment: This issue has been automatically closed because it has not had activity in a long time.
