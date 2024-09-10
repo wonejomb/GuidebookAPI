@@ -1,0 +1,92 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'net.minecraftforge.gradle'
+    id 'org.parchmentmc.librarian.forgegradle'
+    id 'me.modmuss50.mod-publish-plugin'
+    id 'org.spongepowered.mixin' version '0.7.+'
+}
+
+group = "${modGroup}"
+version = "${modVersion}"
+base.archivesName = "[${mcVersion}](forge)${modId}"
+
+project.evaluationDependsOn(":XPlat")
+
+tasks.withType(JavaCompile).configureEach {
+    source project(":XPlat").sourceSets.main.allSource
+}
+
+tasks.withType(ProcessResources).configureEach {
+    from project(":XPlat").sourceSets.main.resources
+}
+
+repositories {
+    maven {
+        url "https://librarian.minecraft.net"
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:${mcVersion}-${forgeVersion}"
+    compileOnly project(":XPlat")
+
+    if ( System.getProperty("idea.sync.active") != "true" )
+        annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
+
+    implementation "net.sf.jopt-simple:jopt-simple:5.0.4"
+}
+
+minecraft {
+    mappings channel: 'parchment', version: "${parchmentVersion}-${parchmentMc}"
+    reobf = true
+    copyIdeResources = true
+
+    runs {
+        create('client') {
+            taskName = "Forge Client"
+            property "forge.logging.console.level", 'debug'
+            workingDirectory file('run/client')
+            mods {
+                "${modId}" {
+                    source sourceSets.main
+                }
+            }
+        }
+        create ('server') {
+            taskName = "Forge Server"
+            property "forge.logging.console.level", 'debug'
+            workingDirectory file('run/server')
+            mods {
+                "${modId}" {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+mixin {
+    config "wuidebook.mixins.json"
+}
+
+publishMods {
+    file = jar.archiveFile
+    changelog = "${modChangelog}"
+    type = STABLE
+    modLoaders = ["forge"]
+
+    curseforge {
+        accessToken = providers.environmentVariable("curseforgeApiKey")
+        projectId = "${curseId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    modrinth {
+        accessToken = providers.environmentVariable("modrinthApiKey")
+        projectId = "${modrId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    discord {
+        webhookUrl = "https://discord.com/api/webhooks/1281792496787128361/oc69KxVW8LmO5dspApnUsb2sZ7tZanZxn0-4eEBdbpY8bHsz3EAOp9-tRuaRDipEVCgs"
+    }
+}

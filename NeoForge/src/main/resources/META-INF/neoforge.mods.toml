@@ -1,0 +1,24 @@
+modLoader="javafml"
+loaderVersion="${neoLoader}"
+license="${modLicense}"
+showAsResourcePack=true
+issueTrackerURL="https://github.com/wonejomb/GuidebookApi"
+
+[[mods]]
+        modId="${modId}"
+        version="${modVersion}"
+        displayName="${modName}"
+        description="${modDescription}"
+        logoFile="logo.png"
+        credits="${modAuthor}"
+        authors="${modAuthor}"
+
+                [[mixins]]
+                        config="wuidebook.mixins.json"
+
+        [[dependencies]]
+                modId="neoforge"
+                type="required"
+                versionRange="${neoRange}"
+                ordering="NONE"
+                side="BOTH"

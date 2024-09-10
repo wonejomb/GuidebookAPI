@@ -1,0 +1,21 @@
+modLoader="javafml"
+loaderVersion="${forgeRange}"
+license="${modLicense}"
+issueTrackerURL="https://github.com/wonejomb/GuidebookApi"
+showAsResourcePack=true
+
+[[mods]]
+    modId="${modId}"
+    version="${modVersion}"
+    displayName="${modName}"
+    description="${modDescription}"
+    logoFile="logo.png"
+    credits="${modAuthor}"
+    authors="${modAuthor}"
+
+        [[dependencies."${mod_id}"]]
+            modId="forge"
+            mandatory=true
+            versionRange="${forgeRange}"
+            ordering="NONE"
+            side="BOTH"

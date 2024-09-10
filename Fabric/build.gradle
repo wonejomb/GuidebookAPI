@@ -1,0 +1,86 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'fabric-loom'
+    id 'me.modmuss50.mod-publish-plugin'
+}
+
+group = "${modGroup}"
+version = "${modVersion}"
+base.archivesName = "[${mcVersion}](fabric)${modId}"
+
+project.evaluationDependsOn(project(":XPlat").path)
+
+tasks.withType(JavaCompile).configureEach {
+    source project(":XPlat").sourceSets.main.allSource
+}
+
+tasks.withType(ProcessResources).configureEach {
+    from project(":XPlat").sourceSets.main.resources
+}
+
+repositories {
+    maven {
+        url "https://maven.parchmentmc.org"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${mcVersion}"
+    mappings loom.layered {
+        officialMojangMappings ()
+        parchment("org.parchmentmc.data:parchment-${parchmentMc}:${parchmentVersion}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabricLoader}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApi}"
+
+    implementation project(":XPlat")
+}
+
+loom {
+    runs {
+        named('client') {
+            client ()
+            configName = "Fabric Client"
+            ideConfigGenerated = true
+            runDir = "run/client"
+            vmArg "-Dfabric.log.level=info"
+        }
+        named('server') {
+            server ()
+            configName = "Fabric Server"
+            ideConfigGenerated = true
+            runDir = "run/server"
+            vmArg "-Dfabric.log.level=info"
+        }
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    from sourceSets.main.output
+    from project(":XPlat").sourceSets.main.output
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    dependsOn remapJar
+}
+
+publishMods {
+    file = jar.archiveFile
+    changelog = "${modChangelog}"
+    type = STABLE
+    modLoaders = ["fabric"]
+
+    curseforge {
+        accessToken = providers.environmentVariable("curseforgeApiKey")
+        projectId = "${curseId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    modrinth {
+        accessToken = providers.environmentVariable("modrinthApiKey")
+        projectId = "${modrId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    discord {
+        webhookUrl = "https://discord.com/api/webhooks/1281792496787128361/oc69KxVW8LmO5dspApnUsb2sZ7tZanZxn0-4eEBdbpY8bHsz3EAOp9-tRuaRDipEVCgs"
+    }
+}

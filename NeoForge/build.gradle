@@ -1,0 +1,84 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.neoforged.moddev'
+    id 'me.modmuss50.mod-publish-plugin' version '0.7.2'
+}
+
+group = "${modGroup}"
+version = "${modVersion}"
+base.archivesName = "[${mcVersion}](neoforge)${modId}"
+
+project.evaluationDependsOn(project(":XPlat").path)
+
+var notNeoTask = { Task t -> !t.name.startsWith("neo") }
+tasks.withType(JavaCompile).matching(notNeoTask).configureEach {
+    source project(":XPlat").sourceSets.main.allSource
+}
+
+tasks.withType(ProcessResources).matching (notNeoTask).configureEach {
+    from project(":XPlat").sourceSets.main.resources
+}
+
+dependencies {
+    implementation project(":XPlat")
+}
+
+neoForge {
+    version = "${neoVersion}"
+    addModdingDependenciesTo sourceSets.test
+
+    mods {
+        "${modId}" {
+            sourceSet sourceSets.main
+            sourceSet project(":XPlat").sourceSets.main
+        }
+    }
+
+    parchment {
+        minecraftVersion = "${parchmentMc}"
+        mappingsVersion = "${parchmentVersion}"
+    }
+
+    runs {
+        client {
+            client ()
+            systemProperty 'forge.logging.console.level', 'debug'
+            gameDirectory = file('run/client')
+        }
+        server {
+            server ()
+            systemProperty 'forge.logging.console.level', 'debug'
+            gameDirectory = file('run/server')
+            programArguments.addAll "nogui"
+        }
+    }
+}
+
+tasks.named('jar', Jar).configure {
+    from sourceSets.main.output
+    from project(":XPlat").sourceSets.main.output
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+publishMods {
+    file = jar.archiveFile
+    changelog = "${modChangelog}"
+    type = STABLE
+    modLoaders = ["neoforge"]
+
+    curseforge {
+        accessToken = providers.environmentVariable("curseforgeApiKey")
+        projectId = "${curseId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    modrinth {
+        accessToken = providers.environmentVariable("modrinthApiKey")
+        projectId = "${modrId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    discord {
+        webhookUrl = "https://discord.com/api/webhooks/1281792496787128361/oc69KxVW8LmO5dspApnUsb2sZ7tZanZxn0-4eEBdbpY8bHsz3EAOp9-tRuaRDipEVCgs"
+    }
+}

@@ -1,0 +1,80 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'java-library'
+    id 'net.neoforged.moddev'
+    id 'me.modmuss50.mod-publish-plugin' version '0.7.2'
+}
+
+group = "${modGroup}"
+version = "${modVersion}"
+base.archivesName = "[${mcVersion}](xplat)${modId}"
+
+dependencies {
+    compileOnly "org.spongepowered:mixin:0.8.5"
+    compileOnly "org.jetbrains:annotations:24.0.1"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-api:5.8.2"
+}
+
+neoForge {
+    neoFormVersion = "${mcVersion}-${neoformRuntime}"
+    addModdingDependenciesTo sourceSets.test
+
+    parchment {
+        minecraftVersion = "${parchmentMc}"
+        mappingsVersion = "${parchmentVersion}"
+    }
+}
+
+sourceSets {
+    named("test") {
+        resources.getSrcDirs().clear()
+    }
+}
+
+tasks.named("test", Test) {
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+    testLogging {
+        events = [TestLogEvent.FAILED]
+        exceptionFormat = TestExceptionFormat.FULL
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.MICROSOFT
+    }
+    withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    javaToolchains {
+        compilerFor {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+}
+
+publishMods {
+    file = jar.archiveFile
+    changelog = "${modChangelog}"
+    type = STABLE
+
+    curseforge {
+        accessToken = providers.environmentVariable("curseforgeApiKey")
+        projectId = "${curseId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    modrinth {
+        accessToken = providers.environmentVariable("modrinthApiKey")
+        projectId = "${modrId}"
+        minecraftVersions.add "${mcVersion}"
+    }
+    discord {
+        webhookUrl = "https://discord.com/api/webhooks/1281792496787128361/oc69KxVW8LmO5dspApnUsb2sZ7tZanZxn0-4eEBdbpY8bHsz3EAOp9-tRuaRDipEVCgs"
+    }
+}
