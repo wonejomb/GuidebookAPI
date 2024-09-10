@@ -5,7 +5,7 @@ import net.fabricmc.api.ModInitializer;
 public class WuidebookMod implements ModInitializer {
 
     public void onInitialize() {
-
+        WuidebookCommonMod.get().setup();
     }
 
 }

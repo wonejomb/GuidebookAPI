@@ -20,7 +20,7 @@ public final class CommonConfig {
     }
 
     private void setupConfig( @NotNull ConfigBuilder pBuilder ) {
-        pBuilder.defineBoolean("debugLogging", "The mod should log more information when enabled.", false);
+        pBuilder.defineBoolean("debugLogging", "The mod should log more information if enabled.", false);
 
         for (WuidebookImplementation implementation : ModServices.ABSTRACTION.gatherImplementations())
             implementation.onRegisterCustomServerConfig(pBuilder);
