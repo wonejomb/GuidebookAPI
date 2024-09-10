@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public final class ServerConfig {
 
-    private static ServerConfig INSTANCE;
+    private static final ServerConfig INSTANCE = new ServerConfig();
     private final ConfigFile file;
 
     private ServerConfig () {
@@ -28,7 +28,7 @@ public final class ServerConfig {
     }
 
     public void setupFile ( @NotNull ConfigManager pManager ) {
-        pManager.registerServerFile(this.file);
+        pManager.registerFile(this.file);
     }
 
     public <T> ConfigSpec<T> getConfig (String pKey ) {
@@ -48,7 +48,6 @@ public final class ServerConfig {
     }
 
     public static @NotNull ServerConfig get () {
-        if ( ServerConfig.INSTANCE == null ) ServerConfig.INSTANCE = new ServerConfig();
         return ServerConfig.INSTANCE;
     }
 

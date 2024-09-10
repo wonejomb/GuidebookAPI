@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-@ApiStatus.Internal
 public final class ConfigSpecImpl<T> implements ConfigSpec<T> {
 
     private final String key;

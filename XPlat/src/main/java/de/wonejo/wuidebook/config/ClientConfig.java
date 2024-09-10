@@ -12,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 
 public final class ClientConfig {
-
-    private static ClientConfig INSTANCE;
+    private static final ClientConfig INSTANCE = new ClientConfig();
     private final ConfigFile file;
 
     private ClientConfig () {
@@ -28,7 +27,7 @@ public final class ClientConfig {
     }
 
     public void setupFile ( @NotNull ConfigManager pManager ) {
-        pManager.registerClientFile(this.file);
+        pManager.registerFile(this.file);
     }
 
     public <T> ConfigSpec<T> getConfig ( String pKey ) {
@@ -48,7 +47,6 @@ public final class ClientConfig {
     }
 
     public static @NotNull ClientConfig get () {
-        if ( ClientConfig.INSTANCE == null ) ClientConfig.INSTANCE = new ClientConfig();
         return ClientConfig.INSTANCE;
     }
 

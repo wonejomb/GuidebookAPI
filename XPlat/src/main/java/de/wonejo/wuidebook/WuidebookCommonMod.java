@@ -18,29 +18,25 @@ import java.util.List;
 
 public class WuidebookCommonMod {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static WuidebookCommonMod INSTANCE;
+    private static final WuidebookCommonMod INSTANCE = new WuidebookCommonMod();
 
-    private final ConfigSerializerRegistry serializerRegistry;
-    private final ConfigManager configManager;
+    private ConfigSerializerRegistry serializerRegistry;
+    private ConfigManager configManager;
 
-    private final ClientConfig clientConfig;
-    private final ServerConfig serverConfig;
-    private final CommonConfig commonConfig;
+    private ClientConfig clientConfig;
+    private ServerConfig serverConfig;
+    private CommonConfig commonConfig;
 
-    private WuidebookCommonMod () {
+    private WuidebookCommonMod () {}
+
+    public void setup () {
         this.configManager = ConfigManager.get();
         this.serializerRegistry = ConfigSerializerRegistry.get();
 
-        this.clientConfig = ClientConfig.get();
-        this.serverConfig = ServerConfig.get();
-        this.commonConfig = CommonConfig.get();
-    }
-
-    public void setup () {
         List<WuidebookImplementation> implementations = ModServices.ABSTRACTION.gatherImplementations();
 
         this.setupConfigAPI (implementations);
-        this.configManager.getCommonFiles().forEach(ConfigFile::initializeFile);
+        this.configManager.getFiles().forEach(ConfigFile::initializeFile);
     }
 
     private void setupConfigAPI (@NotNull List<WuidebookImplementation> pImplementation) {
@@ -50,6 +46,10 @@ public class WuidebookCommonMod {
         this.serializerRegistry.registerSerializer(DoubleConfigSerializer.ID, DoubleConfigSerializer::new);
         this.serializerRegistry.registerSerializer(BooleanConfigSerializer.ID, BooleanConfigSerializer::new);
         this.serializerRegistry.registerSerializer(ColorConfigSerializer.ID, ColorConfigSerializer::new);
+
+        this.clientConfig = ClientConfig.get();
+        this.serverConfig = ServerConfig.get();
+        this.commonConfig = CommonConfig.get();
 
         this.clientConfig.setupFile(this.configManager);
         this.serverConfig.setupFile(this.configManager);
@@ -62,12 +62,15 @@ public class WuidebookCommonMod {
     }
 
     public static WuidebookCommonMod get () {
-        if ( WuidebookCommonMod.INSTANCE == null ) WuidebookCommonMod.INSTANCE = new WuidebookCommonMod();
         return WuidebookCommonMod.INSTANCE;
     }
 
     public ConfigManager configManager() {
         return configManager;
+    }
+
+    public ConfigSerializerRegistry getSerializerRegistry() {
+        return serializerRegistry;
     }
 
     public ClientConfig clientConfig () {

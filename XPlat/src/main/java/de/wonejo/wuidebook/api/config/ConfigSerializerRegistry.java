@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class ConfigSerializerRegistry {
-    private static ConfigSerializerRegistry INSTANCE;
+    private static final ConfigSerializerRegistry INSTANCE = new ConfigSerializerRegistry();
     private final Map<ResourceLocation, ConfigSerializer<?>> serializers = Maps.newConcurrentMap();
 
     private ConfigSerializerRegistry () {}
@@ -35,7 +35,6 @@ public final class ConfigSerializerRegistry {
     }
 
     public static ConfigSerializerRegistry get () {
-        if ( ConfigSerializerRegistry.INSTANCE == null ) ConfigSerializerRegistry.INSTANCE = new ConfigSerializerRegistry();
         return ConfigSerializerRegistry.INSTANCE;
     }
 }

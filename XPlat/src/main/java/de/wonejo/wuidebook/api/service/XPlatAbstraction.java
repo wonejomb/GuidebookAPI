@@ -5,7 +5,7 @@ import de.wonejo.wuidebook.api.compat.WuidebookImplementation;
 import java.nio.file.Path;
 import java.util.List;
 
-public interface WuidebookPlatformAbstraction {
+public interface XPlatAbstraction {
 
     List<WuidebookImplementation> gatherImplementations ();
 

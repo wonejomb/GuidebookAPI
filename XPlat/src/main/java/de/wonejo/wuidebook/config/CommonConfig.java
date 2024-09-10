@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public final class CommonConfig {
 
-    private static CommonConfig INSTANCE;
+    private static final CommonConfig INSTANCE = new CommonConfig();
     private final ConfigFile file;
 
     private CommonConfig () {
@@ -27,7 +27,7 @@ public final class CommonConfig {
     }
 
     public void setupFile ( @NotNull ConfigManager pManager ) {
-        pManager.registerCommonFiles(this.file);
+        pManager.registerFile(this.file);
     }
 
     public <T> ConfigSpec<T> getConfig (String pKey ) {
@@ -47,7 +47,6 @@ public final class CommonConfig {
     }
 
     public static @NotNull CommonConfig get () {
-        if ( CommonConfig.INSTANCE == null ) CommonConfig.INSTANCE = new CommonConfig();
         return CommonConfig.INSTANCE;
     }
 

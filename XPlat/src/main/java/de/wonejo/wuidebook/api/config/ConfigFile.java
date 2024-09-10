@@ -10,10 +10,8 @@ import java.util.function.Consumer;
 
 public interface ConfigFile {
 
-    @ApiStatus.Internal
     void initializeFile();
 
-    @ApiStatus.Internal
     void unloadFile ();
 
     <T> ConfigSpec<T> getConfig ( String pKey );

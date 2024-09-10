@@ -1,6 +1,5 @@
 package de.wonejo.wuidebook.impl.config;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import de.wonejo.wuidebook.api.config.ConfigBuilder;
 import de.wonejo.wuidebook.api.config.ConfigFile;
@@ -8,7 +7,6 @@ import de.wonejo.wuidebook.api.config.ConfigSpec;
 import de.wonejo.wuidebook.api.util.ConfigSerializationHelper;
 import de.wonejo.wuidebook.api.util.McEnvironment;
 import de.wonejo.wuidebook.impl.service.ModServices;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -23,7 +21,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 
-@ApiStatus.Internal
 public final class ConfigFileImpl implements ConfigFile {
     private static final ConfigSpec<?> NULL_SPEC = new ConfigSpecImpl<>("", null, "", null);
 
@@ -133,6 +130,8 @@ public final class ConfigFileImpl implements ConfigFile {
     }
 
     private void saveDefaultFile () throws IOException {
+        Files.createFile(this.filePath);
+
         try (BufferedWriter writer = Files.newBufferedWriter(this.filePath, StandardCharsets.UTF_8)) {
             for ( Map.Entry<String, ConfigSpec<?>> entry : this.builder.getConfigurations().entrySet() ) {
                 ConfigSpec<?> spec = entry.getValue();
@@ -215,7 +214,6 @@ public final class ConfigFileImpl implements ConfigFile {
         return this.environment;
     }
 
-    @ApiStatus.Internal
     public static class BuilderImpl implements ConfigFile.Builder {
 
         @NotNull
@@ -242,7 +240,7 @@ public final class ConfigFileImpl implements ConfigFile {
             return this;
         }
 
-        public ConfigFileImpl build() {
+        public ConfigFile build() {
             if ( filename == null ) throw new IllegalStateException("Can not create config file if filename is null.");
             if ( this.mcEnvironment == null ) mcEnvironment = McEnvironment.COMMON;
             if ( this.configProvider == null ) throw new IllegalStateException("Can not create config file if not provider is provided. ( Long live redundancy! )");
