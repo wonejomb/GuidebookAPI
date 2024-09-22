@@ -1,6 +1,12 @@
 package de.wonejo.wuidebook;
 
 import de.wonejo.wuidebook.api.compat.WuidebookImplementation;
+import de.wonejo.wuidebook.api.config.ConfigFile;
+import de.wonejo.wuidebook.api.config.ConfigManager;
+import de.wonejo.wuidebook.api.util.Constants;
+import de.wonejo.wuidebook.api.util.McEnvironment;
+import de.wonejo.wuidebook.impl.config.serializer.*;
+import de.wonejo.wuidebook.impl.config.serializer.color.ColorConfigSerializer;
 import de.wonejo.wuidebook.impl.service.ModServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +21,7 @@ public class WuidebookCommonMod {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final WuidebookCommonMod INSTANCE = new WuidebookCommonMod();
     private static Path CONFIG_DIRECTORY = ModServices.ABSTRACTION.getConfigPath();
-
+    private final ConfigManager configManager = ConfigManager.get();
 
     private WuidebookCommonMod () {}
 
@@ -34,6 +40,20 @@ public class WuidebookCommonMod {
     }
 
     private void setupConfigAPI (@NotNull List<WuidebookImplementation> pImplementation) {
+        this.configManager.registerSerializer(Constants.CFG_STR_SERIALIZER, new StringCfgSerializer());
+        this.configManager.registerSerializer(Constants.CFG_INT_SERIALIZER, new IntCfgSerializer());
+        this.configManager.registerSerializer(Constants.CFG_FLOAT_SERIALIZER, new FloatCfgSerializer());
+        this.configManager.registerSerializer(Constants.CFG_DOUBLE_SERIALIZER, new DoubleCfgSerializer());
+        this.configManager.registerSerializer(Constants.CFG_BOOL_SERIALIZER, new BooleanCfgSerializer());
+        this.configManager.registerSerializer(Constants.CFG_LIST_SERIALIZER, new ListCfgSerializer<>());
+        this.configManager.registerSerializer(Constants.CFG_COLOR_SERIALIZER, new ColorConfigSerializer());
+
+        for ( WuidebookImplementation impl : pImplementation ) {
+            impl.onRegisterConfigSerializer(this.configManager);
+            impl.onRegisterConfigFiles(this.configManager);
+        }
+
+        this.configManager.getFileList(McEnvironment.COMMON).forEach(ConfigFile::loadFile);
     }
 
     public static Path getConfigDirectory() {
