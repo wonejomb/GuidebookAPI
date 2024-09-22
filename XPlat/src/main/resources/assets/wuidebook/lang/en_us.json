@@ -1,0 +1,19 @@
+{
+  "__section": "config",
+  "wuidebook.config.screen.option.reset": "Reset value",
+  "wuidebook.config.screen.indevelopmentprocess": "In Development Process...",
+  "wuidebook.config.screen.options.resetvalues": "Reset all values",
+  "wuidebook.config.screen.option.save": "Save",
+  "wuidebook.config.screen.backandsave": "Back and save",
+  "wuidebook.config.title.button": "Wuidebook Configurations ( Currently Disabled )",
+  "wuidebook.config.screen": "Wuidebook's Configuration",
+    "__comment": "Config sections",
+      "wuidebook.config.screen.section.common": "Common Configurations",
+      "wuidebook.config.screen.section.client": "Client Configurations",
+      "wuidebook.config.screen.section.server": "Server Configurations",
+    "__comment": "Config Specs",
+      "wuidebook.config.spec.debuglogging": "Debug Logging",
+      "wuidebook.config.spec.sendwarnwhenconfigisnottranslated": "Send warning when config is not translated",
+      "wuidebook.config.spec.globalBookSpawn": true
+
+}

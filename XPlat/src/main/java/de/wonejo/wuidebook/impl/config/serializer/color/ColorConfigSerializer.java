@@ -1,27 +1,30 @@
 package de.wonejo.wuidebook.impl.config.serializer.color;
 
-import de.wonejo.wuidebook.api.config.serializer.ConfigSerializer;
-import de.wonejo.wuidebook.api.util.Constants;
-import net.minecraft.resources.ResourceLocation;
+import de.wonejo.wuidebook.api.config.serialization.ConfigValueSerializer;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.Optional;
+import java.util.List;
 
-public final class ColorConfigSerializer implements ConfigSerializer<Color> {
-
-    public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "cfg_color");
+public class ColorConfigSerializer implements ConfigValueSerializer<Color> {
 
     public String serialize(Color pValue) {
-        return RgbColorSerializer.get().serialize(pValue);
+        return RgbColorSerializer.getRgb().serialize(pValue);
     }
 
-    public Optional<Color> deserialize(@NotNull String pValue) {
-        if (pValue.startsWith("rgb")) return RgbColorSerializer.get().deserialize(pValue);
-        else if ( pValue.startsWith("color") ) return CodeColorSerializer.get().deserialize(pValue);
-        else if ( pValue.startsWith("hex") ) return HexColorSerializer.get().deserialize(pValue);
+    public DeserializeResult<Color> deserialize(@NotNull String pValue) {
+        if ( pValue.startsWith("rgb") ) return RgbColorSerializer.getRgb().deserialize(pValue);
+        else if ( pValue.startsWith("hex") ) return HexColorSerializer.getHex().deserialize(pValue);
 
-        throw new UnsupportedOperationException("Color config does not know how deserialize color format: " + pValue);
+        return DeserializeResult.fail(List.of("Color can not be deserialized! Unknown color format for deserialization!"));
+    }
+
+    public boolean isValid(Color pValue) {
+        return true;
+    }
+
+    public String getValidValuesDescription() {
+        return "Color can be de/serialized if value is something like: rgb(120, 120, 120) or hex(0x787878)";
     }
 
 }

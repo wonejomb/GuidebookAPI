@@ -17,4 +17,7 @@ public class FabricPlatformImpl implements XPlatAbstraction {
         return FabricLoader.getInstance().getConfigDir();
     }
 
+    public boolean isDevWorkspace() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
 }

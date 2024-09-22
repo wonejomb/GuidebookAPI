@@ -10,5 +10,6 @@ public interface XPlatAbstraction {
     List<WuidebookImplementation> gatherImplementations ();
 
     Path getConfigPath ();
+    boolean isDevWorkspace ();
 
 }

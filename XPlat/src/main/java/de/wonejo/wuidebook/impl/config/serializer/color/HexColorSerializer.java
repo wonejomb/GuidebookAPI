@@ -1,30 +1,43 @@
 package de.wonejo.wuidebook.impl.config.serializer.color;
 
-import de.wonejo.wuidebook.api.config.serializer.ConfigSerializer;
+import de.wonejo.wuidebook.api.config.serialization.ConfigValueSerializer;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.Optional;
+import java.util.List;
 
-final class HexColorSerializer implements ConfigSerializer<Color> {
+class HexColorSerializer implements ConfigValueSerializer<Color> {
 
-    private static HexColorSerializer INSTANCE;
+    @NotNull
+    @ApiStatus.Internal
+    static HexColorSerializer getHex () {
+        return new HexColorSerializer();
+    }
 
     private HexColorSerializer () {}
 
-    public @NotNull String serialize(@NotNull Color pValue) {
+    public String serialize(@NotNull Color pValue) {
         return "hex(" + Integer.toHexString(pValue.getRGB()) + ")";
     }
 
-    public @NotNull Optional<Color> deserialize(String pValue) {
+    public DeserializeResult<Color> deserialize(String pValue) {
         pValue = pValue.trim();
-        if ( pValue.startsWith("hex(") && pValue.endsWith(")") ) pValue = pValue.substring(4, pValue.length() - 1);
-        return Optional.of(Color.decode(pValue));
+        if ( pValue.startsWith("hex(") ) {
+            if ( !pValue.endsWith(")") ) return DeserializeResult.fail(List.of("Hexadecimal Color can not be deserialized! It seems to be open but not closed."));
+            pValue = pValue.substring(4, pValue.length() - 1);
+        }
+
+        Color color = Color.decode(pValue);
+        return DeserializeResult.success(color);
     }
 
-    static HexColorSerializer get () {
-        if ( HexColorSerializer.INSTANCE == null ) HexColorSerializer.INSTANCE = new HexColorSerializer();
-        return HexColorSerializer.INSTANCE;
+    public boolean isValid(Color pValue) {
+        return true;
+    }
+
+    public String getValidValuesDescription() {
+        return "Any hexadecimal color code in the 'hex()'";
     }
 
 }

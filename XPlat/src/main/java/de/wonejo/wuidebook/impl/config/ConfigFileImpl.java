@@ -1,13 +1,17 @@
 package de.wonejo.wuidebook.impl.config;
 
-import com.google.common.collect.Sets;
-import de.wonejo.wuidebook.api.config.ConfigBuilder;
+import com.google.common.collect.Maps;
+import de.wonejo.wuidebook.WuidebookCommonMod;
 import de.wonejo.wuidebook.api.config.ConfigFile;
+import de.wonejo.wuidebook.api.config.ConfigProviderBuilder;
 import de.wonejo.wuidebook.api.config.ConfigSpec;
-import de.wonejo.wuidebook.api.util.ConfigSerializationHelper;
 import de.wonejo.wuidebook.api.util.McEnvironment;
-import de.wonejo.wuidebook.impl.service.ModServices;
+import de.wonejo.wuidebook.api.util.TriState;
+import org.apache.commons.compress.utils.Lists;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,239 +20,280 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-public final class ConfigFileImpl implements ConfigFile {
-    private static final ConfigSpec<?> NULL_SPEC = new ConfigSpecImpl<>("", null, "", null);
+public class ConfigFileImpl implements ConfigFile {
 
-    private boolean loaded = false;
-    private final String filename;
-    private final McEnvironment environment;
-    private final Path filePath;
-
-    private ConfigBuilder builder = new ConfigBuilderImpl();
-    private ConfigFile.Phase phase = Phase.UNKNOWN;
-    private boolean broken = false;
-
-    private ConfigFileImpl(String pFileName, McEnvironment pEnvironment, @NotNull Consumer<ConfigBuilder> pConfigProvider ) {
-        this.filename = pFileName;
-        this.environment = pEnvironment;
-        this.filePath = ModServices.ABSTRACTION.getConfigPath().resolve(pFileName + "-" + pEnvironment + ".wcfg");
-
-        pConfigProvider.accept(this.builder);
+    @NotNull
+    public static Builder createBuilderImpl () {
+        return new BuilderImpl();
     }
 
-    public void initializeFile() {
-        this.tryToSaveDefaultFileIfNeeded();
-        this.tryToUpdateFileIfNeeded();
-        this.tryToReadFile();
+    private static final Logger LOGGER = LogManager.getLogger();
+    private final Map<String, ConfigSpec<?>> loadedSpecifications = Maps.newHashMap();
+    private final String name;
+    private final Path filePath;
+    private final McEnvironment mcEnvironment;
+    private final ConfigFileExceptionFactory exceptionFactory;
+    private final ConfigProviderBuilder providerBuilder = new ConfigProviderBuilderImpl();
+    private FilePhase filePhase = FilePhase.UNKNOWN;
+    private TriState fileLoaded = TriState.UNDEFINED;
+    private TriState broken = TriState.UNDEFINED;
 
-        this.loaded = true;
+    private ConfigFileImpl (String pName, McEnvironment pEnvironment, ConfigFileExceptionFactory pExceptionFactory, @NotNull Consumer<ConfigProviderBuilder> pProviderBuilder ) {
+        this.name = pName;
+        this.mcEnvironment = pEnvironment;
+        this.exceptionFactory = pExceptionFactory;
+        this.filePath = WuidebookCommonMod.getConfigDirectory().resolve(pName + "-" + pEnvironment + ".wcfg");
+
+        pProviderBuilder.accept(this.providerBuilder);
+    }
+
+    public void loadFile() {
+        if ( this.fileLoaded.isTrue() ) return;
+
+        this.createFileIfNeeded();
+        this.tryToAdditionFile();
+        this.tryToLoadFile();
+
+        if ( this.broken.isTrue() ) {
+            this.unloadFile();
+            LOGGER.error("An error occurred in some phase of the file! The logs with that errors should appear in the latest log file so check it! The file must be unloaded :(");
+        }
     }
 
     public void unloadFile() {
-        this.phase = Phase.UNKNOWN;
-        this.builder = new ConfigBuilderImpl();
-        this.loaded = false;
+        if ( !this.fileLoaded.isTrue() ) return;
+
+        this.filePhase = FilePhase.UNKNOWN;
+        this.fileLoaded = TriState.FALSE;
+        this.broken = TriState.UNDEFINED;
+        this.loadedSpecifications.clear();
     }
 
-    private void tryToSaveDefaultFileIfNeeded () {
-        this.phase = Phase.SAVE;
+    private void tryToLoadFile () {
+        if ( this.broken.isTrue() ) return;
+        this.filePhase = FilePhase.READING;
 
-        try {
-            if ( !Files.exists(this.filePath) )
-                this.saveDefaultFile();
-        } catch ( IOException pException ) {
-            this.broken = true;
-            this.loaded = false;
-        }
-    }
-
-    private void tryToUpdateFileIfNeeded () {
-        this.phase = Phase.CHECK;
-        this.checkIfBroken();
-
-        try {
-            Set<String> providerEntries = this.builder.getConfigurations().keySet();
-            Set<String> fileEntries = this.readExistingKeys();
-
-            this.updateFile(fileEntries, providerEntries);
-        } catch ( IOException pException ) {
-            this.broken = true;
-            this.loaded = false;
-        }
-    }
-
-    private void tryToReadFile ( ) {
-        this.phase = Phase.READ;
-        this.checkIfBroken();
-
-        try {
-            this.readFile();
-        } catch (IOException pException) {
-            this.broken = true;
-            this.loaded = false;
-            // I'm lazy, i do not wanna re-write all the exception x,d
-            this.checkIfBroken();
-        }
-    }
-
-    private void readFile () throws IOException {
         try ( BufferedReader reader = Files.newBufferedReader(this.filePath) ) {
-            String line;
-            while ( (line = reader.readLine()) != null ) {
-                if ( line.isEmpty() || line.startsWith("//") ) continue;
-                String[] split = line.split("=", 2);
+            ConfigSpecGetter getter = new ConfigSpecGetter(reader, this.providerBuilder.getSpecifications());
 
-                if ( !this.builder.getConfigurations().containsKey(split[0]) ) continue;
-
-                ConfigSerializationHelper.setValue(this.builder.getConfigurations().get(split[0]), split[1]);
+            for ( String key : this.providerBuilder.getKeys() ) {
+                ConfigSpec<?> spec = getter.getSpec(key);
+                this.loadedSpecifications.putIfAbsent(key, spec);
             }
+        } catch ( IOException pException ) {
+            LOGGER.error(this.exceptionFactory.createException(this, "Reading the file send an error.. why?",pException));
+            this.broken = this.broken.turnTrue();
         }
+
+        this.fileLoaded = this.fileLoaded.turnTrue();
     }
 
-    private void updateFile (Set<String> pExistingEntries, @NotNull Set<String> pProviderEntries) throws IOException {
-        try ( BufferedWriter writer = Files.newBufferedWriter(this.filePath, StandardOpenOption.APPEND) ) {
-            for ( String providerEntry : pProviderEntries ) {
-                if ( pExistingEntries.contains(providerEntry) ) continue;
-                ConfigSpec<?> spec = this.builder.getConfigurations().get(providerEntry);
+    private void tryToAdditionFile () {
+        if (this.broken.isTrue()) return;
+        this.filePhase = FilePhase.READING;
 
-                if ( spec.comment().isPresent() ) {
-                    writer.write( "// " + spec.comment().get());
-                    writer.newLine();
-                }
-
-                writer.write("// Default Value: " + ConfigSerializationHelper.serialize(spec));
-                writer.newLine();
-                writer.write(spec.key() + "=" + ConfigSerializationHelper.serialize(spec));
-                writer.newLine();
-            }
-        }
-    }
-
-    private void saveDefaultFile () throws IOException {
-        Files.createFile(this.filePath);
-
-        try (BufferedWriter writer = Files.newBufferedWriter(this.filePath, StandardCharsets.UTF_8)) {
-            for ( Map.Entry<String, ConfigSpec<?>> entry : this.builder.getConfigurations().entrySet() ) {
-                ConfigSpec<?> spec = entry.getValue();
-
-                if ( spec.comment().isPresent() ) {
-                    writer.write( "// " + spec.comment().get());
-                    writer.newLine();
-                }
-
-                writer.write("// Default Value: " + ConfigSerializationHelper.serialize(spec));
-                writer.newLine();
-                writer.write(spec.key() + "=" + ConfigSerializationHelper.serialize(spec));
-                writer.newLine();
-            }
-        }
-    }
-
-    private @NotNull Set<String> readExistingKeys () throws IOException {
-        Set<String> existingKeys = Sets.newHashSet();
+        Set<String> existingKeys = new HashSet<>();
 
         try (BufferedReader reader = Files.newBufferedReader(this.filePath)) {
             String line;
             while ((line = reader.readLine()) != null) {
-                if ( line.isEmpty() || line.startsWith("//") ) continue;
-                String[] parts = line.split("=", 2);
-                if ( parts.length == 2 ) existingKeys.add(parts[0].trim());
+                if (!line.isEmpty() && !line.startsWith("//")) {
+                    String key = line.split("=", 2)[0].trim();
+                    existingKeys.add(key);
+                }
             }
+        } catch (IOException e) {
+            LOGGER.error(this.exceptionFactory.createException(this, "Reading the keys of the file seems to show an error, weird.",e));
+            this.broken = this.broken.turnTrue();
         }
 
-        return existingKeys;
+        if (this.broken.isTrue()) return;
+        this.filePhase = FilePhase.ADDITION;
+
+        try (BufferedWriter writer = Files.newBufferedWriter(this.filePath, StandardCharsets.UTF_8, StandardOpenOption.APPEND)) {
+            for (String providerKey : this.providerBuilder.getKeys()) {
+                if (!existingKeys.contains(providerKey)) {
+                    ConfigSpec<?> spec = this.providerBuilder.getSpecifications().stream()
+                            .filter(spec2 -> spec2.key().equals(providerKey))
+                            .findFirst()
+                            .orElse(null);
+
+                    if (spec != null) {
+                        writer.write("// Default Value: " + spec.getSerializedValue());
+                        writer.newLine();
+
+                        if ( spec.description().isPresent() ) {
+                            writer.write(spec.description().get());
+                            writer.newLine();
+                        }
+
+                        writer.write(providerKey + "=" + spec.getSerializedValue());
+                        writer.newLine();
+                    }
+                }
+            }
+        } catch (IOException pException) {
+            LOGGER.error(this.exceptionFactory.createException(this, "Addition of missing keys just send a error? What.", pException));
+            this.broken = this.broken.turnTrue();
+        }
     }
 
-    private void checkIfBroken () {
-        if ( this.broken )
-            throw new RuntimeException("Config file: '%s' is broken!\n -- Data -- \n  - File Phase: %s\n  - File Path: '%s'\n  - File Name: '%s'.\n\n - Note: Go to server support or open a github issue.\n\n -- Links -- \nGithub: https://github.com/wonejomb/GuidebookApi\nDiscord: https://discord.gg/vpkYUrB2RB"
-                    .formatted(this.filename, this.phase, this.filePath, this.filename));
+    private void createFileIfNeeded () {
+        this.filePhase = FilePhase.CREATION;
+
+        try ( BufferedWriter writer = Files.newBufferedWriter(this.filePath) ) {
+            for ( String key : this.providerBuilder.getKeys() ) {
+                ConfigSpec<?> spec = this.providerBuilder.getSpecifications().stream().filter((spec2) -> spec2.key().equals(key)).findFirst().orElse(null);
+                if ( spec == null ) continue;
+
+                writer.write("// Default Value: " + spec.getSerializedValue());
+                writer.newLine();
+
+                if ( spec.description().isPresent() ) {
+                    writer.write(spec.description().get());
+                    writer.newLine();
+                }
+
+                writer.write(spec.key() + "=" + spec.getSerializedValue());
+                writer.newLine();
+            }
+        } catch (IOException pException) {
+            LOGGER.error(this.exceptionFactory.createException(this, "Some error must happened when creating file! What could it be D:? ", pException));
+            this.broken = this.broken.turnTrue();
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public <T> ConfigSpec<T> getNullable (String pKey) {
-        this.checkIfLoaded();
-
-        return this.builder.getConfigurations().get(pKey) == null ? (ConfigSpec<T>) NULL_SPEC : (ConfigSpec<T>) builder.getConfigurations().get(pKey);
+    public <T> Optional<ConfigSpec<T>> getSpec(String pKey) {
+        return Optional.ofNullable((ConfigSpec<T>) this.loadedSpecifications.get(pKey));
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> ConfigSpec<T> getConfig(String pKey) {
-        this.checkIfLoaded();
-
-        ConfigSpec<T> spec = (ConfigSpec<T>) builder.getConfigurations().get(pKey);
-        if ( spec == null ) throw new NullPointerException("Config with key: " + pKey + " is not present in file. ('%s')".formatted(this.filePath));
-        return spec;
+    public Map<String, ConfigSpec<?>> getSpecsByPrefix(String pPrefix) {
+        return this.loadedSpecifications.entrySet().stream()
+                .filter(entrySpec -> entrySpec.getKey().startsWith(pPrefix))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T get(String pKey) {
-        this.checkIfLoaded();
-
-        return (T) this.getConfig(pKey).getValue();
+    public TriState isBroken() {
+        return this.broken;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> Optional<T> getOpt(String pKey) {
-        this.checkIfLoaded();
-
-        ConfigSpec<T> spec = (ConfigSpec<T>) builder.getConfigurations().get(pKey);
-        return (Optional<T>) Optional.of(spec);
+    public TriState isFileLoaded() {
+        return this.fileLoaded;
     }
 
-    private void checkIfLoaded () {
-        if (!this.loaded)
-            throw new RuntimeException("Config file '%s' is not loaded, the file can not perform actions if not loaded! \n  - File Path: %s".formatted(this.filename, this.filePath));
+    public String getName() {
+        return this.name;
     }
 
-    public String getFilename() {
-        return this.filename;
+    public Path getPath() {
+        return this.filePath;
     }
 
     public McEnvironment getEnvironment() {
-        return this.environment;
+        return this.mcEnvironment;
     }
 
-    public static class BuilderImpl implements ConfigFile.Builder {
+    public FilePhase getFilePhase() {
+        return this.filePhase;
+    }
 
-        @NotNull
-        public static ConfigFile.Builder createBuilder () { return new BuilderImpl(); }
+    public static final class BuilderImpl implements Builder {
 
-        private BuilderImpl () {}
+        private String name;
+        private Consumer<ConfigProviderBuilder> providerBuilder;
+        private McEnvironment environment = McEnvironment.COMMON;
+        private ConfigFileExceptionFactory exceptionFactory = new DefaultExceptionFactory();
 
-        private String filename;
-        private McEnvironment mcEnvironment;
-        private Consumer<ConfigBuilder> configProvider;
-
-        public ConfigFile.Builder withName(String pFileName) {
-            this.filename = pFileName;
+        public Builder setName(String pName) {
+            this.name = pName;
             return this;
         }
 
-        public ConfigFile.Builder onSide(McEnvironment pEnvironment) {
-            this.mcEnvironment = pEnvironment;
+        public Builder onEnv(McEnvironment pEnvironment) {
+            this.environment = pEnvironment;
             return this;
         }
 
-        public ConfigFile.Builder configProvider(Consumer<ConfigBuilder> pConfigurationProvider) {
-            this.configProvider = pConfigurationProvider;
+        public Builder withConfigProvider(Consumer<ConfigProviderBuilder> pProvider) {
+            this.providerBuilder = pProvider;
+            return this;
+        }
+
+        public Builder defineExceptionFactory(ConfigFileExceptionFactory pFactory) {
+            this.exceptionFactory = pFactory;
             return this;
         }
 
         public ConfigFile build() {
-            if ( filename == null ) throw new IllegalStateException("Can not create config file if filename is null.");
-            if ( this.mcEnvironment == null ) mcEnvironment = McEnvironment.COMMON;
-            if ( this.configProvider == null ) throw new IllegalStateException("Can not create config file if not provider is provided. ( Long live redundancy! )");
+            if ( this.name == null ) throw new IllegalArgumentException("Can not build file if name is null.");
+            if ( this.providerBuilder == null ) throw new IllegalArgumentException("Can not build file if provider is null.");
 
-            return new ConfigFileImpl(this.filename, this.mcEnvironment, this.configProvider);
+            return new ConfigFileImpl(this.name, this.environment, this.exceptionFactory, this.providerBuilder);
+        }
+
+    }
+
+    public static final class DefaultExceptionFactory implements ConfigFileExceptionFactory {
+
+        public @NotNull ConfigFileException createException (@NotNull ConfigFile pFile, String pMessage, Throwable pOtherException) {
+            String builder = "########## WUIDEBOOK / CONFIG ##########\n" +
+                    "Dev Message: " + pMessage + "\n" +
+                    "File Phase: " + pFile.getFilePhase() + "\n" +
+                    "File Name: " + pFile.getName() +
+                    "\nFile Path: '" + pFile.getPath() + "'\n" +
+                    "File Environment: " + pFile.getEnvironment() + "\n" +
+                    "Was Broken: " + pFile.isBroken() + "\n" +
+                    "Discord: https://discord.gg/vpkYUrB2RB \n" +
+                    "Github: https://github.com/wonejomb/GuidebookAPI\n" +
+                    "\nException: " + pOtherException;
+
+            return new ConfigFileException(builder, pOtherException);
+        }
+
+    }
+
+    private static class ConfigSpecGetter {
+
+        private static final Pattern SPEC_PATTERN = Pattern.compile("(\\w+)=([\\w\\s]+)");
+
+        private final List<String> fileLines = Lists.newArrayList();
+        private final Collection<ConfigSpec<?>> providerSpecs;
+
+        public ConfigSpecGetter ( @NotNull BufferedReader pReader, Collection<ConfigSpec<?>> pProviderSpecs ) {
+            this.providerSpecs = pProviderSpecs;
+
+            try ( pReader ) {
+                String line;
+                while ( (line = pReader.readLine()) != null && !line.startsWith("//") )
+                    fileLines.add(line);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        @Nullable
+        public <T> ConfigSpec<T> getSpec(String pKey) {
+            ConfigSpec<T> providerSpec = (ConfigSpec<T>) this.providerSpecs.stream().filter((spec2) -> spec2.key().equals(pKey)).findFirst().orElse(null);
+            if (providerSpec == null) return null;
+
+            for (String line : this.fileLines) {
+                Matcher matcher = SPEC_PATTERN.matcher(line);
+                if (matcher.find() && matcher.group(1).equals(pKey)) {
+                    String value = matcher.group(2);
+                    providerSpec.setFromSerialized(value);
+                    return providerSpec;
+                }
+            }
+            return null;
         }
     }
 
-
 }
-
