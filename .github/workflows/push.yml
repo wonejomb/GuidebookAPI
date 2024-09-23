@@ -4,15 +4,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Notify On Start
+        uses: wonejomb/webhook-actions@2.0.9
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'Build Started'
+          webhook_avatar: 'https://media.discordapp.net/attachments/1259725258949267508/1287642276109221908/logo.png?ex=66f249d1&is=66f0f851&hm=7046affb16e8fa7ebf424814664a9ab47b9b3b0973bd534616e4f9349a06362b&=&format=webp&quality=lossless&width=640&height=640'
+
       - name: Checkout Repository
         uses: actions/checkout@v4
+
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: false
-      - name: Notify On Discord
+
+      - name: Notify On Success
+        if: success()
         uses: wonejomb/webhook-actions@2.0.9
         with:
           webhook_url: ${{ secrets.webhook_url }}
-          webhook_name: 'WuidebookAPI - Github'
+          webhook_name: 'Build Success'
+          webhook_avatar: 'https://media.discordapp.net/attachments/1259725258949267508/1287642276109221908/logo.png?ex=66f249d1&is=66f0f851&hm=7046affb16e8fa7ebf424814664a9ab47b9b3b0973bd534616e4f9349a06362b&=&format=webp&quality=lossless&width=640&height=640'
+
+      - name: Notify On Failure
+        if: failure()
+        uses: wonejomb/webhook-actions@2.0.9
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'Build Failed'
           webhook_avatar: 'https://media.discordapp.net/attachments/1259725258949267508/1287642276109221908/logo.png?ex=66f249d1&is=66f0f851&hm=7046affb16e8fa7ebf424814664a9ab47b9b3b0973bd534616e4f9349a06362b&=&format=webp&quality=lossless&width=640&height=640'
