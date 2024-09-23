@@ -11,7 +11,7 @@ jobs:
         with:
           cache-read-only: false
       - name: Notify On Discord
-        uses: wonejomb/webhook-actions@2.0.1
+        uses: wonejomb/webhook-actions@2.0.2
         with:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           webhook_name: 'WuidebookAPI - Github'
