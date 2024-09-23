@@ -22,9 +22,8 @@ jobs:
           cache-read-only: false
 
       - name: Notify On Discord
-        uses: wonejomb/webhook-actions@discord-webhook
+        uses: wonejomb/webhook-actions@2.0.0
         with:
           webhook_url: ${{secrets.webhook_url}}
           webhook_name: 'WuidebookAPI - Github'
-          webhook_logo: 'https://media.discordapp.net/attachments/1259725258949267508/1287642276109221908/logo.png?ex=66f249d1&is=66f0f851&hm=7046affb16e8fa7ebf424814664a9ab47b9b3b0973bd534616e4f9349a06362b&=&format=webp&quality=lossless&width=640&height=640'
-          webhook_embed_color: 0x9a153f
+          webhook_avatar: 'https://media.discordapp.net/attachments/1259725258949267508/1287642276109221908/logo.png?ex=66f249d1&is=66f0f851&hm=7046affb16e8fa7ebf424814664a9ab47b9b3b0973bd534616e4f9349a06362b&=&format=webp&quality=lossless&width=640&height=640'
