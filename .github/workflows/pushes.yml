@@ -17,17 +17,6 @@ jobs:
         with:
           fetch-depth: 1000
           fetch-tags: true
-      - name: Setup JDK 21
-        uses: neoforged/actions/setup-java@main
-        with:
-          java-version: 21
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-read-only: false
-      - name: Setup with Gradle
-        run: ./gradlew setup
-
 
       - name: Notify On Success
         if: success()
