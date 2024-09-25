@@ -1,0 +1,48 @@
+name: Push Workflow
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Psh
+        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'started'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1000
+          fetch-tags: true
+      - name: Setup JDK 21
+        uses: neoforged/actions/setup-java@main
+        with:
+          java-version: 21
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: false
+      - name: Setup with Gradle
+        run: ./gradlew setup
+
+
+      - name: Notify On Success
+        if: success()
+        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'success'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
+
+      - name: Notify On Failure
+        if: success ()
+        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'failure'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
