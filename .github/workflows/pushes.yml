@@ -28,7 +28,7 @@ jobs:
           webhook_avatar: ${{ secrets.webhook_avatar }}
 
       - name: Notify On Failure
-        if: success ()
+        if: failure ()
         uses: wonejomb/webhook-actions@2.0.10
         with:
           webhook_url: ${{ secrets.webhook_url }}
