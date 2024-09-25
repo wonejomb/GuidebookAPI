@@ -1,0 +1,64 @@
+name: Mod Incompatibility
+description: Use this if there is a bug/problem with another mod
+title: "[ModCompat]: "
+labels:
+  - "bug"
+  - "modcompat"
+  - "unconfirmed"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        Please make sure to add all required information.
+
+  - type: dropdown
+    id: minecraft-version
+    attributes:
+      label: Minecraft Version
+      options:
+        - 1.20.2
+        - 1.20.4
+        - 1.20.5
+        - 1.20.6
+    validations:
+      required: true
+  - type: input
+    id: incompatibility-mod
+    attributes:
+      label: Incompatibility Mod
+      description: Mod ID and version.
+    validations:
+      required: true
+  - type: dropdown
+    id: mod-loader
+    attributes:
+      label: Mod Loader
+      options:
+        - NeoForge
+        - Forge
+        - Fabric
+    validations:
+      required: true
+  - type: input
+    id: mod-version
+    attributes:
+      label: WuidebookAPI Version
+    validations:
+      required: true
+  - type: input
+    id: loader-version
+    attributes:
+      label: ModLoader Version
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Reproduce Steps
+      description: Please describe how to reproduce your issue
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. If your game crashes, this must be a crash-report
+      render: shell

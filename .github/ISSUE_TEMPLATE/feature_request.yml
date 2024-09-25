@@ -1,0 +1,27 @@
+name: Feature Request
+description: Suggest an idea for thi smod
+title: "[Feature]: "
+labels:
+  - "discussion"
+  - "enhancement"
+  - "feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe your suggestion ass specific as possible. This increases the chance this will be considered.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What ?
+      description: What would you like to have changed or added to WuidebookAPI
+      placeholder: Tell us what you want to see!
+    validations:
+      required: true
+
+  - type: textarea
+    id: help
+    attributes:
+      label: Contributions
+      description: Can you provide additional resources ?
