@@ -6,7 +6,7 @@ The mod previously was just an update of the mod [GuideAPI](https://modrinth.com
 
 _Little note:_ The mod has **not** retro-compatibility with older versions of guides.
 
-This mod is under the [MIT License]()
+This mod is under the [MIT License](./LICENSE.MD)
 
 ## Most relevant features
 
