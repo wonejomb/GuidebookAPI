@@ -4,8 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Notify Psh
-        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+      - name: Notify Push
+        uses: wonejomb/webhook-actions@2.0.10
         with:
           webhook_url: ${{ secrets.webhook_url }}
           webhook_name: 'GuidebookAPI/Github'
@@ -31,7 +31,7 @@ jobs:
 
       - name: Notify On Success
         if: success()
-        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+        uses: wonejomb/webhook-actions@2.0.10
         with:
           webhook_url: ${{ secrets.webhook_url }}
           webhook_name: 'GuidebookAPI/Github'
@@ -40,7 +40,7 @@ jobs:
 
       - name: Notify On Failure
         if: success ()
-        uses: wonejomb/wonejomb-webhook-actions@2.0.10
+        uses: wonejomb/webhook-actions@2.0.10
         with:
           webhook_url: ${{ secrets.webhook_url }}
           webhook_name: 'GuidebookAPI/Github'
