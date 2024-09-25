@@ -10,7 +10,7 @@ This mod is under the [MIT License](./LICENSE.MD)
 
 ## Most relevant features
 
-- A proper configuration system that allows the addition of custom configuration definitions and serializers by developers
+- An own configuration system that allows the addition of custom configuration definitions and serializers by developers
 
 
 - The creation of guides in-game
