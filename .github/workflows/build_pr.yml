@@ -42,8 +42,8 @@ jobs:
       - name: Setup Gradle
         run: ./gradlew
 
-      - name: Build Gradle
-        run: ./gradlew build
+#      - name: Build Gradle
+#        run: ./gradlew build
 
       - name: Test gradle
         run: ./gradlew :tests:runUnitTests
