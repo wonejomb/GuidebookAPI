@@ -42,7 +42,7 @@ jobs:
       - name: Setup Gradle
         run: ./gradlew
 
-      - name: Build
+      - name: Build Gradle
         run: ./gradlew build
 
       - name: Test gradle
