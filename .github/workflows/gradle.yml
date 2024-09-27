@@ -13,6 +13,9 @@ jobs:
           distribution: 'microsoft'
           cache: 'gradle'
 
+      - name: Setup Gradle Permissions
+        run: chmod +x ./gradlew
+
       - name: Setup Gradle
         run: ./gradlew
 
