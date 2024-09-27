@@ -45,8 +45,8 @@ jobs:
 #      - name: Build Gradle
 #        run: ./gradlew build
 
-      - name: Test gradle
-        run: ./gradlew :tests:runUnitTests
+      - name: Run gradle test
+        run: ./gradlew test
 
       - name: Store Reports
         if: failure ()
