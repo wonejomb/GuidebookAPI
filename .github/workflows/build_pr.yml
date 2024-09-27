@@ -7,24 +7,70 @@ on:
       - synchronize
       - reopened
       - ready_for_review
+  push:
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Notify Pending Build
+        uses: wonejomb/webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'started'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1000
           fetch-tags: true
 
-      - name: Setup JDK
-        uses: actions/setup-java@main
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'microsoft'
+          cache: 'gradle'
+
+      - name: Setup Gradle Permissions
+        run: chmod +x ./gradlew
+
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        run: ./gradlew
+
+      - name: Build
+        run: ./gradlew build
+
+      - name: Test gradle
+        run: ./gradlew :tests:runUnitTests
+
+      - name: Store Reports
+        if: failure ()
+        uses: actions/upload-artifact@v4
         with:
-          cache-read-only: false
+          name: reports
+          patch: |
+            **/build/reports/
+            **/build/test-results
+
+      - name: Notify Success Build
+        if: success()
+        uses: wonejomb/webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'success'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
+
+      - name: Notify Failure Build
+        if: failure ()
+        uses: wonejomb/webhook-actions@2.0.10
+        with:
+          webhook_url: ${{ secrets.webhook_url }}
+          webhook_name: 'GuidebookAPI/Github'
+          status: 'failure'
+          webhook_avatar: ${{ secrets.webhook_avatar }}
