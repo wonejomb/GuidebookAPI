@@ -18,6 +18,7 @@ spotless {
 
         removeUnusedImports ()
         formatAnnotations ()
+        ignoreErrorForPath("**/src/main/**/de/wonejo/wuidebook/**/*.jav")
     }
 }
 
