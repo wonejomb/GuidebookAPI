@@ -70,6 +70,13 @@ mixin {
     config "wuidebook.mixins.json"
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
 publishMods {
     file = jar.archiveFile
     changelog = "${modChangelog}"
