@@ -12,8 +12,7 @@ import java.util.*;
 
 public class WgcTagImpl implements WgcTag {
 
-    @NotNull
-    public static WgcTag createTag ( String pKey, Map<ResourceLocation, Property<?>> pProperties ) {
+    @NotNull public static WgcTag createTag ( String pKey, Map<ResourceLocation, Property<?>> pProperties ) {
         return new WgcTagImpl(pKey, pProperties);
     }
 
@@ -51,13 +50,11 @@ public class WgcTagImpl implements WgcTag {
 
     public static class PropertyImpl<T> implements WgcTag.Property<T> {
 
-        @NotNull
-        public static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, ResourceLocation pValueType, String pValue ) {
+        @NotNull public static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, ResourceLocation pValueType, String pValue ) {
             return new PropertyImpl<>(pKey, pValueType, pValue);
         }
 
-        @NotNull
-        public static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, WgcTagValue<B> pValue ) {
+        @NotNull public static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, WgcTagValue<B> pValue ) {
             return new PropertyImpl<>(pKey, pValue);
         }
 

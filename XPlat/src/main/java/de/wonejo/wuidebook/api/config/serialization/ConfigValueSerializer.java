@@ -57,8 +57,7 @@ public interface ConfigValueSerializer<T> {
          * Create a success deserialization result.
          * @since 4.0.0-dev2
          */
-        @NotNull
-        static <B> DeserializeResult<B> success ( B pResult ) {
+        @NotNull static <B> DeserializeResult<B> success ( B pResult ) {
             return DeserializeResultImpl.success(pResult);
         }
 
@@ -66,8 +65,7 @@ public interface ConfigValueSerializer<T> {
          * Create a deserialization result that can have the result and errors.
          * @since 4.0.0-dev2
          */
-        @NotNull
-        static <B> DeserializeResult<B> haveBoth ( B pResult, List<String> pErrors ) {
+        @NotNull static <B> DeserializeResult<B> haveBoth ( B pResult, List<String> pErrors ) {
             return DeserializeResultImpl.haveBoth(pResult, pErrors);
         }
 
@@ -75,8 +73,7 @@ public interface ConfigValueSerializer<T> {
          * Create a success deserialization result.
          * @since 4.0.0-dev2
          */
-        @NotNull
-        static <B> DeserializeResult<B> fail ( List<String> pErrors ) {
+        @NotNull static <B> DeserializeResult<B> fail ( List<String> pErrors ) {
             return DeserializeResultImpl.fail(pErrors);
         }
 

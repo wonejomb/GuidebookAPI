@@ -9,8 +9,7 @@ import java.util.List;
 
 class RgbColorSerializer implements ConfigValueSerializer<Color> {
 
-    @NotNull
-    @ApiStatus.Internal
+    @NotNull @ApiStatus.Internal
     static RgbColorSerializer getRgb () {
         return new RgbColorSerializer();
     }

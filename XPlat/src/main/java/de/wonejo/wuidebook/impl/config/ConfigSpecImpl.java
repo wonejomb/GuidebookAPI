@@ -12,14 +12,12 @@ import java.util.Optional;
 public class ConfigSpecImpl<T> implements ConfigSpec<T> {
 
     @ApiStatus.Internal
-    @NotNull
-    public static <T> ConfigSpecImpl<T> createSpec ( ConfigValueSerializer<T> pSerializer, String pKey, String pDescription, T pDefaultValue ) {
+    @NotNull public static <T> ConfigSpecImpl<T> createSpec ( ConfigValueSerializer<T> pSerializer, String pKey, String pDescription, T pDefaultValue ) {
         return new ConfigSpecImpl<>(pKey, pDescription, pSerializer, pDefaultValue);
     }
 
     private final String key;
-    @Nullable
-    private final String description;
+    @Nullable private final String description;
     private final T defaultValue;
     private final ConfigValueSerializer<T> serializer;
     private volatile T currentValue;

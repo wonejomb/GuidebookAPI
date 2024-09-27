@@ -13,6 +13,11 @@ public class FabricPlatformImpl implements XPlatAbstraction {
         return List.of();
     }
 
+    @Override
+    public String getCurrentLoadedModId() {
+        return FabricLoader.getInstance().getMappingResolver().getCurrentRuntimeNamespace();
+    }
+
     public Path getConfigPath() {
         return FabricLoader.getInstance().getConfigDir();
     }

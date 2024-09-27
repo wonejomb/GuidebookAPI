@@ -4,7 +4,6 @@ import de.wonejo.wuidebook.api.config.ConfigFile;
 import de.wonejo.wuidebook.api.config.ConfigManager;
 import de.wonejo.wuidebook.api.util.McEnvironment;
 import net.minecraft.client.Minecraft;
-import org.apache.commons.compress.archivers.sevenz.CLI;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

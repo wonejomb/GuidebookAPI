@@ -9,23 +9,19 @@ import java.util.Optional;
 
 public class DeserializeResultImpl<T> implements ConfigValueSerializer.DeserializeResult<T> {
 
-    @NotNull
-    public static <B> ConfigValueSerializer.DeserializeResult<B> success ( B pResult ) {
+    @NotNull public static <B> ConfigValueSerializer.DeserializeResult<B> success ( B pResult ) {
         return new DeserializeResultImpl<>(pResult);
     }
 
-    @NotNull
-    public static <B> ConfigValueSerializer.DeserializeResult<B> haveBoth ( B pResult, List<String> pErrors ) {
+    @NotNull public static <B> ConfigValueSerializer.DeserializeResult<B> haveBoth ( B pResult, List<String> pErrors ) {
         return new DeserializeResultImpl<>(pResult, pErrors);
     }
 
-    @NotNull
-    public static <B> ConfigValueSerializer.DeserializeResult<B> fail ( List<String> pErrors ) {
+    @NotNull public static <B> ConfigValueSerializer.DeserializeResult<B> fail ( List<String> pErrors ) {
         return new DeserializeResultImpl<>(pErrors);
     }
 
-    @Nullable
-    private final T result;
+    @Nullable private final T result;
     private final List<String> errors;
 
     private DeserializeResultImpl ( T pResult ) {

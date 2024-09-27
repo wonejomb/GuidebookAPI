@@ -9,8 +9,7 @@ import java.util.List;
 
 class HexColorSerializer implements ConfigValueSerializer<Color> {
 
-    @NotNull
-    @ApiStatus.Internal
+    @NotNull @ApiStatus.Internal
     static HexColorSerializer getHex () {
         return new HexColorSerializer();
     }

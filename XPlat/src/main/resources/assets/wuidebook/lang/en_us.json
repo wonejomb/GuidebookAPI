@@ -14,6 +14,8 @@
     "__comment": "Config Specs",
       "wuidebook.config.spec.debuglogging": "Debug Logging",
       "wuidebook.config.spec.sendwarnwhenconfigisnottranslated": "Send warning when config is not translated",
-      "wuidebook.config.spec.globalBookSpawn": true
-
+      "wuidebook.config.spec.globalBookSpawn": "Global Book Spawn",
+  "__section": "book",
+  "wuidebook.book.info.title.undefined": "Title is undefined",
+  "wuidebook.book.info.author.unknown": "Unknown Author"
 }

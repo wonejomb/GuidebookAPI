@@ -3,6 +3,7 @@ package de.wonejo.wuidebook.api.config;
 import com.google.common.collect.Maps;
 import de.wonejo.wuidebook.api.config.serialization.ConfigValueSerializer;
 import de.wonejo.wuidebook.api.util.McEnvironment;
+import de.wonejo.wuidebook.api.util.WuidebookRegistryException;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +22,7 @@ public class ConfigManager {
 
     public void registerSerializer ( ResourceLocation pSerializerId, ConfigValueSerializer<?> pSerializer ) {
         if ( this.serializers.putIfAbsent(pSerializerId, pSerializer) != null )
-            LOGGER.warn("Can not register serializer with id: {}, there is already a serializer with that id.", pSerializer);
+            throw new WuidebookRegistryException("Can not register serializer with id: '%s', there is already a serializer with that id.".formatted(pSerializer));
     }
 
     public void registerFile ( ConfigFile pFile ) {

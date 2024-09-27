@@ -2,6 +2,7 @@ package de.wonejo.wuidebook.api.compat;
 
 import de.wonejo.wuidebook.api.config.ConfigManager;
 import de.wonejo.wuidebook.api.config.ConfigProviderBuilder;
+import de.wonejo.wuidebook.api.wgc.WgcValueTypeRegistry;
 
 public interface WuidebookImplementation {
 
@@ -14,14 +15,6 @@ public interface WuidebookImplementation {
     default void onRegisterConfigSerializer ( ConfigManager pManager ) {}
 
     /**
-     * Register custom config files for configs.
-     * <p/>
-     * Note: Do not use this method to register serializers, only config files.
-     * @since 4.0.0-dev2
-     */
-    default void onRegisterConfigFiles ( ConfigManager pManager ) {}
-
-    /**
      * PLEASE, if you use any of these three methods, specify in your config the modId, sommething like: 'exampleModId.exampleConfig' PLEASE.
      * <p/>
      * These three methods are for the main-config files of mod, if you want to add a custom config definitions use some of this methods.
@@ -30,5 +23,11 @@ public interface WuidebookImplementation {
     default void onRegisterCustomClientConfig ( ConfigProviderBuilder pBuilder ) {}
     default void onRegisterCustomServerConfig ( ConfigProviderBuilder pBuilder ) {}
     default void onRegisterCustomCommonConfig ( ConfigProviderBuilder pBuilder ) {}
+
+    /**
+     * If add custom WGC content templates and need to add other value type use this, might help.
+     * @since 4.0.0-dev2
+     */
+    default void onRegisterCustomWGCValueType ( WgcValueTypeRegistry pRegistry ) {}
 
 }

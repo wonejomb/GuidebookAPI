@@ -9,6 +9,8 @@ public interface XPlatAbstraction {
 
     List<WuidebookImplementation> gatherImplementations ();
 
+    String getCurrentLoadedModId ();
+
     Path getConfigPath ();
     boolean isDevWorkspace ();
 

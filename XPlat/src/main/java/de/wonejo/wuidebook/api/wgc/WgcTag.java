@@ -11,8 +11,7 @@ import java.util.Set;
 
 public interface WgcTag {
 
-    @NotNull
-    static WgcTag createTag (String pKey, Map<ResourceLocation, Property<?>> pProperties) {
+    @NotNull static WgcTag createTag (String pKey, Map<ResourceLocation, Property<?>> pProperties) {
         return WgcTagImpl.createTag(pKey, pProperties);
     }
 
@@ -25,13 +24,11 @@ public interface WgcTag {
 
     interface Property<T> {
 
-        @NotNull
-        static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, ResourceLocation pValueType, String pValue ) {
+        @NotNull static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, ResourceLocation pValueType, String pValue ) {
             return WgcTagImpl.PropertyImpl.createProperty(pKey, pValueType, pValue);
         }
 
-        @NotNull
-        static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, WgcTagValue<B> pValue ) {
+        @NotNull static <B> WgcTag.Property<B> createProperty ( ResourceLocation pKey, WgcTagValue<B> pValue ) {
             return WgcTagImpl.PropertyImpl.createProperty(pKey, pValue);
         }
 
