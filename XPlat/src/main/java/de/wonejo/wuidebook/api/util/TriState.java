@@ -17,21 +17,8 @@ public enum TriState {
         return switch (pValue) {
             case "true", "True", "TRUE" -> TRUE;
             case "false", "False", "FALSE" -> FALSE;
-            case "undefined", "Undefined", "UNDEFINED", "unset", "Unset", "UNSET", "unknown", "Unknown", "UNKNOWN" -> UNDEFINED;
-            default -> throw new IllegalStateException("Unexpected tri-state value: " + pValue);
+            default -> UNDEFINED;
         };
-    }
-
-    public TriState turnFalse () {
-        return FALSE;
-    }
-
-    public TriState turnTrue () {
-        return TRUE;
-    }
-
-    public TriState turnUndefined () {
-        return UNDEFINED;
     }
 
     public boolean isTrue ( ) {
