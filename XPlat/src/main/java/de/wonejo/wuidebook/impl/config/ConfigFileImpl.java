@@ -28,8 +28,7 @@ import java.util.stream.Collectors;
 
 public class ConfigFileImpl implements ConfigFile {
 
-    @NotNull
-    public static Builder createBuilderImpl () {
+    @NotNull public static Builder createBuilderImpl () {
         return new BuilderImpl();
     }
 
@@ -88,10 +87,10 @@ public class ConfigFileImpl implements ConfigFile {
             }
         } catch ( IOException pException ) {
             LOGGER.error(this.exceptionFactory.createException(this, "Reading the file send an error.. why?",pException));
-            this.broken = this.broken.turnTrue();
+            this.broken = TriState.TRUE;
         }
 
-        this.fileLoaded = this.fileLoaded.turnTrue();
+        this.fileLoaded = TriState.TRUE;
     }
 
     private void tryToAdditionFile () {
@@ -110,7 +109,7 @@ public class ConfigFileImpl implements ConfigFile {
             }
         } catch (IOException e) {
             LOGGER.error(this.exceptionFactory.createException(this, "Reading the keys of the file seems to show an error, weird.",e));
-            this.broken = this.broken.turnTrue();
+            this.broken = TriState.TRUE;
         }
 
         if (this.broken.isTrue()) return;
@@ -140,7 +139,7 @@ public class ConfigFileImpl implements ConfigFile {
             }
         } catch (IOException pException) {
             LOGGER.error(this.exceptionFactory.createException(this, "Addition of missing keys just send a error? What.", pException));
-            this.broken = this.broken.turnTrue();
+            this.broken = TriState.TRUE;
         }
     }
 
@@ -165,7 +164,7 @@ public class ConfigFileImpl implements ConfigFile {
             }
         } catch (IOException pException) {
             LOGGER.error(this.exceptionFactory.createException(this, "Some error must happened when creating file! What could it be D:? ", pException));
-            this.broken = this.broken.turnTrue();
+            this.broken = TriState.TRUE;
         }
     }
 
@@ -279,8 +278,7 @@ public class ConfigFileImpl implements ConfigFile {
         }
 
         @SuppressWarnings("unchecked")
-        @Nullable
-        public <T> ConfigSpec<T> getSpec(String pKey) {
+        @Nullable public <T> ConfigSpec<T> getSpec(String pKey) {
             ConfigSpec<T> providerSpec = (ConfigSpec<T>) this.providerSpecs.stream().filter((spec2) -> spec2.key().equals(pKey)).findFirst().orElse(null);
             if (providerSpec == null) return null;
 

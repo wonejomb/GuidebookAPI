@@ -17,8 +17,7 @@ public interface ConfigFile {
      * Create a {@link Builder}
      * @since 4.0.0-dev2
      */
-    @NotNull
-    static Builder createBuilder () {
+    @NotNull static Builder createBuilder () {
         return ConfigFileImpl.createBuilderImpl();
     }
 
