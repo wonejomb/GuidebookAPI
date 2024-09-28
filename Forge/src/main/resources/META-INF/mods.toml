@@ -13,7 +13,7 @@ showAsResourcePack=true
     credits="${modAuthor}"
     authors="${modAuthor}"
 
-        [[dependencies."${mod_id}"]]
+        [[dependencies."${modId}"]]
             modId="forge"
             mandatory=true
             versionRange="${forgeRange}"
